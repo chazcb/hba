@@ -20,16 +20,27 @@ def main():
             array_len = len(char_array)
             count_array[array_len:array_len] = [1]
 
-    # sorted_char_array = char_array
-    # sorted_char_array.sort()
+    sorted_char_array = []
+        
+    for i in char_array:
+        sorted_char_array.append(i)
 
-    # for i in sorted_char_array:
-    #     orig_index = char_array.index(i)
-    #     print "There are %d instances of %s" % (count_array[orig_index], i)
+    sorted_char_array.sort()
+
+    print char_array
+    print sorted_char_array
+
+    for i in range(0,len(sorted_char_array)):
+        orig_index = char_array.index(sorted_char_array[i])
+        print "There are %d instances of %s" % (count_array[orig_index], 
+            char_array[orig_index])
+
+""" unsorted
 
     for i in char_array:
         index = char_array.index(i)
         print "There are %d instances of %s" % (count_array[index], i)
+"""
 
 if __name__ == "__main__":
     main()
