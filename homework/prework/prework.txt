@@ -1,0 +1,143 @@
+(1)
+for i in range (999):
+    print("We like Python's turtles!")
+
+(3)
+for i in ("January","February","March"):
+    print ("One of the months of the year is", i)
+    
+(4)
+for i in (12, 10, 32, 3, 66, 17, 42, 99, 20):
+    print ("The square of", i, "is", i*i)
+    
+(5)
+import turtle
+wn = turtle.Screen()
+eq_tri = turtle.Turtle()
+for i in range (3):
+    eq_tri.left(120)
+    eq_tri.forward(50)
+wn.exitonclick()
+
+import turtle
+wn = turtle.Screen()
+sq = turtle.Turtle()
+for i in range (4):
+    sq.left(90)
+    sq.forward(50)
+wn.exitonclick()
+
+import turtle
+wn = turtle.Screen()
+hex = turtle.Turtle()
+for i in range (6):
+    hex.left(60)
+    hex.forward(50)
+wn.exitonclick()
+
+import turtle
+wn = turtle.Screen()
+oct = turtle.Turtle()
+for i in range (8):
+    oct.left(45)
+    oct.forward(50)
+wn.exitonclick()
+
+6
+num_sides = int(input("Enter number of sides:"))
+length = int(input("Enter length of side"))
+usr_color = input("Enter color of perimeter")
+usr_fill = input("Enter fill color")
+
+import turtle
+wn = turtle.Screen()
+obj = turtle.Turtle()
+obj.color(usr_color)
+obj.fillcolor(usr_fill)
+obj.begin_fill()
+for i in range (num_sides):
+    obj.left(360/num_sides)
+    obj.forward(length)
+obj.end_fill()
+wn.exitonclick()
+
+7
+import turtle
+wn = turtle.Screen()
+drunk = turtle.Turtle()
+for i in (160, -43, 270, -97, -43, 200, -940, 17, -86):
+	drunk.left(i)
+	drunk.forward(100)
+wn.exitonclick()
+print ("Current heading is", drunk.heading())
+	
+9
+import turtle
+wn = turtle.Screen()
+star = turtle.Turtle()
+for i in (5):
+	drunk.left(36)
+	drunk.forward(100)
+wn.exitonclick()
+
+10
+
+import turtle
+wn = turtle.Screen()
+wn.bgcolor("lightgreen")
+clock = turtle.Turtle()
+clock.shape("turtle")
+clock.color("blue")
+clock.penup()
+for i in range (12):
+    clock.forward(150)
+    clock.pendown()
+    clock.forward(10)
+    clock.penup()
+    clock.forward(20)
+    clock.stamp()
+    clock.forward(-180)
+    clock.right(30)
+wn.exitonclick()
+
+11
+import turtle
+wn = turtle.Screen()
+star = turtle.Turtle()
+length = 200
+for j in ("red","orange","yellow","green","blue","purple"):
+    star.fillcolor(j)
+    star.begin_fill()
+    for i in range (5):
+        star.left(144)
+        star.forward(length)
+    star.end_fill()
+    length = length-30
+wn.exitonclick()
+
+13
+import turtle
+import math
+wn = turtle.Screen()
+sprite = turtle.Turtle()
+numlegs = int(input("How many legs does your sprite have:"))
+for i in range (numlegs):
+    sprite.penup()
+    sprite.forward(50)
+    sprite.pendown()
+    sprite.forward(60)
+    sprite.penup()
+    sprite.forward(-110)
+    sprite.right(360/numlegs)
+sprite.penup()
+sprite.fillcolor("black")
+sprite.forward(50)
+sprite.right((180-360/numlegs)/2)
+sprite.begin_fill()
+for i in range (numlegs):
+	sprite.pendown()
+	sprite.right(360/numlegs)
+	sprite.forward(50*2*math.sin(math.pi/numlegs))
+sprite.end_fill()
+wn.exitonclick()
+print ("Your sprite has", numlegs, "legs")
