@@ -33,10 +33,10 @@ class Test_Skills_1(unittest.TestCase):
 
     def test_long_words(self):
         self.assertEqual(long_words(self.months), [])
-        self.assertEqual(long_words(self.days), ['Tues','Thur'])
+        self.assertEqual(long_words(self.days), ['Tues', 'Thur'])
         self.assertEqual(long_words(self.notes), [])
         self.assertEqual(long_words(self.multiples), [])
-        self.assertEqual(long_words(self.mix), ['Tues','Thur'])
+        self.assertEqual(long_words(self.mix), ['Tues', 'Thur'])
 
 # Write a function that finds the smallest element in a list of integers and returns it.
 
@@ -45,6 +45,7 @@ class Test_Skills_1(unittest.TestCase):
         self.assertEqual(smallest(self.days), None)
         self.assertEqual(smallest(self.notes), None)
         self.assertEqual(smallest(self.multiples), 0)
+        self.assertEqual(smallest(self.mix), 0)
 
 # Write a function that finds the largest element in a list of integers and returns it.
 
@@ -53,7 +54,7 @@ class Test_Skills_1(unittest.TestCase):
         self.assertEqual(largest(self.days), None)
         self.assertEqual(largest(self.notes), None)
         self.assertEqual(largest(self.multiples), 27)
-
+        self.assertEqual(largest(self.mix), 27)
 
 # Write a function that takes a list of numbers and returns a new list of all those numbers divided by two.
 
@@ -63,6 +64,8 @@ class Test_Skills_1(unittest.TestCase):
         self.assertEqual(halvesies(self.notes), [])
         self.assertEqual(halvesies(self.multiples), [0.0, 1.5, 3.0, 
             4.5, 6.0, 7.5, 9.0, 10.5, 12.0, 13.5])
+        self.assertEqual(halvesies(self.mix), [0.0, 1.5, 3.0, 
+            4.5, 6.0, 7.5, 9.0, 10.5, 12.0, 13.5])
 
 # Write a function that takes a list of words and returns a list of all the lengths of those words.
 
@@ -71,6 +74,7 @@ class Test_Skills_1(unittest.TestCase):
         self.assertEqual(word_lengths(self.days), [3, 4, 3, 4, 3, 3, 3])
         self.assertEqual(word_lengths(self.notes), [2, 2, 2, 2, 2, 2, 2, 2])
         self.assertEqual(word_lengths(self.multiples), [])
+        self.assertEqual(word_lengths(self.mix), [3, 4, 3, 4, 3, 3, 3])
 
 # Write a function (using iteration) that sums all the numbers in a list.
 
