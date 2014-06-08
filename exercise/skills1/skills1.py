@@ -34,6 +34,7 @@ def all_even(some_list):
 
 # Write a function that takes a list of strings and a new list with all strings of length 4 or greater.
 def long_words(word_list):
+    print word_list
     no_str = True	
     no_long_str = True
     output = []
@@ -123,17 +124,17 @@ def mult_numbers(numbers):
 
 # Write a function that joins all the strings in a list together (without using the join method) and returns a single string.
 def join_strings(string_list):
-	# no_str = True
- #    concat_list = []
- #    for i in string_list:
- #    	for char in i.read():
- #    		concat_list.append(char)
- #    concat_str = "".join(concat_list)
- #    if no_str:
-    	return None
-    # 	print ("There are no strings in your list")    
-    # else:
-    # 	return concat_str
+	no_str = True
+	concat_str = ""
+	for i in string_list:
+		if type(i) == str:
+			concat_str = concat_str + i
+			no_str = False
+	if no_str:
+		return None
+		print ("There are no strings in your list")    
+	else:
+		return concat_str
 
 # Write a function that takes a list of integers and returns the average (without using the avg method)
 def average(numbers):
