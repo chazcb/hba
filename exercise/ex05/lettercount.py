@@ -29,8 +29,9 @@ def main():
 
     for i in range(0,len(sorted_char_array)):
         orig_index = char_array.index(sorted_char_array[i])
-        print "There are %d instances of %s" % (count_array[orig_index], 
-            char_array[orig_index])
+        print count_array[orig_index]
+        # print "There are %d instances of %s" % (count_array[orig_index], 
+        #     char_array[orig_index])
 
 if __name__ == "__main__":
     main()
