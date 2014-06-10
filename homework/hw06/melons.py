@@ -23,19 +23,19 @@ melon_seedless = {
 }
 
 flesh_color = {
-    1: 'red',
-    2: 'yellow',
-    3: 'red',
+    1: 'green',
+    2: 'orange',
+    3: 'orange',
     4: 'yellow',
-    5: 'red',
+    5: 'orange',
 }
 
 rind_color = {
-    1: 'yellow',
+    1: 'green',
     2: 'yellow',
-    3: 'green',
-    4: 'green',
-    5: 'green',
+    3: 'yellow',
+    4: 'yellow',
+    5: 'yellow',
 }
 
 average_weight = {

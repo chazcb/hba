@@ -28,28 +28,30 @@ def get_melon_attrib():
 
     return melon_attrib_dict
 
-def print_melon(name, seedless, price, flesh, rind, ave_wt):
+def print_melon(melon_attrib_dict):
 
-    hasseed = 'have'
-    if seedless:
-        hasseed = 'do not have'
-    
-    print "%ss %s seeds and are $%0.2f" % ( name, hasseed, price)
+    #generate a list of the keys: name, seedless, price, flesh, rind, ave_wt
+    melon_attrib_label = melon_attrib_dict.iterkeys() 
+
+    for i in melon_attrib_dict['name'].keys():
+
+        hasseed = 'have'
+        if melon_attrib_dict['seedless'][i]:    #seedless = True
+            hasseed = 'do not have'
+
+        print "%ss %s seeds and are $%0.2f.  They have %s flesh, %s rind, average wt of %0.2f lbs" % (
+            melon_attrib_dict['name'][i],
+            hasseed,
+            melon_attrib_dict['price'][i],
+            melon_attrib_dict['flesh'][i],
+            melon_attrib_dict['rind'][i],
+            melon_attrib_dict['ave_wt'][i]
+        )
 
 def main():
 
     melon_attrib_dict = get_melon_attrib()
-    melon_attrib_label = melon_attrib_dict.keys()      #generate a list of the keys
-
-    for i in melon_attrib_dict['name'].keys():
-        print_melon(
-            melon_attrib_dict['name'][i],
-            melon_attrib_dict['seedless'][i],
-            melon_attrib_dict['price'][i],
-            melon_attrib_dict['flesh'][i],
-            melon_attrib_dict['rind'][i],
-            melon_attrib_dict['ave_wt'][i],
-        )
+    print_melon(melon_attrib_dict)
 
 if __name__ == '__main__':
     main()
