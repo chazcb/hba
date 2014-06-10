@@ -4,7 +4,7 @@ melon_info.py - Prints out all the melons in our inventory
 
 def get_melon_attrib():
 
-#initialize dictionaries for each attribute 
+#import dictionaries for each attribute 
 #append to this section when new attributes are added
     from melons import (
         melon_name, 
@@ -15,7 +15,7 @@ def get_melon_attrib():
         average_weight
         )
 
-#create a dictionary with key = label, value = attribute dictionary initialized above
+#create a dictionary with key = label, value = attribute dictionary imported above
 #append to this section when new attributes are added
     melon_attrib_dict = {
         'name': melon_name, 
