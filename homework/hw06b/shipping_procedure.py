@@ -20,9 +20,28 @@ class Melon(object):
         else:
             return "%s %0.2fLB %s" % (self.color, self.weight, self.melon_type)
     
+class Squash(object):
 
-def main():
-    f = open("standing_orders1.log")
+    def __init__(self, squash_type):
+        self.squash_type = squash_type
+        self.weight = 0.0
+        self.color = None
+        self.stickers = []
+
+    def prep(self):
+        robots.cleanerbot.clean(self)
+        robots.stickerbot.apply_logo(self)
+        robots.PainterBot.paint(self)
+    
+    def __str__(self):
+        if self.weight <= 0:
+            return self.squash_type
+        else:
+            return "%s %0.2fLB %s" % (self.color, self.weight, self.squash_type)    
+
+def pack_melons():
+
+        f = open("standing_orders1.log")
 
     for line in f:
         (melon_type, quantity) = line.rstrip().split(':')
@@ -59,6 +78,9 @@ def main():
         robots.shipperbot.ship(boxes)
         print "------\n"
 
+def main():
+
+    pack_melons()
 
 if __name__ == "__main__":
     main()
