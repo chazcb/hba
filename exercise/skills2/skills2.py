@@ -64,9 +64,9 @@ def sum_zero(list1):
     match = []
 
     for index in range(0,len(list1)):
-        for index2 in range(1,len(list1)):
+        for index2 in range(index+1,len(list1)):
             if list1[index] + list1[index2] == 0:
-                match.append((list1[index],list1[index2]))
+                match.append([list1[index],list1[index2]])
 
     return match
 
@@ -91,25 +91,28 @@ def find_duplicates(words):
 # """
 def word_length(words):
     
-word_dict = {}
-key_list = []
-value_list = []
-sorted_value_list = []
+    word_dict = {}
+    value_list = []
+    sorted_value_list = []
 
-for item in words:
-    word_dict[item] = len(item)
+    for item in words:
+        word_dict[item] = len(str(item))
 
-value_list = word_dict.values()
 
-sorted_value_list = find_duplicates(value_list)
-sorted_value_list.sort()
+    value_list = word_dict.values()
 
-output = []
+    sorted_value_list = find_duplicates(value_list)
+    sorted_value_list.sort()
 
-for num in sorted_value_list:
-    for key, value in word_dict.iteritems():
-        if value == num:
-            output.append(key)
+    output = []
+
+    for num in sorted_value_list:
+        sorted_per_count = []
+        for key, value in word_dict.iteritems():
+            if value == num:
+                sorted_per_count.append(key)
+        sorted_per_count.sort()
+        output += sorted_per_count
 
     return output
 
@@ -163,6 +166,7 @@ def pirate_translator(string):
     }
 
     pirate_string = ""
+    cleaned_string = ""
     pirate_list = []
 
     for char in string:
@@ -170,11 +174,12 @@ def pirate_translator(string):
             pass
         else:
             char = " "
+        cleaned_string += char
 
-    string.lower()
-    string_list = string.split()
+    cleaned_string.lower()
+    cleaned_string_list = cleaned_string.split()
 
-    for word in string_list:
+    for word in cleaned_string_list:
         pirate_list.append(pirate_dict.get(word))
 
     pirate_string = " ".join(pirate_list)
