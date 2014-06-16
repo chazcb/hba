@@ -11,6 +11,7 @@ class Test_Skills_2(unittest.TestCase):
         self.list1 = [2, 5, 12, 6, 1, -5, 8, 5, 6, -2, 2, 27]
         self.list2 = [-5, 6, 4, 8, 15, 16, 23, 42, 2, 7]
         self.words = ["I", "do", "not", "like", "green", "eggs", "and", "ham", "I", "do", "not", "like", "them", "San", "I", "am"]
+        self.words2 = ["to", "be", "or", "not", "to", "be"]
 
 # """
 # Write a function that takes a string and produces a dictionary with
@@ -35,13 +36,11 @@ class Test_Skills_2(unittest.TestCase):
 # """
 # Given two lists, (without using the keyword 'in' or the method 'index')
 # return a list of all common items shared between both lists
-        self.list1 = [2, 5, 12, 6, 1, -5, 8, 5, 6, -2, 2, 27]
-        self.list2 = [-5, 6, 4, 8, 15, 16, 23, 42, 2, 7]
-        self.words = ["I", "do", "not", "like", "green", "eggs", "and", "ham", "I", "do", "not", "like", "them", "San", "I", "am"]
-
 # """
     def test_common_items(self):
-        self.assertEqual(common_items(self.list1, self.list2), [8, 2, -5, 6])
+        list1_list2_output = common_items(self.list1, self.list2)
+        list1_list2_output.sort()
+        self.assertEqual(list1_list2_output, [-5, 2, 6, 8])
         self.assertEqual(common_items(self.list2, self.words), [])
 
 # """
@@ -51,14 +50,18 @@ class Test_Skills_2(unittest.TestCase):
 # """
 
     def test_common_items2(self):
-        self.assertEqual(common_items(self.list1, self.list2), [8, 2, -5, 6])
+        list1_list2_output = common_items2(self.list1, self.list2)
+        list1_list2_output.sort()
+        self.assertEqual(list1_list2_output, [-5, 2, 6, 8])
         self.assertEqual(common_items(self.list2, self.words), [])
 
 # """
 # Given a list of numbers, return list of number pairs that sum to zero
 # """
     def test_sum_zero(self):
-        self.assertEqual(sum_zero(self.list1), [[2, -2], [5, -5], [-5, 5], [-2, 2]])
+        list1_output = sum_zero(self.list1)
+        list1_output.sort()
+        self.assertEqual(list1_output, [[-5, 5], [-2, 2], [2, -2], [5, -5]])
         self.assertEqual(sum_zero(self.list2), [])
 
 # """
@@ -66,7 +69,12 @@ class Test_Skills_2(unittest.TestCase):
 # """
 
     def test_find_duplicates(self):
-        self.assertEqual(find_duplicates(self.words), ['and', 'do', 'them', 'like', 'I', 'eggs', 'am', 'San', 'green', 'not', 'ham'])
+        words_output = find_duplicates(self.words)
+        words_output.sort()
+        self.assertEqual(words_output, ['I', 'San', 'am', 'and', 'do', 'eggs', 'green', 'ham', 'like', 'not', 'them'])
+        words2_output = find_duplicates(self.words2)
+        words2_output.sort()
+        self.assertEqual(words2_output, ['be', 'not', 'or', 'to'])
 
 # """
 # Given a list of words, print the words in ascending order of length

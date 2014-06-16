@@ -98,7 +98,6 @@ def word_length(words):
     for item in words:
         word_dict[item] = len(str(item))
 
-
     value_list = word_dict.values()
 
     sorted_value_list = find_duplicates(value_list)
