@@ -1,27 +1,30 @@
 #!/usr/bin/env python
 from random import randint
+from re import search
 
 def read_file():
     from sys import argv
 
     combined_word_list = []
 
-    for i in range(1, len(argv)):
-        input_file = argv[i]
-        myfile = open(input_file)
-
-        clean_text = myfile.read()
-        # clean_text = clean_text.lower()
-        word_list = clean_text.split()
-        combined_word_list.extend(word_list)
-
-    return combined_word_list
+    if len(argv) >= 3:
+	    for i in range(1, len(argv)):
+	        input_file = argv[i]
+	        myfile = open(input_file)
+	        clean_text = myfile.read()
+	        word_list = clean_text.split()
+	        combined_word_list.extend(word_list)
+	return combined_word_list
+	
+	else:
+		print "Format: python markov.py <filename 1> ... <filename n>"
+		break    
 
 def create_monogram(word_list):
 
     monogram = {}
     for i in range(0, len(word_list)-1):
-        if monogram.has_key(word_list[i]):  #check to see if monogram dict already has this key from word_list
+        if word_list[i] in monogram:  #check to see if monogram dict already has this key from word_list
             monogram[word_list[i]].append(word_list[i+1]) # if so, append the next word from word_list to monogram value
         else:
             value = [word_list[i + 1]]
@@ -59,10 +62,17 @@ def create_bigram(word_list):
 #     return n_gram
 
 def make_text(word_list, monogram, bigram):
+
     monogram_key_list = monogram.keys()
 
-    word_1_index = randint(0,len(monogram.keys()) - 1)
-    rand_word_1 = monogram_key_list[word_1_index]
+    # randomly pick first seed word that is capitalized using regex
+    first_cap = False
+    while first_cap == False:
+	    word_1_index = randint(0,len(monogram.keys()) - 1)
+	    rand_word_1 = monogram_key_list[word_1_index]
+	    cap = re.search(r"\A[A-Z]",rand_word_1)
+	    if cap != None:
+	    	first_cap = True
 
     word_2_list = monogram[rand_word_1]
     word_2_index = randint(0,len(word_2_list) - 1)
