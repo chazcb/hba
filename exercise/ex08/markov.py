@@ -3,22 +3,23 @@ from random import randint
 from re import search
 
 def read_file():
+
     from sys import argv
 
     combined_word_list = []
 
     if len(argv) >= 3:
-	    for i in range(1, len(argv)):
-	        input_file = argv[i]
-	        myfile = open(input_file)
-	        clean_text = myfile.read()
-	        word_list = clean_text.split()
-	        combined_word_list.extend(word_list)
-	return combined_word_list
-	
-	else:
-		print "Format: python markov.py <filename 1> ... <filename n>"
-		break    
+        for i in range(1, len(argv)):
+            input_file = argv[i]
+            myfile = open(input_file)
+            clean_text = myfile.read()
+            word_list = clean_text.split()
+            combined_word_list.extend(word_list)
+    else:
+        print "Usage: python markov.py <filename 1> ... <filename n>"
+        exit()
+
+    return combined_word_list
 
 def create_monogram(word_list):
 
@@ -68,11 +69,11 @@ def make_text(word_list, monogram, bigram):
     # randomly pick first seed word that is capitalized using regex
     first_cap = False
     while first_cap == False:
-	    word_1_index = randint(0,len(monogram.keys()) - 1)
-	    rand_word_1 = monogram_key_list[word_1_index]
-	    cap = re.search(r"\A[A-Z]",rand_word_1)
-	    if cap != None:
-	    	first_cap = True
+        word_1_index = randint(0,len(monogram.keys()) - 1)
+        rand_word_1 = monogram_key_list[word_1_index]
+        cap = search(r"\A[A-Z]",rand_word_1)
+        if cap != None:
+            first_cap = True
 
     word_2_list = monogram[rand_word_1]
     word_2_index = randint(0,len(word_2_list) - 1)
@@ -82,8 +83,10 @@ def make_text(word_list, monogram, bigram):
 
     keep_adding = True
     crazy_text_list_index = 0
+    #adding 2 to account for space to be added after each word
+    crazy_text_length = len(rand_word_1) + len(rand_word_2) + 2 
 
-    while keep_adding and crazy_text_list_index < 30:
+    while keep_adding and crazy_text_length < 140:
         w1 = crazy_text_list[crazy_text_list_index]
         w2 = crazy_text_list[crazy_text_list_index+1]
         bigram_pair = (w1,w2)
@@ -93,6 +96,7 @@ def make_text(word_list, monogram, bigram):
             rand_word_3 = bigram[bigram_pair][word_3_index]
             crazy_text_list.append(rand_word_3)
             crazy_text_list_index += 1
+            crazy_text_length += len(rand_word_3) + 1 #adding 1 to account for space to be added
         else:
             keep_adding = False
 
