@@ -1,0 +1,13 @@
+<html>
+<body>
+
+{% for project in projects %} <!-- http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-ii-templates -->
+
+<h1>Project: <a href="/project?project={{project.project_title}}">{{project.project_title}}</a></h1>
+<h2>Grade: {{project.grade}}</h2>
+
+{% endfor %}
+
+<p>This student is the best.</p>
+</body>
+</html>
