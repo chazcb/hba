@@ -1,0 +1,15 @@
+<html>
+<body>
+
+{% for grade in grades %}
+
+<h1>Student: {{grade.first_name}} {{grade.last_name}}</h1>
+<h2>Github: <a href=/grade?student={{grade.github}}>{{grade.github}}</a></h2>
+<h2>Project: {{grade.project_title}}</h2>
+<h3>Project grade: {{grade.grade}}</h3>
+
+{% endfor %}
+
+<p>This student is the best.</p>
+</body>
+</html>
