@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>010.html</title>
+        <style>
+
+        label {
+            font-family: arial;
+            display: inline-block;
+            width: 110px;
+        }
+
+        div#rectangle1 {
+            width:200px;
+            height:200px;
+            padding: 5px;
+            background-color:#cccccc;
+            position: absolute;
+            margin-left: 320px;
+        }
+        div#rectangle2 {
+            width:300px;
+            height:175px;
+            padding: 5px;
+            background-color:#ccc000;
+/*            margin-left: 220px;*/
+        }
+            
+       </style>
+    </head>
+
+    <body>
+        <h1> Columns! </h1>
+        <div id="rectangle1"><h3>Here is a list of things</h3>
+            <ul>
+                <li>Banana.</li>
+                <li>Rabbit holes</li>
+                <li>John Quincy Adams</li>
+                <li>A sea serpent.</li>
+            </ul>
+        </div>
+        <div id="rectangle2">
+            <form>
+                <div><label for = "MyName">Name</label>
+                    <input type = "text" name = "MyName"></input></div>
+                    <!-- name = "MyName" value in box will be passed as MyName=value when submit button is pressed -->
+                <div><label for = "MyAge">Age</label>
+                    <input type = "text" name = "MyAge"></input></div>
+                <div><label for = "FavColor">Favorite Color</label>
+                    <select>
+                        <option value="Magenta">Magenta</option>
+                        <option value="Red">Red</option>
+                        <option value="Blue">Blue</option>
+                        <option value="Fuschia">Fuschia</option>
+                        <option value="Green">Green</option>
+                    </select>
+                </div>
+                <div><label for = "LoveMusic">Love Music</label>
+                    <input type = "radio" name = "music" value = "Love Music"></input>
+                </div>
+                <div><label for = "HateMusic">Hate Music</label>
+                    <input type = "radio" name = "music" value = "Hate Music"></input>
+                </div>
+                <div><label for = "Raining">Is it Raining?</label>
+                    <input type = "checkbox" name = "raining" value = "Yes"></input>
+                </div>
+                <input type = "submit"></input>
+            </form>
+        </div>
+    </body>
+
+</html>
