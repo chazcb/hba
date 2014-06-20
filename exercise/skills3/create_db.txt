@@ -1,0 +1,50 @@
+CREATE TABLE customers (    
+    customer_id INTEGER PRIMARY KEY,
+    first VARCHAR(50),
+    last VARCHAR(50),
+    email VARCHAR(50),
+    telephone VARCHAR(20),
+    called VARCHAR(20)
+);
+
+CREATE TABLE orders (
+    order_id INTEGER PRIMARY KEY,
+    order_date VARCHAR(20),
+    status   VARCHAR(50),
+    customer_id INTEGER,
+    email VARCHAR(50),
+    address VARCHAR(50),
+    city VARCHAR(50),
+    state VARCHAR(10),
+    postalcode VARCHAR(30),
+    num_watermelons INTEGER,
+    num_othermelons INTEGER,
+    subtotal NUMERIC(10,2),
+    tax NUMERIC(10,2),
+    order_total NUMERIC(10,2),
+    FOREIGN KEY(customer_id) REFERENCES customers(id)
+);
+
+/*
+Start by writing the query to just return one customer record, then expand it to filter for only the customers who have ordered over 20 melons
+Have your get_next_customer() function return the customer data as an instance of the Customer class.
+The database does not currently have a field to track the last time a customer was called. You'll have to add it.
+*/
+
+INSERT INTO customers VALUES (1,'Linda','Garrett','julia@roomm.gov','8-(184)172-2138','');
+
+INSERT INTO customers VALUES (860,'Lillian','Collins','teresa@thoughtstorm.edu','1-(889)291-8213','');
+    
+INSERT into orders VALUES (2,'05/10/2014','New',860,'teresa@thoughtstorm.edu','91520 Spaight Street','San Francisco','KY','23769-1104',105,0,312,18.72,339.31);
+
+
+
+SELECT * FROM customers WHERE customer_id = 1;
+
+SELECT * 
+FROM CUSTOMERS c
+    JOIN orders o
+        ON c.customer_id = o.customer_id
+WHERE (o.num_watermelons + o.num_othermelons) > 20;
+
+
