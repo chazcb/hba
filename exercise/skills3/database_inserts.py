@@ -9,19 +9,19 @@ def connect_to_db():
     CONN = sqlite3.connect("melon.db")
     DB = CONN.cursor() # mechanism to interact with the database, to execute queries (similar to a file handle)
 
-def initialize_customers_table():
-    query = "TRUNCATE customers"
+def initialize_customers_table(db_table):
+    query = "DELETE FROM %s" % db_table
     DB.execute(query) 
     CONN.commit()
 
-def customers_table_append(data_dict):
+def table_append(data_dict, db_table, primary_key):
 
     # check: if customer_id exist, skip; else append
-    query = "SELECT * FROM customers WHERE customer_id = ?"
-    DB.execute(query, (int(data_dict['customer_id']),))
-    customer_exists = DB.fetchall()
+    query = "SELECT * FROM %s WHERE %s = ?" % (db_table, primary_key)
+    DB.execute(query, (int(data_dict[primary_key]),))
+    pk_exists = DB.fetchall()
 
-    if customer_exists: 
+    if pk_exists: 
         return 0
     else: #insert new row
         fieldnames = []
@@ -35,12 +35,12 @@ def customers_table_append(data_dict):
         for i in range(0, len(fieldvalues)-1):
             num_fields += ',?'
 
-        query = "INSERT into customers (%s) values (%s)" % (','.join(fieldnames), num_fields)
+        query = "INSERT into %s (%s) values (%s)" % (db_table, ','.join(fieldnames), num_fields)
         DB.execute(query, (fieldvalues)) 
         CONN.commit()
         return 1 #1 record added
     
-def read_customers_csv(filename):
+def read_csv(filename, db_table, primary_key):
 
     f = open(filename)
 
@@ -52,14 +52,16 @@ def read_customers_csv(filename):
     for row in reader:
         row = [field.strip() for field in row if field]
         data_dict = dict(zip(header_list,row))
-        count += customers_table_append(data_dict)
+        count += table_append(data_dict, db_table, primary_key)
 
-    print "Successfully added %d rows" % count
+    print "Successfully added %d rows to %s" % (count, db_table)
 
 def main():
     connect_to_db()
 
-    read_customers_csv("customers.csv")
+    # initialize_customers_table('customers')
+    read_csv('customers.csv', 'customers', 'customer_id')
+    read_csv('orders.csv', 'orders', 'order_id')
 
     CONN.close()
 
