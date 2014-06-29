@@ -35,7 +35,7 @@ def table_append(data_dict, db_table, primary_key):
         for i in range(0, len(fieldvalues)-1):
             num_fields += ',?'
 
-        query = "INSERT into %s (%s) values (%s)" % (db_table, ','.join(fieldnames), num_fields)
+        query = """INSERT into %s (%s) values (%s)""" % (db_table, ','.join(fieldnames), num_fields)
         DB.execute(query, (fieldvalues)) 
         CONN.commit()
         return 1 #1 record added
@@ -55,15 +55,6 @@ def read_csv(filename, db_table, primary_key):
         count += table_append(data_dict, db_table, primary_key)
 
     print "Successfully added %d rows to %s" % (count, db_table)
-
-class Customer():
-    def __init__(self, data=[]):
-        self.customer_id = data
-        self.first
-        self.last
-        self.email
-        self.telephone
-        self.called
 
 def main():
     connect_to_db()
