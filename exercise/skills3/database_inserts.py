@@ -56,11 +56,21 @@ def read_csv(filename, db_table, primary_key):
 
     print "Successfully added %d rows to %s" % (count, db_table)
 
+class Customer():
+    def __init__(self, data=[]):
+        self.customer_id = data
+        self.first
+        self.last
+        self.email
+        self.telephone
+        self.called
+
 def main():
     connect_to_db()
 
     # initialize_customers_table('customers')
     read_csv('customers.csv', 'customers', 'customer_id')
+    # initialize_customers_table('orders')
     read_csv('orders.csv', 'orders', 'order_id')
 
     CONN.close()
