@@ -19,6 +19,7 @@ CONN = None
 # Class definition to store our customer data
 class Customer(object):
     def __init__(self, id=None, first=None, last=None, telephone=None):
+        self.customer_id = ''
         self.first = ''
         self.last = ''
         self.telephone = ''
@@ -110,6 +111,7 @@ def main():
         else:
             done = True
 
+    CONN.close()
 
 if __name__ == '__main__':
     main()
