@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block body %}
+
+{% if session['cart'] %}
+<table class="table table-striped">
+    <tr><th>Melon Name</th><th>Quantity</th><th>Price</th><th>Total</th></tr>
+    {% for item in session['all_melon_dict'] %}
+    <tr><th>{{session['all_melon_dict'][item][1]}}</th><th>{{session['all_melon_dict'][item][0]}}</th><th>{{ format_price(session['all_melon_dict'][item][2])}}</th><th>{{ format_price(session['all_melon_dict'][item][3])}}</th></tr>
+    {% endfor %}
+</table>
+<h3>Total: {{format_price(session['total'])}}</h3>
+<a href="/checkout" class="btn btn-large btn-primary">Check Out</a>
+<a href="/melons" class="btn btn-large btn-primary">Continue shopping</a>
+{% else %}
+<p>Your shopping cart is currently empty</p>
+<a href="/melons" class="btn btn-large btn-primary">Shop now</a>
+{% endif %}
+{% endblock %}

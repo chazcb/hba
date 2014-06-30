@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<table class="table table-striped">
+    {% for key, value in user_dict.iteritems() %}
+    <tr><th>{{value}}</th><th>{{key}}</th><th>
+    {% endfor %}
+</table>
+
+{% endblock %}
