@@ -22,8 +22,7 @@ def index():
 def list_melons():
     """This is the big page showing all the melons ubermelon has to offer"""
     melons = model.get_melons()
-    return render_template("all_melons.html",
-                           melon_list = melons)
+    return render_template("all_melons.html", melon_list = melons)
 
 @app.route("/melon/<int:id>")
 def show_melon(id):
@@ -31,8 +30,7 @@ def show_melon(id):
     option to buy the melon."""
     melon = model.get_melon_by_id(id)
     print melon
-    return render_template("melon_details.html",
-                  display_melon = melon)
+    return render_template("melon_details.html", display_melon = melon)
 
 @app.route("/cart")
 def shopping_cart():
@@ -129,7 +127,12 @@ def get_user_info():
     print user_dict
     return render_template("user.html", user_dict=user_dict)
 
+@app.route("/cart_items")
+def hovercart():
+    return render_template("_hovercart_items.html")
+
 if __name__ == "__main__":
-    app.run(debug=True, port=4999)
+
+    app.run(debug=True, port=5000)
     session['customer'] = None 
     session['cart'] = []
