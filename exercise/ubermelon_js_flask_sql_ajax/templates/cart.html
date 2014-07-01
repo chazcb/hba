@@ -2,17 +2,55 @@
 {% block body %}
 
 {% if session['cart'] %}
-<table class="table table-striped">
-    <tr><th>Melon Name</th><th>Quantity</th><th>Price</th><th>Total</th></tr>
-    {% for item in session['all_melon_dict'] %}
-    <tr><th>{{session['all_melon_dict'][item][1]}}</th><th>{{session['all_melon_dict'][item][0]}}</th><th>{{ format_price(session['all_melon_dict'][item][2])}}</th><th>{{ format_price(session['all_melon_dict'][item][3])}}</th></tr>
-    {% endfor %}
-</table>
-<h3>Total: {{format_price(session['total'])}}</h3>
-<a href="/checkout" class="btn btn-large btn-primary">Check Out</a>
-<a href="/melons" class="btn btn-large btn-primary">Continue shopping</a>
+	{% set melon_dict = session['all_melon_dict'] %}
+	<table class="table table-striped">
+	    <tr><th>Melon Name</th><th>Quantity</th><th>Price</th><th>Total</th></tr>
+	    {% for item in melon_dict %}
+		    <tr>
+			    <th>{{melon_dict[item][1]}}</th>
+			    <th>
+			    	<span id="melon_quantity">
+					    <a href="" id="decrease-btn" class = "btn btn-danger btn-xs" href="">-</a>
+					    {{melon_dict[item][0]}}
+					    <a href="" id="increase-btn" class = "btn btn-success btn-xs" href="">+</a>
+					</span>
+			    </th>
+			    <th>{{format_price(melon_dict[item][2])}}</th>
+			    <th>{{format_price(melon_dict[item][3])}}</th>
+		    </tr>
+	    {% endfor %}
+	</table>
+	<h3>Total: {{format_price(session['total'])}}</h3>
+	<a href="/checkout" class="btn btn-large btn-primary">Check Out</a>
+	<a href="/melons" class="btn btn-large btn-primary">Continue shopping</a>
 {% else %}
-<p>Your shopping cart is currently empty</p>
-<a href="/melons" class="btn btn-large btn-primary">Shop now</a>
+	<p>Your shopping cart is currently empty</p>
+	<a href="/melons" class="btn btn-large btn-primary">Shop now</a>
 {% endif %}
+
+<script language="javascript" type="text/javascript">
+
+    function increase() {
+        var target = $(this).siblings("span");  // Find the span _next_ to button that was clicked
+        target.text("500");									// Set that span's text to 500
+        console.log("increase pressed")
+    }
+
+    function decrease() {
+        var target = $(this).siblings("span");  // Find the span _next_ to button that was clicked
+        target.text("500");									// Set that span's text to 500
+        console.log("decrease pressed")
+    }    
+
+    function main() {
+
+	    var inc = $("a.increase-btn");
+	    inc.click(increase);
+
+	    var dec = $("a.decrease-btn");
+	    dec.click(decrease);
+	}
+
+</script>
+
 {% endblock %}
