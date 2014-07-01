@@ -87,5 +87,5 @@ def get_user_info(customer_id):
     print user_info
     print cursor.description
     names = [thing[0] for thing in cursor.description]
-    user_dict = dict(zip(user_info, names))
+    user_dict = dict(zip(names, user_info))
     return user_dict

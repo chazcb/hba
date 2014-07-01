@@ -132,6 +132,7 @@ def checkout():
 @app.route("/user")
 def get_user_info():
     user_dict = model.get_user_info(session['customer'][0])
+    print user_dict
     return render_template("user.html", user_dict=user_dict)
 
 @app.route("/cart_items")

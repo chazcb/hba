@@ -5,5 +5,7 @@
 	    <p>{{melon_dict[melon_id][1]}}</p>
 	    <p>Qty: {{melon_dict[melon_id][0]}}</p>
 	    {% endfor %}
+	{% else %}
+		<p>Your cart is empty</p> 
 	{% endif %}
 </div>
