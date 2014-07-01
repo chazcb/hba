@@ -45,8 +45,7 @@ div#dropdown-cart {
   position: absolute;
   top: 50px;
   right: 75px;
-/*  background-color: #f3f3f3;*/
-  background-color: pink;
+  background-color: #f3f3f3;*/
   display: none;
 }
 

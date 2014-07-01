@@ -10,9 +10,9 @@
 			    <th>{{melon_dict[item][1]}}</th>
 			    <th>
 			    	<span id="melon_quantity">
-					    <a href="" id="decrease-btn" class = "btn btn-danger btn-xs" href="">-</a>
+					    <a href="" id="decrease-btn" class = "btn btn-danger btn-xs">-</a>
 					    {{melon_dict[item][0]}}
-					    <a href="" id="increase-btn" class = "btn btn-success btn-xs" href="">+</a>
+					    <a href="" id="increase-btn" class = "btn btn-success btn-xs">+</a>
 					</span>
 			    </th>
 			    <th>{{format_price(melon_dict[item][2])}}</th>
@@ -49,7 +49,10 @@
 
 	    var dec = $("a.decrease-btn");
 	    dec.click(decrease);
+
 	}
+
+	$(main);
 
 </script>
 

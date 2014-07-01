@@ -52,12 +52,12 @@
             function showCartSummary(data) {
                 var content = $("div#cart-target");
                 content.html(data);
-                var showCart = $("div.dropdown-cart");
+                var showCart = $("div#dropdown-cart");
                 showCart.show();
             }
 
             function hideCartSummary() {
-                var hideCart = $("div.dropdown-cart");
+                var hideCart = $("div#dropdown-cart");
                 hideCart.hide();
                 return false;
             }
@@ -73,6 +73,8 @@
             }
 
             function main() {
+
+                hideCartSummary();
                 // javascript:
                 // var closeLink = document.querySelector("a#close-promotion");
                 // closeLink.onclick = hideBlackoutScreen;
@@ -85,6 +87,7 @@
 
                 var hoverClose = $("a#cart-close");
                 hoverClose.click(hideCartSummary);
+
             }
 
             $(main);
