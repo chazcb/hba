@@ -16,6 +16,16 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 @app.route("/")
 def index():
     """This is the 'cover' page of the ubermelon site"""
+    if session.get('customer'):
+        pass
+    else:
+        session['customer'] = None
+
+    if session.get('cart'):
+        pass
+    else:
+        session['cart'] = []
+
     return render_template("index.html")
 
 @app.route("/melons")
@@ -56,17 +66,15 @@ def add_to_cart(id):
 
     melon_dict = {}
 
-    # get quantity counts
+    # get quantity counts, create dict for melon_id: [qty,] as key:value
     for i in session['cart']:
         if melon_dict.get(i):
             melon_dict[i][0] += 1
-            print melon_dict[i]
         else:
             melon_dict[i] = []
             melon_dict[i].append(1)
-            print melon_dict[i]
 
-    # get melon info
+    # get melon info, append to value list for each melon_id: [qty, common_name, price, total]
     for k in melon_dict:
         result = model.get_melon_by_id(k)
         quantity = melon_dict[k][0]
@@ -124,7 +132,6 @@ def checkout():
 @app.route("/user")
 def get_user_info():
     user_dict = model.get_user_info(session['customer'][0])
-    print user_dict
     return render_template("user.html", user_dict=user_dict)
 
 @app.route("/cart_items")
@@ -134,5 +141,4 @@ def hovercart():
 if __name__ == "__main__":
 
     app.run(debug=True, port=5000)
-    session['customer'] = None 
-    session['cart'] = []
+
