@@ -33,22 +33,26 @@
     function increase() {
         var target = $(this).siblings("span");  // Find the span _next_ to button that was clicked
         target.text("500");									// Set that span's text to 500
-        console.log("increase pressed")
+        console.log("increase pressed");
     }
 
     function decrease() {
         var target = $(this).siblings("span");  // Find the span _next_ to button that was clicked
         target.text("500");									// Set that span's text to 500
-        console.log("decrease pressed")
+        console.log("decrease pressed");
     }    
 
     function main() {
 
-	    var inc = $("a.increase-btn");
-	    inc.click(increase);
+	    var $inc = $("a.increase-btn");
+	    console.log($inc);
+	    $("a.increase-btn").click(function () {
+	    	console.log("here");
+	    })
+	    //$inc.click(increase);
 
-	    var dec = $("a.decrease-btn");
-	    dec.click(decrease);
+	    var $dec = $("a.decrease-btn");
+	    $dec.click(decrease);
 
 	}
 
