@@ -36,7 +36,7 @@ class List(Base):
     __tablename__ = "lists"
 
     id = Column(Integer, primary_key = True)
-    title = Column(String(50), nullable = True)
+    title = Column(String(255), nullable = True)
     description = Column(String(255), nullable = True)
     date_created = Column(DateTime, nullable = False)
     file_loc = Column(String(255), nullable = False)
@@ -46,6 +46,7 @@ class Collection(Base):
 
     id = Column(Integer, primary_key = True)
     user_id = Column(Integer, ForeignKey('users.id'))
+    description = Column(String(255), nullable = True)
     date_created = Column(DateTime, nullable = False)
 
     user = relationship("User",
@@ -135,7 +136,6 @@ class Tag(Base):
             backref=backref("collection_x_list", order_by=id))
     lists = relationship("List",
             backref=backref("collection_x_list", order_by=id))
-
 
 ### End class declarations
 
