@@ -25,9 +25,10 @@ def read_human_gene_info_urllib():
     # field names in header starts after first element ("Format:")
     geneid_index = header_list.index("GeneID")-1
     symbol_index = header_list.index("Symbol")-1
+    synonym_index = header_list.index("Synonyms")-1
     desc_index = header_list.index("description")-1
 
-    column_name = "RowID, GeneID, Symbol, Description, Version"
+    column_name = "RowID, GeneID, Symbol, Synonyms, Description, Version\n"
     output_file.write(column_name)
 
     # write each row into output file
@@ -35,8 +36,9 @@ def read_human_gene_info_urllib():
     for line in gene_info:
         row = line.rstrip()
         item = row.split()
-        datarow = ("%s, %s, %s, %s, %s") % (i, item[geneid_index], item[symbol_index], item[desc_index], timestamp)
+        datarow = ("%s, %s, %s, %s, %s, %s\n") % (i, item[geneid_index], item[symbol_index], item[synonym_index], item[desc_index], timestamp)
         output_file.write(datarow)
+        i += 1
 
     output_file.close()
     gene_info.close()

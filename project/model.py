@@ -36,10 +36,14 @@ class List(Base):
     __tablename__ = "lists"
 
     id = Column(Integer, primary_key = True)
+    user_id = Column(Integer, ForeignKey('users.id'))
     title = Column(String(255), nullable = True)
     description = Column(String(255), nullable = True)
     date_created = Column(DateTime, nullable = False)
     file_loc = Column(String(255), nullable = False)
+
+    user = relationship("User",
+            backref=backref("collections", order_by=id))
 
 class Collection(Base):
     __tablename__ = "collections"
@@ -60,6 +64,7 @@ class Tag(Base):
 
 # cross tables
 
+class Tag2user(Base):
     __tablename__ = "tag_x_user"
 
     id = Column(Integer, primary_key = True)
@@ -71,6 +76,7 @@ class Tag(Base):
     user = relationship("User",
             backref=backref("tag_x_user", order_by=id))
 
+class Tag2list(Base):
     __tablename__ = "tag_x_list"
 
     id = Column(Integer, primary_key = True)
@@ -82,6 +88,7 @@ class Tag(Base):
     lists = relationship("List",
             backref=backref("tag_x_list", order_by=id))
 
+class List2access(Base):
     __tablename__ = "list_x_access"
 
     id = Column(Integer, primary_key = True)
@@ -93,6 +100,7 @@ class Tag(Base):
     user = relationship("User",
             backref=backref("list_x_access", order_by=id))
 
+class User2list(Base):
     __tablename__ = "user_x_list"
 
     id = Column(Integer, primary_key = True)
@@ -104,6 +112,7 @@ class Tag(Base):
     lists = relationship("List",
             backref=backref("user_x_list", order_by=id))
 
+class List2gene(Base):
     __tablename__ = "list_x_gene"
 
     id = Column(Integer, primary_key = True)
@@ -115,17 +124,7 @@ class Tag(Base):
     gene = relationship("Gene",
             backref=backref("list_x_gene", order_by=id))
 
-    __tablename__ = "user_x_list"
-
-    id = Column(Integer, primary_key = True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    list_id = Column(Integer, ForeignKey('lists.id'))
-
-    user = relationship("User",
-            backref=backref("user_x_list", order_by=id))
-    lists = relationship("List",
-            backref=backref("user_x_list", order_by=id))
-
+class Collection2list(Base):
     __tablename__ = "collection_x_list"
 
     id = Column(Integer, primary_key = True)
