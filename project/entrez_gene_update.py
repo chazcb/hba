@@ -57,8 +57,8 @@ def append_gene_table(db_session, gene_info):
                     )
         db_session.add(gene)
         # write to file
-        datarow = ("%s\t%s\t%s\t%s\t%s\t%s\n") % (i, 
-            item[geneid_index], item[symbol_index], item[synonym_index], item[desc_index], timestamp)
+        datarow = ("%s\t%s\t%s\t%s\t%s\n") % (i, 
+            item[geneid_index], item[symbol_index], item[synonym_index], item[desc_index])
         output_file.write(datarow)
 
     db_session.commit()
