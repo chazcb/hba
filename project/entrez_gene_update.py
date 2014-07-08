@@ -37,8 +37,7 @@ def read_human_gene_info_urllib():
     # write each row into output file
     i = 1
     for line in gene_info:
-        row = line.rstrip()
-        item = row.split()
+        item = line.rstrip().split()
         datarow = ("%s, %s, %s, %s, %s, %s\n") % (i, item[geneid_index], item[symbol_index], item[synonym_index], item[desc_index], timestamp)
         output_file.write(datarow)
         i += 1
