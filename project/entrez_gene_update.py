@@ -38,7 +38,7 @@ def append_gene_table(db_session, gene_info):
     output_file.write(column_name)
 
     # write each row into db and output file
-
+    # get max(gene.id)
     if db_session.query(func.max(model.Gene.id)).one()[0]:
         i = db_session.query(func.max(model.Gene.id)).one()[0]
     else:
