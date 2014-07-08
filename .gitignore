@@ -33,4 +33,6 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
-Homo_sapiens_gene_info.gz
+
+# large files
+.gz
