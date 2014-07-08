@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import sessionmaker, relationship, backref, scoped_session
 
 ENGINE = create_engine("sqlite:///repo.db", echo=True)
@@ -40,6 +40,7 @@ class List(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable = False)
     title = Column(String(255), nullable = True)
     description = Column(String(255), nullable = True)
+    public = Column(Boolean, default = False)
     date_created = Column(DateTime, nullable = False)
     file_obj = Column(Text, nullable = True)
 
