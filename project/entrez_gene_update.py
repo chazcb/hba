@@ -8,12 +8,15 @@ def read_human_gene_info_urllib():
 
     timestamp = date.today().isoformat()
 
+    # filenames
     gene_info_filename = "Homo_sapiens_gene_info.gz" 
     output_filename = "gene_id_sym_desc.txt"
 
+    # retrieve file from ncbi ftp site
     urlretrieve("ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz",
         gene_info_filename)
 
+    # file handles
     gene_info = gzip.open(gene_info_filename)
     output_file = open(output_filename, 'w')
     # creates file if does not exist, overwrite existing
