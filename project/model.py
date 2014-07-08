@@ -2,7 +2,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import sessionmaker, relationship, backref, scoped_session
-import correlation
 
 ENGINE = create_engine("sqlite:///repo.db", echo=False)
 db_session = scoped_session(sessionmaker(bind=ENGINE,
@@ -60,7 +59,7 @@ class Tag(Base):
     __tablename__ = "tags"
 
     id = Column(Integer, primary_key = True)
-    tag_text = description = Column(String(255), nullable = False)
+    tag_text = Column(String(255), nullable = False)
 
 # cross tables
 
