@@ -1,0 +1,7 @@
+rm repo.db
+python model.py
+python python entrez_gene_update.py
+
+INSERT INTO users SET (id = 1, username = 'vivien', password = 'vivien', firstname = 'vivien', lastname = 'chan', email = 'vivienwchan@gmail.com', date = "2014-07-08")
+
+INSERT INTO 
