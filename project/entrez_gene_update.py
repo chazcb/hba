@@ -49,7 +49,8 @@ def read_human_gene_info_urllib():
     print "Successfully created %s" % output_filename
 
 def read_human_gene_info_urllib2():
-# This avoids writing out a file in the local file directory
+# urlopen avoids writing out a file in the local file directory
+# gzip not working in this function
     info_file = urlopen("ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz")
 
     output_file = gzip.info_file
