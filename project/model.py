@@ -31,7 +31,6 @@ class Gene(Base):
     entrez_gene_symbol = Column(String(50), nullable = True)
     entrez_gene_synonym = Column(String(255), nullable = True)
     entrez_gene_desc = Column(String(255), nullable = True)
-    entrez_version = Column(DateTime, nullable = False)
 
 class List(Base):
     __tablename__ = "lists"
@@ -63,6 +62,12 @@ class Tag(Base):
 
     id = Column(Integer, primary_key = True)
     tag_text = Column(String(255), nullable = False)
+
+class Version(Base):
+    __tablename__ = "versions"
+
+    id = Column(Integer, primary_key = True)
+    timestamp = Column(DateTime, nullable = False)
 
 # cross tables
 
@@ -137,6 +142,19 @@ class List_collection(Base):
             backref=backref("list_collection", order_by=id))
     lists = relationship("List",
             backref=backref("list_collection", order_by=id))
+
+class Gene_version(Base):
+    __tablename__ = "gene_version"
+
+    id = Column(Integer, primary_key = True)
+    gene_id = Column(Integer, ForeignKey('genes.id'), nullable = False)
+    version_id = Column(Integer, ForeignKey('versions.id'), nullable = False)
+
+    gene = relationship("Gene",
+            backref=backref("gene_version", order_by=id))
+
+    version = relationship("Version",
+            backref=backref("gene_version", order_by=id))
 
 ### End class declarations
 

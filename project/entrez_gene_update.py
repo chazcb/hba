@@ -38,28 +38,35 @@ def append_gene_table(db_session, gene_info):
     output_file.write(column_name)
 
     # write each row into db and output file
-    # get max(gene.id)
-    if db_session.query(func.max(model.Gene.id)).one()[0]:
-        i = db_session.query(func.max(model.Gene.id)).one()[0]
-    else:
-        i = 0
+    # get max(genes.id)
+    max_gene_id = get_max_id(model.Gene.id)
+    max_version_id = get_max_id(model.Version.id)
+    max_gene_version_id = get_max_id(model.Gene_version.id)
 
     for line in gene_info:
-        i += 1
+        max_gene_id += 1
+        max_gene_version_id += 1
         item = line.rstrip().split()
         # write to db
-        gene = model.Gene(id = i, 
+        gene = model.Gene(id = max_gene_id, 
                     entrez_gene_id = item[geneid_index],
                     entrez_gene_symbol = item[symbol_index],
                     entrez_gene_synonym = item[synonym_index],
-                    entrez_gene_desc = item[desc_index], 
-                    entrez_version = datetime.utcnow()
+                    entrez_gene_desc = item[desc_index]
+                    )
+        gene_version = model.Gene_version(id = max_gene_version_id,
+                    gene_id = max_gene_id,
+                    version_id = max_version_id+1
                     )
         db_session.add(gene)
+        db_session.add(gene_version)
         # write to file
-        datarow = ("%s\t%s\t%s\t%s\t%s\n") % (i, 
+        datarow = ("%s\t%s\t%s\t%s\t%s\n") % (max_gene_id, 
             item[geneid_index], item[symbol_index], item[synonym_index], item[desc_index])
         output_file.write(datarow)
+
+    version = model.Version(id = max_version_id+1, timestamp = datetime.utcnow())
+    db_session.add(version)
 
     db_session.commit()
 
@@ -67,6 +74,15 @@ def append_gene_table(db_session, gene_info):
     gene_info.close()
 
     print "Successfully created %s" % output_filename
+
+def get_max_id(table_field):
+
+    if model.db_session.query(func.max(table_field)).one()[0]:
+        max_id = model.db_session.query(func.max(table_field)).one()[0]
+    else:
+        max_id = 0
+
+    return max_id
 
 def main():
 
