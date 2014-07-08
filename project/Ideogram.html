@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<!-- To overwrite IE 9 view intranet in compatibility mode option -->
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<meta charset="utf-8">
+        
+	<title>Ideogram Viewer</title>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
+        <link rel="StyleSheet" href="style/ideogram.css" type="text/css" >
+        <link rel="StyleSheet" href="style/dropmenu.css" type="text/css" >
+		<link rel="StyleSheet" href="style/jquery-ui-1.10.4.custom.css" type="text/css" > 
+        <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+        <script type="text/javascript" src="js/dropdown.js" ></script>
+        <script type="text/javascript" src="js/d3.v3.js"></script>
+        <script type="text/javascript" src="js/utility.js"></script>
+        <script type="text/javascript" src="js/ideogram.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
+       
+	<!-- Throw an alert if the user any IE less than 9 -->
+		<!--[if lte IE 8]>
+		<script type="text/javascript">
+		alert("Internet Explorer users: please be informed that this site only supports IE 9 or above");
+		</script>
+		<![endif]-->
+ 
+    </head>
+    <body>
+        <DIV id ="IdeogramHeader" style="height:180px">
+            <DIV class="logo" style="height:100px" >
+                <a id="logo" href="http://mdanderson.org"><img src="MDACC_2C_RGB_TC_tag_V.png" alt="The University of Texas MD Anderson Cancer Center" /></a>          
+				<DIV id = "titleText" > <h1>Ideogram Viewer</h1>
+				</DIV>
+			</DIV>
+		
+			<DIV id ="controlItems">
+				<DIV class="help"> <a href="http://bioinformatics.mdanderson.org/main/IdeogramViewer:Overview" target="_blank">Help?</a></DIV>
+				<DIV class="zoomin" >
+					<input  type="button" value="Zoom In" onclick="zoomIn()" />
+				</DIV>
+				<DIV class="zoomout" >
+					<input type="button" value="Zoom Out" onclick="zoomOut()" />
+				</DIV>
+				<DIV class="reset" >
+					<input type="button" value="Zoom Reset" onclick="reset()" />
+				</DIV>
+				 <DIV class="legend-display" id="legend-display" ></DIV>
+			</DIV>
+		</DIV>
+
+        <DIV class="ideogramContent">
+        </DIV>
+
+        <DIV id="geneMenu" class="menu" style="display:none">
+            <ul class="list">
+                <li id="entrez">NCBI Entrez</li>
+                <li id="genecard">GeneCards</li>
+                <li id="genesmash">geneSmash</li>
+                <li id="genomebrowser">UCSC Genome Browser</li>
+                <li id="Dismiss">Dismiss</li>
+            </ul>
+        </DIV>
+        <DIV id="brushMenu" class="menu" style="display:none">
+            <ul class="list">
+                <li id="copy">Copy genes to new window</li>
+                <li id="gbregion">Open in UCSC Genome Browser</li>
+                <li id="Dismiss">Dismiss</li>
+            </ul>
+        </DIV>  
+		<DIV id="dialog" title="Symbols not found in geneSmash">
+		</DIV>
+		
+        <script type="text/javascript">
+            var selectedName = null,
+				selectedId = null,
+				selectedUrl = null,
+				selectedMirId = null,
+				selectedChr = null,
+				selectedGeneStart = null,
+				selectRegionStart = null,
+				selectRegionEnd = null,
+				selectedGenes = null,
+				selectedByWhat = null, //search by what: by_symbol, by_mir
+				singleGenelist=genelist1=genelist2=mirlist1=mirlist2=null,
+				unionGenelist=interGenelist=unionMirlist=interMirlist=null,
+				ideogramObj = null,
+				selector = defaultSelector = "div.ideogramContent";
+            var paramList =[];
+            var mySymbolList =[];
+            var oncogeneloaded = false,
+                suppressorloaded = false;
+                
+            //----geneSmash service call related -----
+            var geneSmashUrl = "http://app1.bioinformatics.mdanderson.org/genesmash/";
+            //geneSmash has to supply an interface that sends the appropriate header (Access-Control-Allow-Origin: *) 
+            //Implemented geneSmash as a "list" called "open" 
+            var api = "_design/basic/_list/open/";
+            var geneSmashUrlAPI = geneSmashUrl + api;
+                
+            //----data files -----
+            var cytobandFile = "cytoBand.txt";
+            //categories for precanned data
+            var oncoGeneFile = "oncogeneData.txt";
+            var suppressorGeneFile = "suppressorData.txt"; 
+                
+            var oncogenetype="oncogene",
+                suppressortype="suppressor";
+            var oncogeneData=[],
+                suppressorData=[];
+            var oncogeneflag=false,
+                suppressorflag=false;                
+            var chromlist;
+			
+			var xpadding = 40,
+                ypadding = 40;
+			var minWidth = 600,
+			    minHeight = 400;
+			var headerHeight = $('#IdeogramHeader')[0].scrollHeight;
+			// initial plot dimension
+			var dim = getPlotSize();
+                     
+			$(window).resize(function() {
+				dim = getPlotSize();
+				ideogramObj.resizePlot(dim[0], dim[1]);
+				
+            });
+            
+			//get data from query parameters
+            getQueryParameters();
+            makeLegend("div.legend-display");
+			
+            //load oncogene and suppressor file once
+            d3.tsv (oncoGeneFile, function(error, genes1 ) {
+                genes1.forEach(function(d) {                                    
+                    oncogeneData.push(createMyGeneFromFile(d, oncogenetype));
+                });
+                    
+                d3.tsv (suppressorGeneFile, function(error, genes2 ) {
+                    genes2.forEach(function(d) {                                    
+                        suppressorData.push(createMyGeneFromFile(d, suppressortype));
+                    });	               		
+                    displayViewer(oncogeneData, suppressorData);              		
+                });
+            });
+                   
+               
+            function createMyGeneFromFile (d, type) {
+                var labeltype = type+"label";
+                return {
+                    //the followings are from file
+                    "geneSmashInfo": {
+                        "_id": d.ID,  
+                        "Symbol": d.Symbol,
+                        "Chromosome": d.Chromosome,
+                        "Description": d.Description,
+                        "GeneType": d.GeneType,
+                        "TranscriptionStart": d.TranscriptionStart,
+                        "TranscriptionEnd": d.TranscriptionEnd,
+                        "GenBank": d.GenBank
+                    },
+                    //general setting
+                    "queryBy": "by_symbol",
+                    "classtype": type,
+                    "labeltype": labeltype,
+                    "display" : 1                   
+                }
+            }
+            //create symbol object from input query parameters
+            function createMySymbol (symbol, queryBy, type){
+                var obj = {};
+                obj.geneSmashInfo ={};
+                if (queryBy === "by_symbol") {
+                    obj.geneSmashInfo.Symbol = symbol;
+                }
+                if (queryBy === "by_mir") {
+                    obj.geneSmashInfo.miRbase = symbol;
+                }
+                obj.queryBy = queryBy;
+                obj.classtype = type;
+                obj.display = 1
+                return obj;             
+            }
+            function generateSymbolList (list, queryBy, type){
+                if (list !== undefined) {
+                    list.forEach(function (d){
+                        mySymbolList.push (createMySymbol(d, queryBy, type));
+                    });
+                }
+            }
+            //get symbols from query parameter, create symbol object and push to symbolList
+            function getQueryParameters(){
+                var inputGeneList = $.QueryString["genelist"];
+                if (inputGeneList) {
+                    singleGenelist = inputGeneList.split(',');  
+                    singleGenelist = $.uniqueValue(singleGenelist);
+                    generateSymbolList(singleGenelist, "by_symbol", "gene");
+                }
+                inputGeneList = $.QueryString["genelist1"];
+                if (inputGeneList) {
+                    genelist1 = inputGeneList.split(',');  
+                    genelist1 = $.uniqueValue(genelist1);
+                    generateSymbolList(genelist1, "by_symbol", "gene1");
+                }
+                inputGeneList = $.QueryString["genelist2"];
+                if (inputGeneList) {
+                    genelist2 = inputGeneList.split(','); 
+                    genelist2 = $.uniqueValue(genelist2); 
+                    generateSymbolList(genelist2, "by_symbol", "gene2");
+                }
+                var inputMirList = $.QueryString["mirlist1"];
+                if (inputMirList) {
+                    mirlist1 = inputMirList.split(',');
+                    mirlist1 = $.uniqueValue(mirlist1);
+                    generateSymbolList(mirlist1, "by_mir", "mir1");
+                }
+                inputMirList = $.QueryString["mirlist2"];
+                if (inputMirList) {
+                    mirlist2 = inputMirList.split(',');
+                    mirlist2 = $.uniqueValue(mirlist2);
+                    generateSymbolList(mirlist2, "by_mir", "mir2");
+                }
+				var chromosomes = $.QueryString["chromosome"];
+                if (chromosomes) {                     
+                    var chromlistIn = chromosomes.split(',');
+                    chromlist = $.uniqueValue(chromlistIn);
+                }
+                else {                         
+                    chromlist = null;                                   
+                } 
+				
+                processQuery(genelist1, genelist2, mirlist1, mirlist2);
+     
+            }  
+                
+            function displayViewer(oncogeneData, suppressorData) {
+                  
+                $("div.ideogramContent").empty();
+                
+                //cytobandFile -- a cytoband datafile downloaded from http://hgdownload.cse.ucsc.edu/goldenPath/hg19/database/cytoBand.txt.gz
+                Ideogram.createIdeogram(cytobandFile, function (obj){    
+                    ideogramObj = obj;  
+                    ideogramObj.IdeogramPlot (geneSmashUrlAPI, oncogeneData, suppressorData, mySymbolList, paramList, selector, chromlist, geneClick, brushClick, hideMenu, dim[0], dim[1]);          
+				});
+                
+            } //end of displayViewer
+            
+            //block right mouse menu pop upwindow.oncontextmenu = function () { return false; }
+            window.oncontextmenu = function() {return false;}
+            
+            //three button functions for Ideogram object API
+            function reset() {
+                ideogramObj.resetScale();           
+            }
+            function zoomOut() {
+                var zoomFactor = 2;
+                ideogramObj.zoomOut(zoomFactor);
+            }
+            function zoomIn() {
+                var zoomFactor = 2;
+                ideogramObj.zoomIn(zoomFactor);
+            }
+    
+            /**
+			 * @param {String} queryBy: "by_symbol" or "by_mir", from geneSmash query, is either gene symbol or miRbase id 
+			 * @param {number} entrezID 7157
+			 * @param {String} gene name
+			 * @param {number} mirId
+			 * @param {Object} geneCoordinate, start and end of the gene
+			 * @param {Object} pos, position for menu
+			 * 
+             **/
+            function geneClick (queryBy, entrezID, name, mirId, chr, geneCoordinate, pos){
+                selectedName = name;
+                selectedId = entrezID;
+                selectedMirId = mirId,
+                selectedChr = chr;
+                selectedGeneStart= geneCoordinate.start;
+                selectedGeneEnd = geneCoordinate.end;
+                selectedByWhat = queryBy; 
+                $('#geneMenu.menu')
+                .css('position', 'absolute')
+                .css('display', 'block')
+				.css('left', pos.x)
+                .css('top',  pos.y)
+                .styleddropdown();            
+            };  //end of function geneClick
+    
+            /**
+			 * open a new window with the current href location and with a appropriate chromosome query
+             * @param {String} chr chromosome label shown on the left side of the viewer, for example "chr2"
+			 **/
+            function labelClick (chr) {
+                //console.log(document.URL)
+                var url = window.location.href;
+                var index = url.search("chromosome");
+                if (index >0){
+                    //search next '&'
+                    var chromosomelist = url.substring(index+11)
+                    if (chromosomelist !== "") {    //&chromosome=nothing
+                        var nextIndex = chromosomelist.search("&");
+                        //sometimes, query parameters gene or mir list are after parameter 'chromosome' 
+                        if (nextIndex > 0){
+                            var chromStr = chromosomelist.substring(0, nextIndex);
+                            //replace it with a single chromosome
+                            url = url.replace(chromStr,chr.substring(3));
+                        }
+                        else {
+                            url = url.replace(chromosomelist,chr.substring(3));
+                        }
+                    }
+                    else {
+                        url = url.substring(0, index+11)+chr.substring(3);
+                    }
+                }
+                //append chrom
+                else {
+                    //for special case oncogenes and suppressor genes without genelist query
+                    var query = location.search;
+                   
+                    if (query.length>0)
+                        url = url + "&chromosome="+chr.substring(3);
+                    else {
+                        url = url + "?chromosome="+chr.substring(3);                  
+                    }
+                }
+                window.open(url);
+            };
+    
+            /**
+			 * @param {Array} genes an array of gene symbols
+			 * @param {String} chrom a string represented comma separated chromosome list
+			 * @param {number} start selection region start
+			 * @param {number} end selection region end
+			 * @param {Object} pos, position for menu
+			 * 
+             **/
+            function brushClick (genes, chrom, start, end, pos){
+                selectedGenes = genes;
+                selectedRegionStart = start;
+                selectedRegionEnd = end;
+                selectedChr = chrom;
+                $('#brushMenu.menu')
+                .css('position', 'absolute')
+                .css('display', 'block')
+				.css('left', pos.x)
+                .css('top', pos.y)
+                .styleddropdown();
+            };  //end of function brushClick
+    
+            // click handler is defined based on what menu item gets chosen
+            $("ul.list>li#entrez").click (function () {
+                selectedUrl = "http://www.ncbi.nlm.nih.gov/gene/?term="+selectedId;
+                window.open(selectedUrl);
+            });
+            $("ul.list>li#genecard").click (function () {
+                selectedUrl = "http://www.genecards.org/cgi-bin/carddisp.pl?gene="+selectedName;
+                window.open(selectedUrl);
+            });
+            $("ul.list>li#genesmash").click (function () {
+                if (selectedByWhat == "by_symbol") {
+                    selectedUrl = "http://app1.bioinformatics.mdanderson.org/genesmash/_design/basic/_list/html/"+selectedByWhat+"?key=\""+selectedName+"\"&include_docs=true";
+                }
+                else if(selectedByWhat == "by_mir"){
+                    selectedUrl = "http://app1.bioinformatics.mdanderson.org/genesmash/_design/basic/_list/html/"+selectedByWhat+"?key=\""+selectedMirId+"\"&include_docs=true";      
+                }
+                window.open(selectedUrl);
+            });
+            $("ul.list>li#genomebrowser").click (function () {
+                selectedUrl = "http://genome.ucsc.edu/cgi-bin/hgTracks?position=chr"+selectedChr+":"+selectedGeneStart+"-"+selectedGeneEnd;
+                window.open(selectedUrl);
+            });
+            $("ul.list>li#copy").click (function () {
+                selectedGenes = $.uniqueValue(selectedGenes)
+                var strWindowFeatures = "width=300px,height=300px,scrollbars=yes";
+                var mywindow = window.open("", "geneWindow", strWindowFeatures);
+                mywindow.document.write(selectedGenes, ",");
+                hideMenu();
+                ideogramObj.removeSelectionBox();           
+                ideogramObj.reactivateZoom();
+            })
+            $("ul.list>li#gbregion").click (function () {
+                selectedUrl = "http://genome.ucsc.edu/cgi-bin/hgTracks?position=chr"+selectedChr+":"+selectedRegionStart+"-"+selectedRegionEnd;
+                window.open(selectedUrl);
+                hideMenu();
+                ideogramObj.removeSelectionBox();           
+                ideogramObj.reactivateZoom();
+            })
+            $("ul.list>li#Dismiss").click (function () {
+                hideMenu();
+                ideogramObj.removeSelectionBox();           
+                ideogramObj.reactivateZoom();
+            })
+			/**
+			  * dialog box record the symbols did not receive annotation from geneSmash
+			  * @param {String} text a string represented comma separated symbols
+			  *
+			  **/
+			function openDialogBox(text){
+				$('#dialog').dialog({
+					dragglable: true,
+					resizable: true,
+					position: ['center', 'center'],
+					width: 400,
+					height: 100
+				});
+				$('#dialog').text(text);
+			}
+            function hideMenu(){
+                $('#brushMenu.menu').css('display', 'none');
+                $('#geneMenu.menu').css('display', 'none');
+            } 
+            //function for processQuery 
+            function processQuery(genelist1, genelist2, mirlist1, mirlist2){
+                if (genelist1 && genelist2){
+                    interGenelist = $.intersect(genelist1, genelist2);
+                    unionGenelist = d3.set(genelist1.concat(genelist2)).values();                      
+                }
+                if (genelist1 && genelist2==null){
+                    unionGenelist = genelist1;
+                }
+                if (genelist2 && genelist1==null){
+                    unionGenelist =  genelist2;
+                }
+                if (mirlist1 && mirlist2){
+                    interMirlist = $.intersect(mirlist1, mirlist2);
+                    unionMirlist = d3.set(mirlist1.concat(mirlist2)).values();
+                }
+                if (mirlist1 && mirlist2==null){
+                    unionMirlist = mirlist1;
+                }
+                if (mirlist2 && mirlist1==null){
+                    unionMirlist = mirlist2;
+                }  
+                //collect all the data from paramList         
+                paramList.push(singleGenelist, genelist1, genelist2, mirlist1, mirlist2, 
+                unionGenelist, interGenelist, unionMirlist, interMirlist);
+            }  
+			
+            function getPlotSize(){
+                var newH= $(window).height()- headerHeight - ypadding; 
+				var newW= $(window).width()- xpadding;
+				//force minimum width and height for the plot
+				if (newH < minHeight) newH= minHeight;
+				if (newW < minWidth)  newW = minWidth;
+				return [newW, newH];
+			}
+			
+            function makeLegend (div) {
+                    
+                var legendData =[
+				    {classtype:'gene',description:'gene', visible:true},
+                    {classtype:'gene1',description:'gene1', visible:true},
+                    {classtype:'gene2',description:'gene2', visible:true},
+                    {classtype:'intergene',description:'gene1 and gene2', visible:true},
+                    {classtype:'mir1',description:'microRNA mir1', visible:true},
+                    {classtype:'mir2',description:'microRNA mir2', visible:true},
+                    {classtype:'intermir',description:'mir1 and mir2', visible:true},
+                    {classtype:'oncogene',description:'Oncogene', visible:false},
+                    {classtype:'suppressor',description:'Suppressor', visible:false},
+                ]
+				var legendDisplayColor = '#000';
+					legendHiddenColor = '#CCC';
+                
+                var legendSvg = d3.select(div)
+                .append("svg:svg")
+                .attr("class", "ideogramlegend")
+                .attr("pointer-events", "all")	
+                .attr("width", "100%")
+				.attr("height", "100%")
+				
+                var legendbox =  legendSvg.selectAll ("legendbox")
+                .data([1]);
+                legendbox.enter().append("svg:rect")
+                .attr("x", 0)
+                .attr("width", 364)
+                .attr("height", 50)
+                .attr("fill", "none")
+                legendbox.exit().remove();
+                        
+                    
+                var legendItems = legendSvg.selectAll("g.legenditem")
+                .data(legendData);
+                legendItems.enter().append("svg:g")
+                  
+                .attr("class", "legenditem")     
+                //transform once, others append in will be in new coordinate
+                .attr("transform", function(d, i) {
+					if (i<3) return "translate(10," + (i+1) * 15 + ")";
+					else if (i>=3 && i < 6) return "translate(100," + (i-3+1) * 15 + ")";
+					else return "translate(250," + (i-6+1) * 15 + ")";
+                })
+                .on("click", function(d) {onClick(d)});
+                legendItems.exit().remove();                
+                
+                var symbols = legendItems.selectAll ("line.legendsymbol")
+                .data(function (d) {
+                    return [d];
+                });
+                
+                symbols.enter().append("svg:line")
+                .attr("class", function(d){return d.classtype;})
+				.attr("x1", 0)
+                .attr("x2", 0)
+                .attr("y1", -10)
+                .attr("y2", 0)
+                .attr("stroke-width", 2)
+                symbols.exit().remove();
+                
+                var labels = legendItems.selectAll ("text.legendtext")
+                .data(function (d) {
+                    return [d];
+                });        
+                
+                labels.enter().append("svg:text")
+                .attr("class", "legendtext")
+                .attr("x", 8)
+                .attr("y", 0)
+				
+				.on("mouseover", function() { d3.select(this).style("font-size", "16px");})
+				.on("mouseout", function() { d3.select(this).style("font-size", "12px");})
+   
+                .attr("fill", function(d) {return (d.visible) ? legendDisplayColor : legendHiddenColor;})
+                .text(function (d) { return  d.description ; })
+                
+				.append("svg:title")
+                .text(function(d) {                       
+                    if (d.description === "Oncogene" ||d.description === "Suppressor" )                    
+						return "Click to display/hide "+d.description;
+                    else if (d.description === "gene1 and gene2" )
+                        return "Genes from parameter genelist1 and genelist2";
+					else if (d.description === "mir1 and mir2" )
+						return "miRBase Ids from parameter mirlist1 and mirlist2";
+					else if (d.description === "gene" )
+                        return "Genes from parameter genelist";
+                    else if (d.description === "gene1" )
+                        return "Genes from parameter genelist1";
+					else if (d.description === "gene2" )
+                        return "Genes from parameter genelist2";
+					else if (d.description === "microRNA mir1" )
+                        return "miRBase Ids from parameter mirlist1";
+					else return "miRBase Ids from parameter mirlist2";                      
+                })
+				labels.exit().remove();
+				
+				function onClick(d){
+					
+					if (d.classtype === "suppressor"){  
+						d.visible = !d.visible;
+						updateLegend();
+						suppressorflag = !suppressorflag;	
+						if (suppressorflag) {
+							ideogramObj.redraw(oncogeneflag, suppressorflag);  
+						}
+						else {
+							ideogramObj.removeSuppressor(selector);
+							ideogramObj.redraw();
+						}
+					}
+					else if  (d.classtype === "oncogene"){  
+						d.visible = !d.visible;
+						updateLegend();
+						oncogeneflag = !oncogeneflag;	
+						if (oncogeneflag) {											
+							ideogramObj.redraw(oncogeneflag, suppressorflag);  
+						}
+						else {
+							ideogramObj.removeOncogene(selector);
+							ideogramObj.redraw();							
+						}
+					}								
+				}
+				function updateLegend() {
+					labels
+					.attr("fill", function(d) {
+						return (d.visible) ? legendDisplayColor : legendHiddenColor;
+					})
+				}
+                labels.exit().remove();
+            }
+        </script>
+    </body>
+</html>

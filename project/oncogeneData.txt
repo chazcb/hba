@@ -1,0 +1,116 @@
+ID	Symbol	Chromosome	Description	GeneType	TranscriptionStart	TranscriptionEnd	GenBank
+27	ABL2	1	v-abl Abelson murine leukemia viral oncogene homolog 2	protein-coding	179068461	179112224	NM_001136000
+208	AKT2	19	v-akt murine thymoma viral oncogene homolog 2	protein-coding	40736223	40791265	NM_001626
+207	AKT1	14	v-akt murine thymoma viral oncogene homolog 1	protein-coding	105235686	105262080	NM_001014431
+53335	BCL11A	2	B-cell CLL/lymphoma 11A (zinc finger protein)	protein-coding	60684328	60780633	NM_022893
+466	ATF1	12	activating transcription factor 1	protein-coding	51157788	51214943	NM_005171
+25	ABL1	9	"c-abl oncogene 1, non-receptor tyrosine kinase"	protein-coding	133710830	133763062	NM_005157
+596	BCL2	18	B-cell CLL/lymphoma 2	protein-coding	60790578	60986613	NM_000633
+613	BCR	22	breakpoint cluster region	protein-coding	23522551	23660224	NM_004327
+602	BCL3	19	B-cell CLL/lymphoma 3	protein-coding	45251977	45263301	NM_005178
+84433	CARD11	7	"caspase recruitment domain family, member 11"	protein-coding	2945709	3083509	NM_032415
+604	BCL6	3	B-cell CLL/lymphoma 6	protein-coding	187439164	187463513	NM_001706
+673	BRAF	7	v-raf murine sarcoma viral oncogene homolog B1	protein-coding	140433812	140624564	NM_004333
+23624	CBLC	19	Cas-Br-M (murine) ecotropic retroviral transforming sequence c	protein-coding	45281125	45303903	NM_012116
+868	CBLB	3	Cas-Br-M (murine) ecotropic retroviral transforming sequence b	protein-coding	105377108	105587887	NM_170662
+595	CCND1	11	cyclin D1	protein-coding	69455872	69469242	NM_053056
+896	CCND3	6	cyclin D3	protein-coding	41902670	41909552	NM_001760
+1045	CDX2	13	caudal type homeobox 2	protein-coding	28536277	28543317	NM_001265
+894	CCND2	12	cyclin D2	protein-coding	4382901	4414522	NM_001759
+1499	CTNNB1	3	"catenin (cadherin-associated protein), beta 1, 88kDa"	protein-coding	41240941	41281939	NM_001098210
+1643	DDB2	11	"damage-specific DNA binding protein 2, 48kDa"	protein-coding	47236492	47260769	NM_000107
+1656	DDX6	11	DEAD (Asp-Glu-Ala-Asp) box polypeptide 6	protein-coding	118618472	118661972	NM_004397
+1649	DDIT3	12	DNA-damage-inducible transcript 3	protein-coding	57910370	57914300	NM_001195057
+7913	DEK	6	DEK oncogene	protein-coding	18224399	18264799	NM_003472
+1956	EGFR	7	epidermal growth factor receptor	protein-coding	55086724	55224644	NM_201283
+2005	ELK4	1	"ELK4, ETS-domain protein (SRF accessory protein 1)"	protein-coding	205585234	205602000	NM_001973
+2118	ETV4	17	ets variant 4	protein-coding	41605210	41623305	NM_001986
+2064	ERBB2	17	"v-erb-b2 erythroblastic leukemia viral oncogene homolog 2, neuro/glioblastoma derived oncogene homolog (avian)"	protein-coding	37856253	37884915	NM_004448
+54738	FEV	2	FEV (ETS oncogene family)	protein-coding	219845808	219850379	NM_017521
+2120	ETV6	12	ets variant 6	protein-coding	11802787	12048325	NM_001987
+2130	EWSR1	22	Ewing sarcoma breakpoint region 1	protein-coding	29663997	29686672	NM_001163287
+2260	FGFR1	8	fibroblast growth factor receptor 1	protein-coding	38268655	38326352	NM_023106
+11116	FGFR1OP	6	FGFR1 oncogene partner	protein-coding	167412815	167454066	NM_194429
+2263	FGFR2	10	fibroblast growth factor receptor 2	protein-coding	123237843	123356159	NM_001144915
+9950	GOLGA5	14	golgin A5	protein-coding	93260649	93306304	NM_005113
+57120	GOPC	6	golgi-associated PDZ and coiled-coil motif containing	protein-coding	117881432	117923705	NM_001017408
+2521	FUS	16	fused in sarcoma	protein-coding	31191430	31206192	NR_028388
+3159	HMGA1	6	high mobility group AT-hook 1	protein-coding	34204576	34214008	NM_002131
+3265	HRAS	11	v-Ha-ras Harvey rat sarcoma viral oncogene homolog	protein-coding	532241	535550	NM_176795
+3662	IRF4	6	interferon regulatory factor 4	protein-coding	391738	411443	NM_001195286
+8091	HMGA2	12	high mobility group AT-hook 2	protein-coding	66218239	66360071	NM_003483
+3845	KRAS	12	v-Ki-ras2 Kirsten rat sarcoma viral oncogene homolog	protein-coding	25358179	25403854	NM_004985
+3725	JUN	1	jun proto-oncogene	protein-coding	59246462	59249785	NM_002228
+3815	KIT	4	v-kit Hardy-Zuckerman 4 feline sarcoma viral oncogene homolog	protein-coding	55524094	55606881	NM_000222
+4005	LMO2	11	LIM domain only 2 (rhombotin-like 1)	protein-coding	33880122	33891509	NM_001142315
+4094	MAF	16	v-maf musculoaponeurotic fibrosarcoma oncogene homolog (avian)	protein-coding	79627744	79634622	NM_005360
+3932	LCK	1	lymphocyte-specific protein tyrosine kinase	protein-coding	32739711	32751766	NM_001042771
+9935	MAFB	20	v-maf musculoaponeurotic fibrosarcoma oncogene homolog B (avian)	protein-coding	39314516	39317876	NM_005461
+4286	MITF	3	microphthalmia-associated transcription factor	protein-coding	69812706	70017488	NM_001184967
+84441	MAML2	11	mastermind-like 2 (Drosophila)	protein-coding	95711439	96076344	NM_032427
+4297	MLL	11	"myeloid/lymphoid or mixed-lineage leukemia (trithorax homolog, Drosophila)"	protein-coding	118307204	118397539	NM_005933
+4193	MDM2	12	Mdm2 p53 binding protein homolog (mouse)	protein-coding	69201970	69239212	NM_002392
+4233	MET	7	met proto-oncogene (hepatocyte growth factor receptor)	protein-coding	116312458	116438440	NM_001127500
+4352	MPL	1	myeloproliferative leukemia virus oncogene	protein-coding	43803474	43820135	NM_005373
+4610	MYCL1	1	"v-myc myelocytomatosis viral oncogene homolog 1, lung carcinoma derived (avian)"	protein-coding	40361095	40367687	NM_001033081
+4602	MYB	6	v-myb myeloblastosis viral oncogene homolog (avian)	protein-coding	135502452	135540311	NM_001161657
+8031	NCOA4	10	nuclear receptor coactivator 4	protein-coding	51572363	51590734	NM_005437
+4609	MYC	8	v-myc myelocytomatosis viral oncogene homolog (avian)	protein-coding	128748314	128753680	NM_002467
+4791	NFKB2	10	nuclear factor of kappa light polypeptide gene enhancer in B-cells 2 (p49/p100)	protein-coding	104154228	104162281	NM_001077493
+8021	NUP214	9	nucleoporin 214kDa	protein-coding	134000980	134109091	NM_005085
+4613	MYCN	2	"v-myc myelocytomatosis viral related oncogene, neuroblastoma derived (avian)"	protein-coding	16080682	16087129	NM_005378
+4893	NRAS	1	neuroblastoma RAS viral (v-ras) oncogene homolog	protein-coding	115247077	115259515	NM_002524
+4914	NTRK1	1	"neurotrophic tyrosine kinase, receptor, type 1"	protein-coding	156785541	156851642	NM_001007792
+5155	PDGFB	22	platelet-derived growth factor beta polypeptide (simian sarcoma viral (v-sis) oncogene homolog)	protein-coding	39619684	39636914	NM_033016
+7849	PAX8	2	paired box 8	protein-coding	113973573	114036498	NM_013952
+5290	PIK3CA	3	"phosphoinositide-3-kinase, catalytic, alpha polypeptide"	protein-coding	178866310	178952497	NM_006218
+5292	PIM1	6	pim-1 oncogene	protein-coding	37137921	37143204	NM_002648
+5468	PPARG	3	peroxisome proliferator-activated receptor gamma	protein-coding	12330435	12475855	NM_138711
+5966	REL	2	v-rel reticuloendotheliosis viral oncogene homolog (avian)	protein-coding	61108751	61150178	NM_002908
+5979	RET	10	ret proto-oncogene	protein-coding	43572516	43625797	NM_020975
+5324	PLAG1	8	pleiomorphic adenoma gene 1	protein-coding	57073467	57123859	NM_001114635
+5781	PTPN11	12	"protein tyrosine phosphatase, non-receptor type 11"	protein-coding	112856535	112947717	NM_002834
+6098	ROS1	6	"c-ros oncogene 1 , receptor tyrosine kinase"	protein-coding	117609529	117747018	NM_002944
+5894	RAF1	3	v-raf-1 murine leukemia viral oncogene homolog 1	protein-coding	12625099	12705700	NM_002880
+6608	SMO	7	smoothened homolog (Drosophila)	protein-coding	128828712	128853385	NM_005631
+6760	SS18	18	"synovial sarcoma translocation, chromosome 18"	protein-coding	23596216	23670611	NM_001007559
+8115	TCL1A	14	T-cell leukemia/lymphoma 1A	protein-coding	96176303	96180533	NM_001098725
+54790	TET2	4	tet oncogene family member 2	protein-coding	106067942	106163928	NM_017628
+9098	USP6	17	ubiquitin specific peptidase 6 (Tre-2 oncogene)	protein-coding	5031686	5078324	NM_004505
+7175	TPR	1	translocated promoter region (to activated MET oncogene)	protein-coding	186280785	186344457	NM_003292
+10342	TFG	3	TRK-fused gene	protein-coding	100428385	100467810	NM_001195478
+3195	TLX1	10	T-cell leukemia homeobox 1	protein-coding	102891060	102897545	NM_001195517
+1017	CDK2	12	cyclin-dependent kinase 2	protein-coding	56360555	56366568	NM_052827
+581	BAX	19	BCL2-associated X protein	protein-coding	49458116	49465055	NM_138761
+2308	FOXO1	13	forkhead box O1	protein-coding	41129800	41240734	NM_002015
+117195	MRGPRX3	11	"MAS-related GPR, member X3"	protein-coding	18142501	18160027	NM_054031
+1019	CDK4	12	cyclin-dependent kinase 4	protein-coding	58142002	58146164	NM_000075
+898	CCNE1	19	cyclin E1	protein-coding	30302900	30315219	NM_001238
+355	FAS	10	"Fas (TNF receptor superfamily, member 6)"	protein-coding	90750287	90775542	NM_152872
+4851	NOTCH1	9	notch 1	protein-coding	139388895	139440238	NM_017617
+2735	GLI1	12	GLI family zinc finger 1	protein-coding	57853933	57866047	NM_005269
+2353	FOS	14	FBJ murine osteosarcoma viral oncogene homolog	protein-coding	75745480	75748937	NM_005252
+6469	SHH	7	sonic hedgehog	protein-coding	155595557	155604967	NM_000193
+5915	RARB	3	"retinoic acid receptor, beta"	protein-coding	25469833	25639422	NM_000965
+5916	RARG	12	"retinoic acid receptor, gamma"	protein-coding	53604352	53614150	NM_001042728
+3611	ILK	11	integrin-linked kinase	protein-coding	6624963	6632099	NM_001014794
+6736	SRY	Y	sex determining region Y	protein-coding	2654895	2655792	NM_003140
+5914	RARA	17	"retinoic acid receptor, alpha"	protein-coding	38474472	38513895	NM_001145302
+7471	WNT1	12	"wingless-type MMTV integration site family, member 1"	protein-coding	49372235	49376396	NM_005430
+6886	TAL1	1	T-cell acute lymphocytic leukemia 1	protein-coding	47681962	47695443	NM_003189
+3198	HOXA1	7	homeobox A1	protein-coding	27132613	27135625	NM_153620
+2309	FOXO3	6	forkhead box O3	protein-coding	108881025	109005971	NM_201559
+4303	FOXO4	X	forkhead box O4	protein-coding	70315998	70323384	NM_001170931
+92140	MTDH	8	metadherin	protein-coding	98656406	98742488	NM_178812
+6714	SRC	20	v-src sarcoma (Schmidt-Ruppin A-2) viral oncogene homolog (avian)	protein-coding	35974556	36033821	NM_198291
+2534	FYN	6	"FYN oncogene related to SRC, FGR, YES"	protein-coding	111982484	112041265	NM_153047
+2268	FGR	1	Gardner-Rasheed feline sarcoma viral (v-fgr) oncogene homolog	protein-coding	27938800	27961727	NM_005248
+4067	LYN	8	v-yes-1 Yamaguchi sarcoma viral related oncogene homolog	protein-coding	56792385	56923940	NM_002350
+10055	SAE1	19	SUMO1 activating enzyme subunit 1	protein-coding	47634079	47713893	NM_001145713
+640	BLK	8	B lymphoid tyrosine kinase	protein-coding	11351520	11422108	NM_001715
+84335	AKT1S1	19	AKT1 substrate 1 (proline-rich)	protein-coding	50372296	50380644	NM_001098632
+3055	HCK	20	hemopoietic cell kinase	protein-coding	30639990	30689657	NM_001172130
+7015	TERT	5	telomerase reverse transcriptase	protein-coding	1253286	1295162	NM_198253
+3297	HSF1	8	heat shock transcription factor 1	protein-coding	145515269	145538385	NM_005526
+10000	AKT3	1	"v-akt murine thymoma viral oncogene homolog 3 (protein kinase B, gamma)"	protein-coding	243666483	244006553	NM_005465
+64400	AKTIP	16	AKT interacting protein		53525191	53537170	NM_001012398

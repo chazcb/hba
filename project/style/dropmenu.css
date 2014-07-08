@@ -1,0 +1,33 @@
+/*
+ * $Id: dropmenu.css 59 2014-06-09 16:31:28Z ryao $
+ *
+ * Copyright (c) 2014 - The University of Texas MD Anderson Cancer Center
+ */
+.menu { position:relative; width: 230px; height: 120px }
+.menu .field {
+	width:220px; background:#EC6603; color:#fff; padding:5px; border:none; cursor:pointer;
+	font-family:'lucida sans unicode',sans-serif; font-size:1em;
+	border:solid 1px #EC6603;
+	-webkit-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+}
+.menu .field:hover {
+	border:solid 1px #fff;
+	-moz-box-shadow:0 0 5px #999; -webkit-box-shadow:0 0 5px #999; box-shadow:0 0 5px #999
+}
+.menu>ul.list { display:none;
+	z-index:999;
+	width:220px;
+	margin:0; padding:3px; list-style:none;
+	background:#fff; color:#333;
+	-moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;
+	-moz-box-shadow:0 0 5px #999; -webkit-box-shadow:0 0 5px #999; box-shadow:0 0 5px #999
+}
+.menu>ul.list li {
+	padding:3px;
+	border-bottom: solid 1px #ccc;
+}
+.menu>ul.list li:hover {
+	background:#EC6603; color:#fff;
+}
+.menu>ul.list li:last-child { border:none }
