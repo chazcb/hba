@@ -3,9 +3,6 @@ import model
 import jinja2
 
 
-
-
-
 app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
 
@@ -19,10 +16,10 @@ def index():
 
     return render_template("user_list.html", users=user_list)
 
-@app.route("/signup", methods = ["GET"])
+@app.route("/ideogram", methods = ["GET"])
 def show_signup():
 
-    return render_template("signup.html")
+    return render_template("Ideogram.html")
 
 @app.route("/signup", methods=["POST"])
 def signup():
