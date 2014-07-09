@@ -14,27 +14,35 @@ def setup_session():
 def index():
     return render_template("index.html")
 
-@app.route("/signup", methods = ["POST"])
+@app.route("/signup", methods = ["GET", "POST"])
 def signup():
 
-    email = request.form['email']
-    username = request.form['username']
+    if request.method == "GET":
+        return render_template("signup.html")
 
-    if model.db_session.query.filter(model.User.email == email).first() is not None:
-        flash('Account already exists for this email address!')
-        return redirect("/signup")
-    elif model.db_session.query.filter(model.User.username == username).first() is not None:
-        flash('Account already exists for this email address!')
-        return redirect("/signup")
-    else:
-        max_user_id = get_max_id(model.db_session, model.User.id)
-        user = model.User(id = max_user_id +1, 
-                username=request.form["username"], password = request.form["password"], 
-                firstname = request.form["firstname"], lastname = request.form["lastname"],
-                email = request.form["email"], date = datetime.datetime.utcnow())  
-        model.db_session.add(user)
-        model.db_session.commit()
-        return redirect("/login")
+    elif request.method == "POST":
+
+        email = request.form['email']
+        username = request.form['username']
+
+        query = model.db_session.query(model.User)
+
+        if query.filter_by(email = email).first() is not None:
+            flash('Account already exists for %s.  Please login with your credentials' % email)
+            return redirect("/login")
+        elif query.filter_by(username = username).first() is not None:
+            flash('Account already exists for %s.  Please select a different username.' % username)
+            return redirect("/signup")
+        else:
+            max_user_id = get_max_id(model.db_session, model.User.id)
+            user = model.User(id = max_user_id +1, 
+                    username=request.form["username"], password = request.form["password"], 
+                    firstname = request.form["firstname"], lastname = request.form["lastname"],
+                    email = request.form["email"], date = datetime.datetime.utcnow() )  
+            model.db_session.add(user)
+            model.db_session.commit()
+            session['user_id'] = user.id
+            return redirect("/list")
 
 @app.route("/login", methods = ["GET"])
 def show_login():
