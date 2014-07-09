@@ -34,14 +34,14 @@ def append_gene_table(db_session, gene_info):
     synonym_index = header_list.index("Synonyms")-1
     desc_index = header_list.index("description")-1
 
-    column_name = "RowID\tGeneID\tSymbol\tSynonyms\tDescription\tVersion\n"
+    column_name = "RowID\tGeneID\tSymbol\tSynonyms\tDescription\n"
     output_file.write(column_name)
 
     # write each row into db and output file
     # get max(genes.id)
-    max_gene_id = get_max_id(model.Gene.id)
-    max_version_id = get_max_id(model.Version.id)
-    max_gene_version_id = get_max_id(model.Gene_version.id)
+    max_gene_id = get_max_id(db_session, model.Gene.id)
+    max_version_id = get_max_id(db_session, model.Version.id)
+    max_gene_version_id = get_max_id(db_session, model.Gene_version.id)
 
     for line in gene_info:
         max_gene_id += 1
@@ -75,10 +75,10 @@ def append_gene_table(db_session, gene_info):
 
     print "Successfully created %s" % output_filename
 
-def get_max_id(table_field):
+def get_max_id(db_session, table_field):
 
-    if model.db_session.query(func.max(table_field)).one()[0]:
-        max_id = model.db_session.query(func.max(table_field)).one()[0]
+    if db_session.query(func.max(table_field)).one()[0]:
+        max_id = db_session.query(func.max(table_field)).one()[0]
     else:
         max_id = 0
 

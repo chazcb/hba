@@ -16,17 +16,18 @@ Base.query = db_session.query_property()
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     username = Column(String(50), nullable = False)
     password = Column(String(50), nullable = False)
     firstname = Column(String(50), nullable = True)
     lastname = Column(String(50), nullable = True)
     email = Column(String(50), nullable = True)
+    date_created = Column(DateTime, nullable = False)
 
 class Gene(Base):
     __tablename__ = "genes"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     entrez_gene_id = Column(Integer, nullable = False)
     entrez_gene_symbol = Column(String(50), nullable = True)
     entrez_gene_synonym = Column(String(255), nullable = True)
@@ -35,11 +36,11 @@ class Gene(Base):
 class List(Base):
     __tablename__ = "lists"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     user_id = Column(Integer, ForeignKey('users.id'), nullable = False)
     title = Column(String(255), nullable = True)
     description = Column(String(255), nullable = True)
-    public = Column(Boolean, default = False)
+    public = Column(Boolean, default = False, nullable = False)
     date_created = Column(DateTime, nullable = False)
     file_obj = Column(Text, nullable = True)
 
@@ -49,7 +50,7 @@ class List(Base):
 class Collection(Base):
     __tablename__ = "collections"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     user_id = Column(Integer, ForeignKey('users.id'), nullable = False)
     description = Column(String(255), nullable = True)
     date_created = Column(DateTime, nullable = False)
@@ -60,7 +61,7 @@ class Collection(Base):
 class Tag(Base):
     __tablename__ = "tags"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     tag_text = Column(String(255), nullable = False)
 
 class Version(Base):
@@ -74,7 +75,7 @@ class Version(Base):
 class User_tag(Base):
     __tablename__ = "user_tag"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     tag_id = Column(Integer, ForeignKey('tags.id'), nullable = False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable = False)
 
@@ -86,7 +87,7 @@ class User_tag(Base):
 class List_tag(Base):
     __tablename__ = "list_tag"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     tag_id = Column(Integer, ForeignKey('tags.id'), nullable = False)
     list_id = Column(Integer, ForeignKey('lists.id'), nullable = False)
 
@@ -98,7 +99,7 @@ class List_tag(Base):
 class List_access(Base):
     __tablename__ = "list_access"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     list_id = Column(Integer, ForeignKey('lists.id'), nullable = False)
     user_id = Column(Integer, ForeignKey('users.id'), nullable = False)
 
@@ -110,7 +111,7 @@ class List_access(Base):
 class List_user(Base):
     __tablename__ = "list_user"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     user_id = Column(Integer, ForeignKey('users.id'), nullable = False)
     list_id = Column(Integer, ForeignKey('lists.id'), nullable = False)
 
@@ -122,7 +123,7 @@ class List_user(Base):
 class List_gene(Base):
     __tablename__ = "list_gene"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     list_id = Column(Integer, ForeignKey('lists.id'), nullable = False)
     gene_id = Column(Integer, ForeignKey('genes.id'), nullable = False)
 
@@ -134,7 +135,7 @@ class List_gene(Base):
 class List_collection(Base):
     __tablename__ = "list_collection"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     collection_id = Column(Integer, ForeignKey('collections.id'), nullable = False)
     list_id = Column(Integer, ForeignKey('lists.id'), nullable = False)
 
@@ -146,7 +147,7 @@ class List_collection(Base):
 class Gene_version(Base):
     __tablename__ = "gene_version"
 
-    id = Column(Integer, primary_key = True)
+    id = Column(Integer, primary_key = True, autoincrement=True)
     gene_id = Column(Integer, ForeignKey('genes.id'), nullable = False)
     version_id = Column(Integer, ForeignKey('versions.id'), nullable = False)
 
