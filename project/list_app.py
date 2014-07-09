@@ -12,9 +12,7 @@ def setup_session():
 
 @app.route("/")
 def index():
-    user_list = model.db_session.query(model.User).limit(5).all()
-
-    return render_template("index.html", users=user_list)
+    return render_template("index.html")
 
 @app.route("/ideogram", methods = ["GET"])
 def show_signup():
