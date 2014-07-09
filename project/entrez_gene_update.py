@@ -3,7 +3,6 @@ import os
 import model
 from urllib import urlretrieve
 from datetime import date, datetime
-from sqlalchemy import func
 
 def read_human_gene_info(ftp_loc):
 
@@ -37,10 +36,10 @@ def append_gene_table(db_session, gene_info, ftp_loc):
     output_file.write(column_name)
 
     # write each row into db and output file
-    # get max(genes.id)
-    max_gene_id = get_max_id(db_session, model.Gene.id)
-    max_version_id = get_max_id(db_session, model.Version.id)
-    max_gene_version_id = get_max_id(db_session, model.Gene_version.id)
+    # get existing max ids, set to 0 if table is empty
+    max_gene_id = model.get_attr_max(db_session, model.Gene.id)
+    max_version_id = model.get_attr_max(db_session, model.Version.id)
+    max_gene_version_id = model.get_attr_max(db_session, model.Gene_version.id)
 
     for line in gene_info:
         max_gene_id += 1
@@ -73,15 +72,6 @@ def append_gene_table(db_session, gene_info, ftp_loc):
     gene_info.close()
 
     print "Successfully created %s" % output_filename
-
-def get_max_id(db_session, table_field):
-
-    if db_session.query(func.max(table_field)).one()[0]:
-        max_id = db_session.query(func.max(table_field)).one()[0]
-    else:
-        max_id = 0
-
-    return max_id
 
 def main():
 

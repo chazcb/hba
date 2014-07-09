@@ -1,7 +1,9 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey
+from sqlalchemy import func
 from sqlalchemy.orm import sessionmaker, relationship, backref, scoped_session
+# import sqlite3
 
 ENGINE = create_engine("sqlite:///repo.db", echo=True)
 db_session = scoped_session(sessionmaker(bind=ENGINE,
@@ -12,6 +14,7 @@ Base = declarative_base()
 Base.query = db_session.query_property()
 
 ### Class declarations 
+
 # entity classes
 class User(Base):
     __tablename__ = "users"
@@ -159,6 +162,31 @@ class Gene_version(Base):
             backref=backref("gene_version", order_by=id))
 
 ### End class declarations
+
+### functions:
+
+# def connect():
+#     conn = sqlite3.connect("repo.db")
+#     cursor = conn.cursor()
+#     return cursor
+
+def get_attr_max(db_session, class_attr):
+
+    if db_session.query(func.max(class_attr)).one()[0]:
+        attr_max = db_session.query(func.max(class_attr)).one()[0]
+    else:
+        attr_max = 0
+
+    return attr_max
+
+# def sql_get_attr_max(attr, table):
+
+#     cursor = connect()
+#     query = "SELECT max(?) from ?;"
+#     cursor.execute(query, (attr, table))
+#     attr_max = cursor.fetchone()
+
+#     return attr_max 
 
 def main():
 
