@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request, session, flash
-import model
 import jinja2
+import model
 import datetime
 
 app = Flask(__name__)
@@ -14,21 +14,27 @@ def setup_session():
 def index():
     return render_template("index.html")
 
-@app.route("/ideogram", methods = ["GET"])
-def show_signup():
-
-    return render_template("Ideogram.html")
-
-@app.route("/signup", methods=["POST"])
+@app.route("/signup", methods = ["POST"])
 def signup():
 
-    user = model.User(username=request.form["username"], password = request.form["password"], 
-            firstname = request.form["firstname"], lastname = request.form["lastname"],
-            email = request.form["email"], date = datetime.datetime.today())  
-    model.db_session.add(user)
-    model.db_session.commit()
+    email = request.form['email']
+    username = request.form['username']
 
-    return redirect("/")
+    if model.db_session.query.filter(model.User.email == email).first() is not None:
+        flash('Account already exists for this email address!')
+        return redirect("/signup")
+    elif model.db_session.query.filter(model.User.username == username).first() is not None:
+        flash('Account already exists for this email address!')
+        return redirect("/signup")
+    else:
+        max_user_id = get_max_id(model.db_session, model.User.id)
+        user = model.User(id = max_user_id +1, 
+                username=request.form["username"], password = request.form["password"], 
+                firstname = request.form["firstname"], lastname = request.form["lastname"],
+                email = request.form["email"], date = datetime.datetime.utcnow())  
+        model.db_session.add(user)
+        model.db_session.commit()
+        return redirect("/login")
 
 @app.route("/login", methods = ["GET"])
 def show_login():
@@ -53,6 +59,9 @@ def process_login():
  
         return redirect("/")
 
+@app.route("/ideogram", methods = ["GET"])
+def show_signup():
+    return render_template("Ideogram.html")
 
 if __name__ == "__main__":
     app.run(debug = True, port = 5000)
