@@ -5,13 +5,12 @@ from urllib import urlretrieve
 from datetime import date, datetime
 from sqlalchemy import func
 
-def read_human_gene_info():
+def read_human_gene_info(ftp_loc):
 
     gene_info_filename = "Homo_sapiens_gene_info.gz" 
 
     # retrieve file from ncbi ftp site, then write out a file into the local file directory
-    urlretrieve("ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz",
-        gene_info_filename)
+    urlretrieve(ftp_loc, gene_info_filename)
 
     gene_info = gzip.open(gene_info_filename)
 
@@ -19,7 +18,7 @@ def read_human_gene_info():
 
     return(gene_info)
 
-def append_gene_table(db_session, gene_info):
+def append_gene_table(db_session, gene_info, ftp_loc):
 
     timestamp = date.today().isoformat()
     output_filename = timestamp + "_gene_id_sym_desc.txt"
@@ -65,7 +64,7 @@ def append_gene_table(db_session, gene_info):
             item[geneid_index], item[symbol_index], item[synonym_index], item[desc_index])
         output_file.write(datarow)
 
-    version = model.Version(id = max_version_id+1, timestamp = datetime.utcnow())
+    version = model.Version(id = max_version_id+1, url = ftp_loc, timestamp = datetime.utcnow())
     db_session.add(version)
 
     db_session.commit()
@@ -86,8 +85,9 @@ def get_max_id(db_session, table_field):
 
 def main():
 
-    gene_info = read_human_gene_info()
-    append_gene_table(model.db_session, gene_info)
+    ftp_loc = "ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz"
+    gene_info = read_human_gene_info(ftp_loc)
+    append_gene_table(model.db_session, gene_info, ftp_loc)
 
 if __name__ == "__main__":
     main()

@@ -68,6 +68,7 @@ class Version(Base):
     __tablename__ = "versions"
 
     id = Column(Integer, primary_key = True)
+    url = Column(String(255), nullable = False)
     timestamp = Column(DateTime, nullable = False)
 
 # cross tables
