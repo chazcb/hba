@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request, session, flash
 import model
 import jinja2
-
+import datetime
 
 app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
@@ -14,7 +14,7 @@ def setup_session():
 def index():
     user_list = model.db_session.query(model.User).limit(5).all()
 
-    return render_template("user_list.html", users=user_list)
+    return render_template("index.html", users=user_list)
 
 @app.route("/ideogram", methods = ["GET"])
 def show_signup():
@@ -24,10 +24,9 @@ def show_signup():
 @app.route("/signup", methods=["POST"])
 def signup():
 
-    user = model.User(age=request.form["age"], gender = request.form["gender"], 
-            occupation = request.form["occupation"], zipcode = request.form["zipcode"],
-            first_name = request.form["first_name"], last_name = request.form["last_name"],
-            email = request.form["email"], password = request.form["password"])  
+    user = model.User(username=request.form["username"], password = request.form["password"], 
+            firstname = request.form["firstname"], lastname = request.form["lastname"],
+            email = request.form["email"], date = datetime.datetime.today())  
     model.db_session.add(user)
     model.db_session.commit()
 
@@ -39,12 +38,11 @@ def show_login():
 
 @app.route("/login", methods = ["POST"])
 def process_login():
-    email = request.form["email"]
+    username = request.form["username"]
     password = request.form["password"]
 
     query = model.db_session.query(model.User)
-    user = query.filter_by(email = email).one()
-
+    user = query.filter_by(username = username).one()
 
     if user.password != password:
 
@@ -53,42 +51,10 @@ def process_login():
 
     else:
 
-        print "entered else"
         session['user_id'] = user.id
-        print session
  
         return redirect("/")
 
-@app.route("/movies", methods = ["GET"])
-def show_movies():
-    if session['user_id'] == None:
-        print "Please login"
-        return render_template("login.html")
-    else:
-        user_id = session['user_id']
-        ratings = model.db_session.query(model.Rating).filter_by(user_id=user_id).all()
-
-        return render_template("movies.html", ratings = ratings)
-        # ratings=model.db_sessions.query(model.User).filter_by(id=session['user'].id).all()
-
-        # print ratings
-
-    #return render_template("movies.html")
-
-@app.route("/update_movies", methods = ["POST"])
-def update_movies():
-    
-    # new_rating = request.form[]
-
-    print "Your ratings have been updated"
-    return render_template("movies.html")
-
-# @app.route("/user_ratings")
-# def ratings_by_user(user_id):
-#     query = model.db_session.query(model.User).get(user_id)
-#     user = query.user
-#     ratings = user.data
-#     print ratings
 
 if __name__ == "__main__":
     app.run(debug = True, port = 5000)
