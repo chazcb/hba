@@ -67,6 +67,14 @@ def process_login():
  
         return redirect("/")
 
+@app.route("/newlist", methods = ["GET", "POST"])
+def enter_new():
+    return render_template("newlist.html")
+
+@app.route("/search", methods = ["GET", "POST"])
+def enter_new():
+    return render_template("search.html")
+
 @app.route("/ideogram", methods = ["GET"])
 def show_signup():
     return render_template("Ideogram.html")

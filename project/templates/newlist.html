@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block body %}
+<html>
+    <body>
+        <form role="form">
+            <h2>Upload a new gene list</h2>
+            <div class="form-group">
+                <label for="title">List Title</label>
+                <input type="title" name="title" class="form-control" placeholder="Enter title" required autofocus />
+            </div>
+            <div class="form-group">
+                <label for="description">List Description</label>
+                <input type="description" name="description" class="form-control" placeholder="Describe your list" required />
+            </div>
+            <div class="form-group">
+                <label for="InputFile">File input</label>
+                <input type="file" id="InputFile">
+                <p class="help-block">(.txt or .csv)</p>
+            </div>
+            <div class="checkbox">
+                <label>
+                <input type="checkbox">Keep list private
+                </label>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </body>
+</html>
+{% endblock %}
