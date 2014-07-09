@@ -4,8 +4,8 @@ python entrez_gene_update.py
 
 sqlite3 repo.db
 
-INSERT INTO users VALUES (1, 'vivien', 'vivien', 'vivien', 'chan', 'vivienwchan@gmail.com', "2014-07-08");
-INSERT INTO users VALUES (2, 'kris', 'kris', 'kris', 'morrow', 'morrowkr02@gmail.com', "2014-07-08");
+INSERT INTO users VALUES (1, 'vivien', 'vivien', 'vivien', 'chan', 'vivienwchan@gmail.com', (SELECT datetime('now')) );
+INSERT INTO users VALUES (2, 'kris', 'kris', 'kris', 'morrow', 'morrowkr02@gmail.com', (SELECT datetime('now')) );
 
 INSERT INTO lists (id, user_id, title, description, date_created, public) VALUES (1, 1, 'HER2+ breast cancer', 'ERBB2+ subset from TCGA', "2014-07-08 23:01:53.561922", 1);
 INSERT INTO lists (id, user_id, title, description, date_created, public) VALUES (2, 1, 'Triple negative breast cancer', 'TNBR subset from TCGA', "2014-07-08 23:01:53.561922", 0);
