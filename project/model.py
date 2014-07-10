@@ -76,7 +76,7 @@ class Version(Base):
 
 # cross tables
 
-class User_tag(Base):
+class userTag(Base):
     __tablename__ = "user_tag"
 
     id = Column(Integer, primary_key = True, autoincrement=True)
@@ -88,7 +88,7 @@ class User_tag(Base):
     user = relationship("User",
             backref=backref("user_tag", order_by=id))
 
-class List_tag(Base):
+class listTag(Base):
     __tablename__ = "list_tag"
 
     id = Column(Integer, primary_key = True, autoincrement=True)
@@ -100,7 +100,7 @@ class List_tag(Base):
     lists = relationship("List",
             backref=backref("list_tag", order_by=id))
 
-class List_access(Base):
+class listAccess(Base):
     __tablename__ = "list_access"
 
     id = Column(Integer, primary_key = True, autoincrement=True)
@@ -112,7 +112,7 @@ class List_access(Base):
     user = relationship("User",
             backref=backref("list_access", order_by=id))
 
-class List_user(Base):
+class listUser(Base):
     __tablename__ = "list_user"
 
     id = Column(Integer, primary_key = True, autoincrement=True)
@@ -124,7 +124,7 @@ class List_user(Base):
     lists = relationship("List",
             backref=backref("list_user", order_by=id))
 
-class List_gene(Base):
+class listGene(Base):
     __tablename__ = "list_gene"
 
     id = Column(Integer, primary_key = True, autoincrement=True)
@@ -136,7 +136,7 @@ class List_gene(Base):
     gene = relationship("Gene",
             backref=backref("list_gene", order_by=id))
 
-class List_collection(Base):
+class listCollection(Base):
     __tablename__ = "list_collection"
 
     id = Column(Integer, primary_key = True, autoincrement=True)
@@ -148,7 +148,7 @@ class List_collection(Base):
     lists = relationship("List",
             backref=backref("list_collection", order_by=id))
 
-class Gene_version(Base):
+class geneVersion(Base):
     __tablename__ = "gene_version"
 
     id = Column(Integer, primary_key = True, autoincrement=True)
@@ -170,14 +170,14 @@ class Gene_version(Base):
 #     cursor = conn.cursor()
 #     return cursor
 
-def get_attr_max(db_session, class_attr):
+def get_attr_max(db_session, class_attr, default = 0):
 
-    if db_session.query(func.max(class_attr)).one()[0]:
-        attr_max = db_session.query(func.max(class_attr)).one()[0]
+    max_val = db_session.query(func.max(class_attr)).one()[0]
+    
+    if max_val:
+        return max_val
     else:
-        attr_max = 0
-
-    return attr_max
+        return default
 
 # def sql_get_attr_max(attr, table):
 
@@ -191,7 +191,8 @@ def get_attr_max(db_session, class_attr):
 def main():
 
     # initialize database
-    Base.metadata.create_all(ENGINE)
+    # Base.metadata.create_all(ENGINE)
+    pass
 
 if __name__ == "__main__":
     main()

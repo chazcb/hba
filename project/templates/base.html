@@ -14,7 +14,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         {% if session['user_id'] %}
-                            <li><a href="/user">Hi, {{session['user_id'][1]}}</a></li>
+                            <li><a href="/user">Hi, UserID {{session['user_id']}}</a></li>
                             <li><a href="/logout">Log out</a></li>
                         {% else %}
                             <li><a href="/login">Log In</a></li>

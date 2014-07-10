@@ -37,9 +37,9 @@ def append_gene_table(db_session, gene_info, ftp_loc):
 
     # write each row into db and output file
     # get existing max ids, set to 0 if table is empty
-    max_gene_id = model.get_attr_max(db_session, model.Gene.id)
-    max_version_id = model.get_attr_max(db_session, model.Version.id)
-    max_gene_version_id = model.get_attr_max(db_session, model.Gene_version.id)
+    max_gene_id = model.get_attr_max(db_session, model.Gene.id, 0)
+    max_version_id = model.get_attr_max(db_session, model.Version.id, 0)
+    max_gene_version_id = model.get_attr_max(db_session, model.Gene_version.id, 0)
 
     for line in gene_info:
         max_gene_id += 1

@@ -4,6 +4,10 @@ python entrez_gene_update.py
 
 sqlite3 repo.db
 
+/*
+INSERT INTO users (username, password, firstname, lastname, email, date_created )VALUES ('vivien', 'vivien', 'vivien', 'chan', 'vivienwchan@gmail.com', (SELECT datetime('now')) );
+*/
+
 INSERT INTO users VALUES (1, 'vivien', 'vivien', 'vivien', 'chan', 'vivienwchan@gmail.com', (SELECT datetime('now')) );
 INSERT INTO users VALUES (2, 'kris', 'kris', 'kris', 'morrow', 'morrowkr02@gmail.com', (SELECT datetime('now')) );
 

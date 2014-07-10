@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            {% for key in list_dict %}
+                <td>{{list_dict[key]['list_obj'].title}}</td>
+                {% for tag in list_dict[key]['tags'] %}
+                <td>{{tag}}</td>
+                {% endfor %}
+                <td>{{list_dict[key]['list_obj'].date_created}}</td>
+                <td>{{list_dict[key]['list_obj'].username}}</td>
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+{% endblock %}
+

@@ -41,6 +41,7 @@ def signup():
                     email = request.form["email"], date = datetime.datetime.utcnow() )  
             model.db_session.add(user)
             model.db_session.commit()
+
             session['user_id'] = user.id
             return redirect("/list")
 
@@ -57,23 +58,50 @@ def process_login():
     user = query.filter_by(username = username).one()
 
     if user.password != password:
-
         print "Password incorrect, unable to login"
         return render_template("login.html")
 
     else:
-
         session['user_id'] = user.id
- 
-        return redirect("/")
+        return redirect("/view")
+
+@app.route("/logout", methods=["GET"])
+def show_logout():
+    session.clear()
+    session['user_id'] = None
+    return render_template("index.html")
 
 @app.route("/newlist", methods = ["GET", "POST"])
 def enter_new():
     return render_template("newlist.html")
 
-@app.route("/search", methods = ["GET", "POST"])
-def enter_new():
-    return render_template("search.html")
+@app.route("/view", methods = ["GET", "POST"])
+def view():
+
+    if session['user_id']:
+        query = model.db_session.query(model.User)
+        user = query.filter_by(id = session['user_id']).one()
+        genelists = user.lists      # array of List objects for the user
+        list_dict = {}          # dict with List objects and array of tags
+        for i in range(len(genelists)):
+            item_dict = {}
+            item_dict['list_obj'] = genelists[i]
+            list_tag = genelists[i].list_tag
+            print list_tag
+            tag_array =[]
+            for j in range(len(list_tag)):
+                tag_id = list_tag[j].tag_id
+                tag_text = model.db_session.query(model.Tag).filter_by(id = tag_id).one()
+                print tag_text
+                tag_array.append(tag_text)
+            item_dict['tag_array'] = tag_array
+            list_dict[i] = item_dict
+
+        return render_template("view.html", list_dict = list_dict)
+
+    else:
+        flash('You must be logged in to view and search')
+        return redirect("/login")
 
 @app.route("/ideogram", methods = ["GET"])
 def show_signup():
