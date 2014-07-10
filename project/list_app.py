@@ -87,13 +87,11 @@ def view():
             item_dict = {}
             item_dict['list_obj'] = genelists[i]
             list_tag = genelists[i].list_tag
-            print list_tag
             tag_array =[]
             for j in range(len(list_tag)):
                 tag_id = list_tag[j].tag_id
-                tag_text = model.db_session.query(model.Tag).filter_by(id = tag_id).one()
-                print tag_text
-                tag_array.append(tag_text)
+                tag = model.db_session.query(model.Tag).filter_by(id = tag_id).one()
+                tag_array.append(tag)
             item_dict['tag_array'] = tag_array
             list_dict[i] = item_dict
 
