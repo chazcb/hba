@@ -113,15 +113,27 @@ def view():
         genelists = user.lists      # array of List objects for the user
         list_dict = {}          # dict with List objects and array of tags
         for i in range(len(genelists)):
+
             item_dict = {}
+            # add listGene object to dict 
             item_dict['list_obj'] = genelists[i]
+            # add list of Tag objects to dict 
             list_tag = genelists[i].list_tag
-            tag_array =[]
+            tag_array = []
             for j in range(len(list_tag)):
                 tag_id = list_tag[j].tag_id
                 tag = model.db_session.query(model.Tag).filter_by(id = tag_id).one()
                 tag_array.append(tag)
             item_dict['tag_array'] = tag_array
+            # add string of concatentated gene symbols to dict
+            list_gene = genelists[i].list_gene
+            genesym_array = []
+            for k in range(len(list_gene)):
+                gene_id = list_gene[k].gene_id
+                gene = model.db_session.query(model.Gene).filter_by(id = gene_id).one()
+                genesym_array.append(gene.entrez_gene_symbol)
+            item_dict['genesym'] = ','.join(genesym_array)
+
             list_dict[i] = item_dict
 
         return render_template("view.html", list_dict = list_dict, owner = user)

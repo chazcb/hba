@@ -17,20 +17,20 @@ INSERT INTO lists (id, user_id, title, description, date_created, public) VALUES
 INSERT INTO lists (id, user_id, title, description, date_created, public) VALUES (4, 2, 'TNBR', 'TCGA TNBR subset', "2014-07-08 23:01:53.561922", 0);
 
 /* HER2+ : ERBB2, GRB7 */
-INSERT INTO list_gene (id, list_id, gene_id) VALUES (1,1,2064);
-INSERT INTO list_gene (id, list_id, gene_id) VALUES (2,1,2886);
+INSERT INTO list_gene (id, list_id, gene_id) VALUES (1,1,1683); /* egeneid = 2064 */
+INSERT INTO list_gene (id, list_id, gene_id) VALUES (2,1,2380); /* egeneid = 2886 */
 
 /* ER+ : ESR1, PGR */
-INSERT INTO list_gene (id, list_id, gene_id) VALUES (3,3,2099);
-INSERT INTO list_gene (id, list_id, gene_id) VALUES (4,3,5241);
+INSERT INTO list_gene (id, list_id, gene_id) VALUES (3,3,1707); /* egeneid = 2099 */
+INSERT INTO list_gene (id, list_id, gene_id) VALUES (4,3,4253); /* egeneid = 5241 */
 
 /* TNBR: AGT, TP53 */
-INSERT INTO list_gene (id, list_id, gene_id) VALUES (5,2,183);
-INSERT INTO list_gene (id, list_id, gene_id) VALUES (6,2,7157);
+INSERT INTO list_gene (id, list_id, gene_id) VALUES (5,2,158); /* egeneid = 183 */
+INSERT INTO list_gene (id, list_id, gene_id) VALUES (6,2,5881); /* egeneid = 7157 */
 
 /* TNBR: CCL5, CLSPN */
-INSERT INTO list_gene (id, list_id, gene_id) VALUES (7,4,6352);
-INSERT INTO list_gene (id, list_id, gene_id) VALUES (8,4,63967);
+INSERT INTO list_gene (id, list_id, gene_id) VALUES (7,4,5169); /* egeneid = 6352 */
+INSERT INTO list_gene (id, list_id, gene_id) VALUES (8,4,14318); /* egeneid = 63967 */
 
 INSERT INTO tags (id, tag_text) VALUES (1, 'breast cancer');
 INSERT INTO tags (id, tag_text) VALUES (2, 'HER2+ breast cancer');
