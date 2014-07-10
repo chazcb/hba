@@ -14,7 +14,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         {% if session['user_id'] %}
-                            <li><a href="/user">Hi, UserID {{session['user_id']}}</a></li>
+                            <li><a href="/user">Hi, {{session['username']}}</a></li>
                             <li><a href="/logout">Log out</a></li>
                         {% else %}
                             <li><a href="/login">Log In</a></li>
@@ -36,60 +36,7 @@
             {% block body %}{% endblock %}
         </div>
 
-        <div id="dropdown-cart" class="dropdown-cart">
-            <div id="cart-target">
-            </div>
-            <a id="cart-close" class="btn btn-xs btn-default" href="">Close</a>
-        </div>
-
         <script language="javascript" type="text/javascript">
-
-            function getCartContents() {
-                $.get("/cart_items", showCartSummary)
-            }
-
-            function showCartSummary(data) {
-                var content = $("div#cart-target");
-                content.html(data);
-                var showCart = $("div#dropdown-cart");
-                showCart.show();
-            }
-
-            function hideCartSummary() {
-                var hideCart = $("div#dropdown-cart");
-                hideCart.hide();
-                return false;
-            }
-
-            function hideBlackoutScreen() {
-                // javascript:
-                // var blackout = document.querySelector("div#blackout-screen");
-                // blackout.style.visibility = "hidden";
-                // jQuery:
-                var blackout = $("div#blackout-screen");
-                blackout.hide();
-                return false;
-            }
-
-            function main() {
-
-                hideCartSummary();
-                // javascript:
-                // var closeLink = document.querySelector("a#close-promotion");
-                // closeLink.onclick = hideBlackoutScreen;
-                // jQuery:
-                var closeLink = $("a#close-promotion");
-                closeLink.click(hideBlackoutScreen);
-
-                var hoverToShow = $("a#myMelonCart");
-                hoverToShow.mouseover(getCartContents);
-
-                var hoverClose = $("a#cart-close");
-                hoverClose.click(hideCartSummary);
-
-            }
-
-            $(main);
 
         </script>
     </body>

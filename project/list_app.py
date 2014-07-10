@@ -9,6 +9,7 @@ app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2
 @app.before_request
 def setup_session():
     session['user_id'] = session.get('user_id', None)
+    session['username'] = session.get('username', None)
 
 @app.route("/")
 def index():
@@ -43,11 +44,15 @@ def signup():
             model.db_session.commit()
 
             session['user_id'] = user.id
-            return redirect("/list")
+            return redirect("/view")
 
 @app.route("/login", methods = ["GET"])
 def show_login():
-    return render_template("login.html")
+    if session['username']:
+        flash ("You are currently logged in as: %s" % session['username'])
+        return redirect ("/view")
+    else:
+        return render_template("login.html")
 
 @app.route("/login", methods = ["POST"])
 def process_login():
@@ -58,22 +63,46 @@ def process_login():
     user = query.filter_by(username = username).one()
 
     if user.password != password:
-        print "Password incorrect, unable to login"
+        flash ("Password incorrect, unable to login.  Please try again.")
         return render_template("login.html")
 
     else:
         session['user_id'] = user.id
+        session['username'] = user.username
         return redirect("/view")
+
+@app.route("/user")
+def get_user_info():
+    query = model.db_session.query(model.User)
+    user = query.filter_by(id = session['user_id']).one()
+    user_dict = {}
+    for attr, value in user.__dict__.iteritems():
+        user_dict[attr] = value
+
+    return render_template("user.html", user_dict = user_dict)
 
 @app.route("/logout", methods=["GET"])
 def show_logout():
     session.clear()
     session['user_id'] = None
+    session['username'] = None
     return render_template("index.html")
 
 @app.route("/newlist", methods = ["GET", "POST"])
 def enter_new():
-    return render_template("newlist.html")
+
+    if request.method == "GET":
+        return render_template("newlist.html")
+
+    elif request.method == "POST":
+        title = request.form["title"]
+        description = request.form["description"]
+
+        # append to table: list
+        # append to table: list_user
+        # append to table: list_tag
+
+        return redirect("/view")
 
 @app.route("/view", methods = ["GET", "POST"])
 def view():
@@ -95,7 +124,7 @@ def view():
             item_dict['tag_array'] = tag_array
             list_dict[i] = item_dict
 
-        return render_template("view.html", list_dict = list_dict)
+        return render_template("view.html", list_dict = list_dict, owner = user)
 
     else:
         flash('You must be logged in to view and search')

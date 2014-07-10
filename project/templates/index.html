@@ -4,6 +4,9 @@
     <body>
         <h2 class="form-signin-heading">Intro Page</h2>
         <h2>Text describing the functionalities of the site</h2>
+        {% if session['user_id'] %}
+        	<a href="/view" class="btn btn-large btn-primary">View my lists</a>
+        {% endif %}
     </body>
 </html>
 {% endblock %}

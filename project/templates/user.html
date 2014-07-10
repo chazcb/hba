@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<h2>Here are your account details</h2>
+<table class="table table-striped">
+	{% set displayOrder = ['username','firstname','lastname','email'] %}
+    {% for item in displayOrder %}
+    <tr><th>{{item}}</th><th>{{user_dict[item]}}</th><th>
+    {% endfor %}
+</table>
+<a href="/view" class="btn btn-large btn-primary">Done</a>
+
+{% endblock %}

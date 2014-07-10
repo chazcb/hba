@@ -5,14 +5,14 @@
         <tr><td>List</td><td>Tags</td><td>Date Created</td><td>List Owner</td></tr>
         {% for key in list_dict %}
         <tr>
-            <td>{{list_dict[key]['list_obj'].title}}</td>
-            <td>
+            <td><a href = "" id = "list_dict[key]['list_obj'].id">{{list_dict[key]['list_obj'].title}}</a></td>
+            <td>| 
             {% for tag in list_dict[key]['tag_array'] %}
-                <a href = "">{{tag.tag_text}}</a>
+                <a href = "" id = "tag.tag_id">{{tag.tag_text}}</a> | 
             {% endfor %}
             </td>
-            <td>{{list_dict[key]['list_obj'].date_created}}</td>
-            <td>{{list_dict[key]['list_obj'].username}}</td>
+            <td>{{list_dict[key]['list_obj'].date_created.strftime('%Y-%m-%d')}}</td>
+            <td>{{owner.username}}</td>
         </tr>
         {% endfor %}
     </table>

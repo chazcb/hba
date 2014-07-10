@@ -49,8 +49,10 @@ INSERT INTO list_tag (id, tag_id, list_id) VALUES (8, 1, 3);
 INSERT INTO list_tag (id, tag_id, list_id) VALUES (9, 2, 1);
 INSERT INTO list_tag (id, tag_id, list_id) VALUES (10, 3, 2);
 INSERT INTO list_tag (id, tag_id, list_id) VALUES (11, 4, 3);
+INSERT INTO list_tag (id, tag_id, list_id) VALUES (12, 1, 4);
+INSERT INTO list_tag (id, tag_id, list_id) VALUES (13, 3, 4);
 
-INSERT INTO collections (id, user_id, description, date_created) VALUES (1, 1, 'breast cancer collection', "2014-07-08 23:01:53.561922");
+INSERT INTO collections (id, user_id, description, date_created) VALUES (1, 1, 'breast cancer collection', (SELECT datetime('now')) );
 
 INSERT INTO list_collection (id, collection_id, list_id) VALUES (1, 1, 1);
 INSERT INTO list_collection (id, collection_id, list_id) VALUES (2, 1, 2);
