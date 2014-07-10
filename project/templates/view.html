@@ -2,18 +2,21 @@
 {% block body %}
 <div class="table-responsive">
     <table class="table">
-        <tr><td>Ideogram View</td><td>List</td><td>Tags</td><td>Date Created</td><td>List Owner</td></tr>
+        <tr><td>Select</td><td>Ideogram View</td><td>List</td><td>Tags</td><td>Date Created</td><td>List Owner</td></tr>
         {% for key in list_dict %}
         <tr>
-            <td><a href="/ideogram?genelist1={{list_dict[key]['genesym']}}" class="btn btn-danger btn-xs">Ideogram</a></td>
-            <td><button type="button" class="btn btn-default btn-xs"  id="list_dict[key]['list_obj'].id" data-toggle="tooltip" data-placement="top" title symbol-list="{{list_dict[key]['genesym']}}">{{list_dict[key]['list_obj'].title}}</a></td>
-            <td>| 
-            {% for tag in list_dict[key]['tag_array'] %}
-                <a href="" id="tag.tag_id">{{tag.tag_text}}</a> | 
-            {% endfor %}
-            </td>
-            <td>{{list_dict[key]['list_obj'].date_created.strftime('%Y-%m-%d')}}</td>
-            <td>{{owner.username}}</td>
+            <div id="list_dict[key]['list_obj'].id">
+                <td><input type="checkbox"></td>
+                <td><a href="/ideogram?genelist1={{list_dict[key]['genesym']}}" class="btn btn-danger btn-xs">Ideogram</a></td>
+                <td><button type="button" class="btn btn-default btn-xs"  id="list_dict[key]['list_obj'].id" data-toggle="tooltip" data-placement="top" title symbol-list="{{list_dict[key]['genesym']}}">{{list_dict[key]['list_obj'].title}}</button></td>
+                <td>| 
+                {% for tag in list_dict[key]['tag_array'] %}
+                    <a href="" id="tag.tag_id">{{tag.tag_text}}</a> | 
+                {% endfor %}
+                </td>
+                <td>{{list_dict[key]['list_obj'].date_created.strftime('%Y-%m-%d')}}</td>
+                <td>{{owner.username}}</td>
+            </div>
         </tr>
         {% endfor %}
     </table>
