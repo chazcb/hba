@@ -8,8 +8,13 @@ app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2
 
 @app.before_request
 def setup_session():
-    session['user_id'] = session.get('user_id', None)
-    session['username'] = session.get('username', None)
+    if session['user_id']:
+        query = model.db_session.query(model.User)
+        user = query.filter_by(id = session['user_id']).one()
+
+@app.route("/test")
+def test():
+    return render_template("test.html")
 
 @app.route("/")
 def index():
@@ -48,7 +53,7 @@ def signup():
 
 @app.route("/login", methods = ["GET"])
 def show_login():
-    if session['username']:
+    if session['user_id']:
         flash ("You are currently logged in as: %s" % session['username'])
         return redirect ("/view")
     else:
@@ -112,29 +117,28 @@ def view():
         user = query.filter_by(id = session['user_id']).one()
         genelists = user.lists      # array of List objects for the user
         list_dict = {}          # dict with List objects and array of tags
-        for i in range(len(genelists)):
-
+        key = 1
+        for genelist in genelists:
             item_dict = {}
             # add listGene object to dict 
-            item_dict['list_obj'] = genelists[i]
+            item_dict['list_obj'] = genelist
             # add list of Tag objects to dict 
-            list_tag = genelists[i].list_tag
+            list_tag = genelist.list_tag
             tag_array = []
-            for j in range(len(list_tag)):
-                tag_id = list_tag[j].tag_id
-                tag = model.db_session.query(model.Tag).filter_by(id = tag_id).one()
+            for ls_tag in list_tag:
+                tag = ls_tag.tag
                 tag_array.append(tag)
             item_dict['tag_array'] = tag_array
             # add string of concatentated gene symbols to dict
-            list_gene = genelists[i].list_gene
+            list_gene = genelist.list_gene
             genesym_array = []
-            for k in range(len(list_gene)):
-                gene_id = list_gene[k].gene_id
-                gene = model.db_session.query(model.Gene).filter_by(id = gene_id).one()
+            for ls_gene in list_gene:
+                gene = ls_gene.gene
                 genesym_array.append(gene.entrez_gene_symbol)
             item_dict['genesym'] = ','.join(genesym_array)
 
-            list_dict[i] = item_dict
+            list_dict[key] = item_dict
+            key += 1
 
         return render_template("view.html", list_dict = list_dict, owner = user)
 
