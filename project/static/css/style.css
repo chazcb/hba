@@ -5,6 +5,19 @@ div.navbar-header img {
     margin-right: 7px;
 }
 
+div#list-detail-container {
+  width: 80%;
+  border: 1px;
+  border-color: #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  position: absolute;
+  top: 100px;
+  left: 10%;
+  background-color: #f3f3f3;*/
+  display: none;
+}
+
 div#blackout-screen {
   position:fixed;
   top: 0;
@@ -12,17 +25,7 @@ div#blackout-screen {
   background-color: rgba(64, 64, 64, 0.75);
   height: 100%;
   width: 100%;
-}
-
-div#promotion {
-  position: fixed;
-  width: 600px;
-  border: 3px;
-  border-color: #545454;
-  top: 100px;
-  left: 50%;
-  margin-left: -300px;
-  color: red;
+  display: none;
 }
 
 .form-signin {
@@ -90,19 +93,17 @@ div.cart {
     margin-left: 30px;
 }
 
-div#dropdown-cart {
-  width: 200px;
-  border: 1px;
-  border-color: #ccc;
-  border-radius: 10px;
-  padding: 10px;
-  position: absolute;
-  top: 50px;
-  right: 75px;
-  background-color: #f3f3f3;*/
-  display: none;
-}
-
 img.melon-cart {
   height: 15px;
+}
+
+div#promotion {
+  position: fixed;
+  width: 600px;
+  border: 3px;
+  border-color: #545454;
+  top: 100px;
+  left: 50%;
+  margin-left: -300px;
+  color: red;
 }

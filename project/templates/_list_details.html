@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/static/css/style.css" />
+    </head>
+	<body>
+		<div>
+		    <label for="title">Title: </label>
+		    <li>{{list.title}}</li>
+		</div>
+		<div >
+		    <label for="description">Description: </label>
+		    <li>{{list.description}}</li>
+		</div>
+		<div >
+		    <label for="genes">Genes: </label>
+		    <li><tr><td>Entrez Gene Symbol</td><td>Entrez Gene ID</td></tr></li>		
+		    {% for ls_gene in list.list_gene %}
+		    <li><tr><td>{{ls_gene.gene.entrez_gene_symbol}}</td><td>{{ls_gene.gene.entrez_gene_id}}</td></tr></li>
+		    {% endfor %}
+		</div>
+	</body>
+</html>

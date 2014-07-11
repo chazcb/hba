@@ -161,7 +161,9 @@ def view():
 
 @app.route("/list_details")
 def list_details():
-    return render_template("_list_details.html")
+    list_id = 2
+    genelist = model.db_session.query(model.List).filter_by(id=list_id).one()
+    return render_template("_list_details.html", list = genelist)
 
 @app.route("/ideogram", methods = ["GET"])
 def show_signup():

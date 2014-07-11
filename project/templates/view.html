@@ -7,8 +7,8 @@
         <tr>
             <span id="list-data-row" data-list-id="list_dict[key]['list_obj'].id">
                 <td><input type="checkbox"></td>
-                <td><a href="/ideogram?genelist1={{list_dict[key]['genesym']}}" class="btn btn-danger btn-xs">Ideogram</a></td>
-                <td><button id="genelist-title" type="title-button" class="btn btn-default btn-sm"  data-button-id="list_dict[key]['list_obj'].id" data-toggle="tooltip" data-placement="top" title="{{list_dict[key]['genesym']}}">{{list_dict[key]['list_obj'].title}}</button></td>
+                <td><a href="http://bioinformatics.mdanderson.org/ideogramviewer/Ideogram.html?genelist1={{list_dict[key]['genesym']}}" class="btn btn-danger btn-xs">Ideogram</a></td>
+                <td><button id="genelist-title" type="title-button" class="btn btn-default btn-xs" data-button-id="{{list_dict[key]['list_obj'].id}}" data-toggle="tooltip" data-placement="top" title="{{list_dict[key]['genesym']}}">{{list_dict[key]['list_obj'].title}}</button></td>
                 <td>| 
                 {% for tag in list_dict[key]['tag_array'] %}
                     <a href="" id="tag.tag_id">{{tag.tag_text}}</a> | 
@@ -22,23 +22,38 @@
     </table>
 </div>
 
+<div id="blackout-screen" class="blackout-screen">
+    <div id="list-detail-container" class="list-detail-container">
+        <div id="list-detail">
+        </div>
+        <a id="close-list-detail" class="btn btn-default btn-xs" href="">Close</a>
+    </div>
+</div>
+
 <script type="text/javascript">
 
-    function showListDetail() {
-        console.log('clicked')
+    function showListDetail(data) {
+        var $content = $("div#list-detail");
+        $content.html(data);
+        var $showDetail = $("div#blackout-screen");
+        $showDetail.show();
+    }
+
+    function getListDetail() {
+        var $list_id = $(this).attr('data-button-id');
+        $.get("/list_details", {list_id: "list_id"}, showListDetail);
     }
 
     function hideListDetail() {
-        var blackout = $("div#blackout-screen");
-        blackout.hide();
+        var $hideDetail = $("div#blackout-screen");
+        $hideDetail.hide();
         return false;
     }
 
     function main() {
 
-        var $titleButton = $("button[id=genelist-title]")
-        $titleButton.tooltip('show');
-        $titleButton.click(showListDetail)
+        var $titleButton = $("button[id=genelist-title]");
+        $titleButton.click(getListDetail);
 
         var $closeListDetail = $("a#close-list-detail");
         $closeListDetail.click(hideListDetail);
