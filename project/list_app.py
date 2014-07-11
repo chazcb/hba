@@ -124,10 +124,28 @@ def allowed_file(filename):
 @app.route("/view", methods = ["GET", "POST"])
 def view():
 
+    # get lists that are owned by current user
     if session['user_id']:
         query = model.db_session.query(model.User)
         user = query.filter_by(id = session['user_id']).one()
         genelists = user.lists      # array of List objects for the user
+
+    # # get lists that are shared with current user
+    # shared_query = model.db_session.query(model.listAccess)
+    # shared_lists = shared_query.filter_by(user_id = session['user_id']).all()
+    # print shared_lists
+    # if shared_lists:
+    #         genelists.append(shared_lists)
+    #         print genelists
+
+    # # get lists that are public and not owned by current user
+    # public_query = model.db_session.query(model.List)
+    # public_lists = public_query.filter_by(public=1).all()
+    # print public_lists
+    # for public_list in public_lists:
+    #     if public_list.user_id != session['user_id']:
+    #         genelists.append(public_list)
+    #         print genelists
 
         list_dict = {}          # dict with List objects and array of tags
         key = 1
@@ -149,11 +167,14 @@ def view():
                 gene = ls_gene.gene
                 genesym_array.append(gene.entrez_gene_symbol)
             item_dict['genesym'] = ','.join(genesym_array)
+            # add username to dict
+            user_id = genelist.user_id
+            item_dict['user_id'] = user_id
 
             list_dict[key] = item_dict
             key += 1
 
-        return render_template("view.html", list_dict = list_dict, owner = user)
+        return render_template("view.html", list_dict = list_dict)
 
     else:
         flash('You must be logged in to view and search')

@@ -1,7 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey
-from sqlalchemy import func
+from sqlalchemy import func, or_, and_
 from sqlalchemy.orm import sessionmaker, relationship, backref, scoped_session
 # import sqlite3
 
