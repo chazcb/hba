@@ -5,10 +5,10 @@
         <tr><td>Select</td><td>Ideogram View</td><td>List</td><td>Tags</td><td>Date Created</td><td>List Owner</td></tr>
         {% for key in list_dict %}
         <tr>
-            <span data-list-id="list_dict[key]['list_obj'].id">
+            <span id="list-data-row" data-list-id="list_dict[key]['list_obj'].id">
                 <td><input type="checkbox"></td>
                 <td><a href="/ideogram?genelist1={{list_dict[key]['genesym']}}" class="btn btn-danger btn-xs">Ideogram</a></td>
-                <td><button type="title-button" class="btn btn-default btn-xs"  data-button-id="list_dict[key]['list_obj'].id" data-toggle="tooltip" data-placement="top" title symbol-list="{{list_dict[key]['genesym']}}">{{list_dict[key]['list_obj'].title}}</button></td>
+                <td><button id="genelist-title" type="title-button" class="btn btn-default btn-xs"  data-button-id="list_dict[key]['list_obj'].id" data-toggle="tooltip" data-placement="top" title="{{list_dict[key]['genesym']}}">{{list_dict[key]['list_obj'].title}}</button></td>
                 <td>| 
                 {% for tag in list_dict[key]['tag_array'] %}
                     <a href="" id="tag.tag_id">{{tag.tag_text}}</a> | 
@@ -23,13 +23,9 @@
 </div>
 
 <script type="text/javascript">
-    function showGeneToolTip() {
-        $(this).tooltip('show');
-    }
 
     function main() {
-        var $titleButton = $("span.button");
-        $titleButton.hover(showGeneToolTip);
+        $("button[id=genelist-title]").tooltip('show');
     }
 
     $(main);

@@ -3,12 +3,16 @@ import jinja2
 import model
 import datetime
 
+UPLOAD_FOLDER = "/userUploads"
+ALLOWED_EXTENSIONS = set(['txt','csv'])
+
 app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.before_request
 def setup_session():
-    if session['user_id']:
+    if session.get('user_id', None):
         query = model.db_session.query(model.User)
         user = query.filter_by(id = session['user_id']).one()
 
@@ -102,12 +106,20 @@ def enter_new():
     elif request.method == "POST":
         title = request.form["title"]
         description = request.form["description"]
+        file = request.files['InputFile']
+        if file and allowed_file(file.filename):
+            file.save(os.path.join(app.config['UPLOAD_FOLDER']), filename)
+            first_rows = file.readline(5)
+            print first_rows
 
         # append to table: list
         # append to table: list_user
         # append to table: list_tag
 
         return redirect("/view")
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route("/view", methods = ["GET", "POST"])
 def view():
@@ -116,6 +128,7 @@ def view():
         query = model.db_session.query(model.User)
         user = query.filter_by(id = session['user_id']).one()
         genelists = user.lists      # array of List objects for the user
+
         list_dict = {}          # dict with List objects and array of tags
         key = 1
         for genelist in genelists:
