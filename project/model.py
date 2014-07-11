@@ -112,18 +112,6 @@ class listAccess(Base):
     user = relationship("User",
             backref=backref("list_access", order_by=id))
 
-class listUser(Base):
-    __tablename__ = "list_user"
-
-    id = Column(Integer, primary_key = True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable = False)
-    list_id = Column(Integer, ForeignKey('lists.id'), nullable = False)
-
-    user = relationship("User",
-            backref=backref("list_user", order_by=id))
-    lists = relationship("List",
-            backref=backref("list_user", order_by=id))
-
 class listGene(Base):
     __tablename__ = "list_gene"
 
