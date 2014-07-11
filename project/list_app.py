@@ -130,22 +130,23 @@ def view():
         user = query.filter_by(id = session['user_id']).one()
         genelists = user.lists      # array of List objects for the user
 
-    # # get lists that are shared with current user
-    # shared_query = model.db_session.query(model.listAccess)
-    # shared_lists = shared_query.filter_by(user_id = session['user_id']).all()
-    # print shared_lists
-    # if shared_lists:
-    #         genelists.append(shared_lists)
-    #         print genelists
+    # get lists that are shared with current user
+    shared_query = model.db_session.query(model.listAccess)
+    shared_ls_acc = shared_query.filter_by(user_id = session['user_id']).all()
+    print shared_ls_acc
+    if shared_ls_acc:
+        for ls_acc in shared_ls_acc:
+            genelists.append(ls_acc.lists)
+            print len(genelists)    
 
-    # # get lists that are public and not owned by current user
-    # public_query = model.db_session.query(model.List)
-    # public_lists = public_query.filter_by(public=1).all()
-    # print public_lists
-    # for public_list in public_lists:
-    #     if public_list.user_id != session['user_id']:
-    #         genelists.append(public_list)
-    #         print genelists
+    # get lists that are public and not owned by current user
+    public_query = model.db_session.query(model.List)
+    public_lists = public_query.filter_by(public=1).all()
+    print public_lists
+    for public_list in public_lists:
+        if public_list.user_id != session['user_id']:
+            genelists.append(public_list)
+            print genelists
 
         list_dict = {}          # dict with List objects and array of tags
         key = 1

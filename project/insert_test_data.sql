@@ -60,4 +60,18 @@ INSERT INTO list_collection (id, collection_id, list_id) VALUES (3, 1, 3);
 
 /* list id 2, 4 are private, list_id 1, 2 owned by user_id 1, set list 2 accessible by user_id 2 */
 INSERT INTO list_access (id, list_id, user_id) VALUES (1, 2, 2);
+INSERT INTO list_access (id, list_id, user_id) VALUES (2, 4, 1);
 
+CREATE VIEW V_USER_LISTS_GENES AS
+SELECT u.username, l.user_id, l.id AS list_id, l.title, l.public, 
+	g.id AS gene_rid, g.entrez_gene_id AS egene_id, g.entrez_gene_symbol AS egene_sym
+FROM users u 
+	INNER JOIN lists l ON (u.id = l.user_id)
+	INNER JOIN list_gene lg ON (l.ID = lg.list_id)
+	INNER JOIN genes g ON (lg.gene_id = g.id);
+
+CREATE VIEW V_USER_LISTS_ACCESS AS
+SELECT u.username, l.id as list_id, l.user_id AS owner_uid, l.title, l.public, a.user_id as shared_uid
+FROM users u
+	INNER JOIN lists l ON (u.id = l.user_id)
+	LEFT OUTER JOIN list_access a on (l.id = a.list_id);
