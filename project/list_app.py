@@ -183,7 +183,7 @@ def view():
         return redirect("/login")
 
 @app.route("/list_details/<int:list_id>") #list_id is passed from ajax call
-def list_details():
+def list_details(list_id):
     genelist = model.db_session.query(model.List).filter_by(id=list_id).one()
     return render_template("_list_details.html", list = genelist)
 

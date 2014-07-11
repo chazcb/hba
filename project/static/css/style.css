@@ -63,6 +63,11 @@ div#blackout-screen {
   border-top-right-radius: 0;
 }
 
+.ui-icon {
+  width: 100px;
+  height: 100px;
+}
+
 div.melon-summary img {
     width: 200px;
 }
