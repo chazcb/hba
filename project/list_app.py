@@ -181,14 +181,16 @@ def view():
         flash('You must be logged in to view and search')
         return redirect("/login")
 
-@app.route("/list_details")
+@app.route("/list_details/<int:list_id>")
 def list_details():
-    list_id = 2
     genelist = model.db_session.query(model.List).filter_by(id=list_id).one()
     return render_template("_list_details.html", list = genelist)
 
 @app.route("/ideogram", methods = ["GET"])
 def show_signup():
+    # original source:
+    # return render_template("http://bioinformatics.mdanderson.org/ideogramviewer/Ideogram.html")
+    # local cache
     return render_template("Ideogram.html")
 
 if __name__ == "__main__":
