@@ -5,19 +5,19 @@
     </head>
 	<body>
 		<div>
-		    <label for="title">Title: </label>
-		    <li>{{list.title}}</li>
+		    <h5>Title:</h5>
+		    <h4>{{list.title}}</h4>
 		</div>
 		<div >
-		    <label for="description">Description: </label>
-		    <li>{{list.description}}</li>
+		    <h5>Description:</h5>
+		    <h4>{{list.description}}</h4>
 		</div>
-		<div class="table-responsive">
-    		<table class="table">
-			    <label for="genes">Genes: </label>
+		<div class="table">
+    		<table class="table table-bordered">
+			    <h5>Genes:</h5>
 			    <span><tr><td>Entrez Gene Symbol</td><td>Entrez Gene ID</td></tr></span>
 			    {% for ls_gene in list.list_gene %}
-			    <span><tr><td>{{ls_gene.gene.entrez_gene_symbol}}</td><td>{{ls_gene.gene.entrez_gene_id}}</td></tr></span>
+			    <span><tr><td>{{ls_gene.gene.entrez_gene_symbol}}</td><td><a href="http://www.ncbi.nlm.nih.gov/gene/?term={{ls_gene.gene.entrez_gene_id}}">{{ls_gene.gene.entrez_gene_id}}</a></td></tr></span>
 			    {% endfor %}
 			</table>
 		</div>

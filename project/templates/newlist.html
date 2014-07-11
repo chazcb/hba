@@ -4,20 +4,25 @@
     <h2>Upload a new gene list</h2>
     <div class="form-group">
         <label for="title">List Title</label>
-        <input type="title" name="title" class="form-control" placeholder="Enter title" required autofocus />
+        <input id="title" name="title" class="form-control" placeholder="Enter title" required autofocus />
+        <span class="help-block">* required</span>
     </div>
     <div class="form-group">
         <label for="description">List Description</label>
-        <input type="description" name="description" class="form-control" placeholder="Describe your list" required />
+        <input id="description" name="description" class="form-control" placeholder="Describe your list"/>
+    </div>
+    <div class="form-group">
+        <label for="url">URL</label>
+        <input type="url" id="url" name="url" class="form-control" placeholder="Optional link to your data"/>
     </div>
     <div class="form-group">
         <label for="InputFile">File input</label>
-        <input type="file" id="InputFile">
+        <input type="file" id="InputFile" class="btn btn-danger">
         <p class="help-block">(.txt or .csv)</p>
     </div>
     <div>
         <p>Add module for adding tags here</p>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button id="add-tag" class="btn btn-warning">Add tags for this list</button>
 
 
 
@@ -28,7 +33,7 @@
     <div class="radio">This list is private
         <input type="radio" name="public" id="Radio-private" value="1"><span class="ui-icon ui-icon-locked"></span>
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-success">Submit</button>
 </form>
 
 <div id="blackout-screen" class="blackout-screen">
