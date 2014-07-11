@@ -12,12 +12,14 @@
 		    <label for="description">Description: </label>
 		    <li>{{list.description}}</li>
 		</div>
-		<div >
-		    <label for="genes">Genes: </label>
-		    <li><tr><td>Entrez Gene Symbol</td><td>Entrez Gene ID</td></tr></li>		
-		    {% for ls_gene in list.list_gene %}
-		    <li><tr><td>{{ls_gene.gene.entrez_gene_symbol}}</td><td>{{ls_gene.gene.entrez_gene_id}}</td></tr></li>
-		    {% endfor %}
+		<div class="table-responsive">
+    		<table class="table">
+			    <label for="genes">Genes: </label>
+			    <span><tr><td>Entrez Gene Symbol</td><td>Entrez Gene ID</td></tr></span>
+			    {% for ls_gene in list.list_gene %}
+			    <span><tr><td>{{ls_gene.gene.entrez_gene_symbol}}</td><td>{{ls_gene.gene.entrez_gene_id}}</td></tr></span>
+			    {% endfor %}
+			</table>
 		</div>
 	</body>
 </html>
