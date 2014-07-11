@@ -124,11 +124,13 @@ def allowed_file(filename):
 @app.route("/view", methods = ["GET", "POST"])
 def view():
 
+    genelists = []
     # get lists that are owned by current user
     if session['user_id']:
         query = model.db_session.query(model.User)
         user = query.filter_by(id = session['user_id']).one()
-        genelists = user.lists      # array of List objects for the user
+        genelists = user.lists     # array of List objects for the user
+    print len(genelists)
 
     # get lists that are shared with current user
     shared_query = model.db_session.query(model.listAccess)
@@ -137,16 +139,15 @@ def view():
     if shared_ls_acc:
         for ls_acc in shared_ls_acc:
             genelists.append(ls_acc.lists)
-            print len(genelists)    
+    print len(genelists)
 
     # get lists that are public and not owned by current user
     public_query = model.db_session.query(model.List)
     public_lists = public_query.filter_by(public=1).all()
-    print public_lists
     for public_list in public_lists:
         if public_list.user_id != session['user_id']:
             genelists.append(public_list)
-            print genelists
+        print len(genelists)
 
         list_dict = {}          # dict with List objects and array of tags
         key = 1
@@ -181,7 +182,7 @@ def view():
         flash('You must be logged in to view and search')
         return redirect("/login")
 
-@app.route("/list_details/<int:list_id>")
+@app.route("/list_details/<int:list_id>") #list_id is passed from ajax call
 def list_details():
     genelist = model.db_session.query(model.List).filter_by(id=list_id).one()
     return render_template("_list_details.html", list = genelist)
