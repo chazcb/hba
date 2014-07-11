@@ -8,7 +8,7 @@
             <span id="list-data-row" data-list-id="list_dict[key]['list_obj'].id">
                 <td><input type="checkbox"></td>
                 <td><a href="/ideogram?genelist1={{list_dict[key]['genesym']}}" class="btn btn-danger btn-xs">Ideogram</a></td>
-                <td><button id="genelist-title" type="title-button" class="btn btn-default btn-xs"  data-button-id="list_dict[key]['list_obj'].id" data-toggle="tooltip" data-placement="top" title="{{list_dict[key]['genesym']}}">{{list_dict[key]['list_obj'].title}}</button></td>
+                <td><button id="genelist-title" type="title-button" class="btn btn-default btn-sm"  data-button-id="list_dict[key]['list_obj'].id" data-toggle="tooltip" data-placement="top" title="{{list_dict[key]['genesym']}}">{{list_dict[key]['list_obj'].title}}</button></td>
                 <td>| 
                 {% for tag in list_dict[key]['tag_array'] %}
                     <a href="" id="tag.tag_id">{{tag.tag_text}}</a> | 
@@ -24,8 +24,24 @@
 
 <script type="text/javascript">
 
+    function showListDetail() {
+        console.log('clicked')
+    }
+
+    function hideListDetail() {
+        var blackout = $("div#blackout-screen");
+        blackout.hide();
+        return false;
+    }
+
     function main() {
-        $("button[id=genelist-title]").tooltip('show');
+
+        var $titleButton = $("button[id=genelist-title]")
+        $titleButton.tooltip('show');
+        $titleButton.click(showListDetail)
+
+        var $closeListDetail = $("a#close-list-detail");
+        $closeListDetail.click(hideListDetail);
     }
 
     $(main);

@@ -159,6 +159,10 @@ def view():
         flash('You must be logged in to view and search')
         return redirect("/login")
 
+@app.route("/list_details")
+def list_details():
+    return render_template("_list_details.html")
+
 @app.route("/ideogram", methods = ["GET"])
 def show_signup():
     return render_template("Ideogram.html")
