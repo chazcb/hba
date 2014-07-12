@@ -21,6 +21,7 @@ def connect_to_db():
 
 @app.before_request
 def setup_session():
+
     if session.get('user_id', None):
         query = model.db_session.query(model.User)
         user = query.filter_by(id = session['user_id']).one()
@@ -53,15 +54,16 @@ def signup():
             flash('Account already exists for %s.  Please select a different username.' % username)
             return redirect("/signup")
         else:
-            max_user_id = get_max_id(model.db_session, model.User.id)
+            max_user_id = model.get_attr_max(model.db_session, model.User.id, 0)
             user = model.User(id = max_user_id +1, 
                     username=request.form["username"], password = request.form["password"], 
                     firstname = request.form["firstname"], lastname = request.form["lastname"],
-                    email = request.form["email"], date = datetime.datetime.utcnow() )  
+                    email = request.form["email"], date_created = datetime.datetime.utcnow() )  
             model.db_session.add(user)
             model.db_session.commit()
 
             session['user_id'] = user.id
+            session['username'] = user.username
             return redirect("/view")
 
 @app.route("/login", methods = ["GET"])
