@@ -2,6 +2,10 @@ from flask import Flask, render_template, redirect, request, session, flash
 import jinja2
 import model
 import datetime
+import sqlite3
+
+CONN = None
+CURSOR = None
 
 UPLOAD_FOLDER = "/userUploads"
 ALLOWED_EXTENSIONS = set(['txt','csv'])
@@ -9,6 +13,11 @@ ALLOWED_EXTENSIONS = set(['txt','csv'])
 app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def connect_to_db():
+    global CONN, CURSOR
+    CONN = sqlite3.connect("repo.db")
+    CURSOR = CONN.cursor() # mechanism to interact with the database, to execute queries (similar to a file handle)
 
 @app.before_request
 def setup_session():
@@ -124,30 +133,22 @@ def allowed_file(filename):
 @app.route("/view", methods = ["GET", "POST"])
 def view():
 
-    genelists = []
-    # get lists that are owned by current user
-    if session['user_id']:
-        query = model.db_session.query(model.User)
-        user = query.filter_by(id = session['user_id']).one()
-        genelists = user.lists     # array of List objects for the user
-    print len(genelists)
+    curr_user_id = session['user_id']
 
-    # get lists that are shared with current user
-    shared_query = model.db_session.query(model.listAccess)
-    shared_ls_acc = shared_query.filter_by(user_id = session['user_id']).all()
-    print shared_ls_acc
-    if shared_ls_acc:
-        for ls_acc in shared_ls_acc:
-            genelists.append(ls_acc.lists)
-    print len(genelists)
+    if curr_user_id:
+        genelists = []  # store array of List objects for the user
+        # use SQL to retrieve (i) lists owned by current user (ii) lists that are shared with current user
+        # and (iii) lists that are public and not owned by current user
+        connect_to_db()     
+        sql = "SELECT list_id FROM v_user_lists_access WHERE owner_uid = ? or shared_uid = ? or public = 1" 
+        CURSOR.execute(sql, (curr_user_id, curr_user_id))
+        rows = CURSOR.fetchall()
+        CURSOR.close()
 
-    # get lists that are public and not owned by current user
-    public_query = model.db_session.query(model.List)
-    public_lists = public_query.filter_by(public=1).all()
-    for public_list in public_lists:
-        if public_list.user_id != session['user_id']:
-            genelists.append(public_list)
-        print len(genelists)
+        for item in rows:
+            query = model.db_session.query(model.List)
+            accessible = query.get(item[0])
+            genelists.append(accessible)
 
         list_dict = {}          # dict with List objects and array of tags
         key = 1
@@ -171,7 +172,9 @@ def view():
             item_dict['genesym'] = ','.join(genesym_array)
             # add username to dict
             user_id = genelist.user_id
-            item_dict['user_id'] = user_id
+            item_dict['user'] = model.db_session.query(model.User).get(user_id)
+            # add group (own, shared, public) to dict
+
 
             list_dict[key] = item_dict
             key += 1
@@ -196,3 +199,4 @@ def show_signup():
 
 if __name__ == "__main__":
     app.run(debug = True, port = 5000)
+    

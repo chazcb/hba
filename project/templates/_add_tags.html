@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/static/css/style.css" />
+    </head>
+	<body>
+		<div>
+		    <h5>Title:</h5>
+		    <h4>{{list.title}}</h4>
+		</div>
+		<div >
+		    <h5>Description:</h5>
+		    <h4>{{list.description}}</h4>
+		</div>
+		<div class="table">
+    		<table class="table table-bordered">
+			    <h5>Genes:</h5>
+			    <span><tr><td>Entrez Gene Symbol</td><td>Entrez Gene ID</td></tr></span>
+			    {% for ls_gene in list.list_gene %}
+			    <span><tr><td>{{ls_gene.gene.entrez_gene_symbol}}</td><td><a href="http://www.ncbi.nlm.nih.gov/gene/?term={{ls_gene.gene.entrez_gene_id}}">{{ls_gene.gene.entrez_gene_id}}</a></td></tr></span>
+			    {% endfor %}
+			</table>
+		</div>
+	</body>
+</html>
