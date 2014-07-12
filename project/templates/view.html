@@ -6,7 +6,7 @@
         {% for key in list_dict %}
         <tr>
             <span id="list-data-row" data-list-id="list_dict[key]['list_obj'].id">
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" class="checkbox-select-gene" data-checkbox-id="list_dict[key]['list_obj'].id"></td>
                 <td><a href="/ideogram?genelist1={{list_dict[key]['genesym']}}" class="btn btn-danger btn-xs">Ideogram</a></td>
                 <td><button id="genelist-title" type="title-button" class="btn btn-default btn-xs" data-button-id="{{list_dict[key]['list_obj'].id}}" data-toggle="tooltip" data-placement="top" title="{{list_dict[key]['genesym']}}">{{list_dict[key]['list_obj'].title}}</button></td>
                 <td>| 
@@ -50,18 +50,19 @@
         return false;
     }
 
-    // function filterByTag() {
-    //     var tag_id = $(this).attr('data-tag-id');)
-    //     $.get("/filter_by_tag/" + tag_id);
-    // }
+    function filterByTag() {
+        var tag_id = $(this).attr('data-tag-id');
+        alert(tag_id);
+        // $.get("/filter_by_tag/" + tag_id);
+    }
 
     function main() {
 
         var titleButton = $("button#genelist-title");
         titleButton.click(getListDetail);
 
-        // var tagLink = $("a.tags");
-        // tagLink.click(filterByTag);
+        var tagLink = $("a.tags");
+        tagLink.click(filterByTag);
 
         var closeListDetail = $("a#close-list-detail");
         closeListDetail.click(hideListDetail);

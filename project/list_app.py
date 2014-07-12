@@ -145,8 +145,7 @@ def view():
         connect_to_db()     
         sql = """   SELECT list_id 
                     FROM v_user_lists_access 
-                    WHERE owner_uid = ? or shared_uid = ? or public = 1
-                    ORDER BY public DESC""" 
+                    WHERE owner_uid = ? or shared_uid = ? or public = 1""" 
         CURSOR.execute(sql, (curr_user_id, curr_user_id))
         rows = CURSOR.fetchall()
         CURSOR.close()
