@@ -139,8 +139,12 @@ def view():
         genelists = []  # store array of List objects for the user
         # use SQL to retrieve (i) lists owned by current user (ii) lists that are shared with current user
         # and (iii) lists that are public and not owned by current user
+        # note: need to close SQL CURSOR connection to avoid concurrent db sessions
         connect_to_db()     
-        sql = "SELECT list_id FROM v_user_lists_access WHERE owner_uid = ? or shared_uid = ? or public = 1" 
+        sql = """   SELECT list_id 
+                    FROM v_user_lists_access 
+                    WHERE owner_uid = ? or shared_uid = ? or public = 1
+                    ORDER BY public DESC""" 
         CURSOR.execute(sql, (curr_user_id, curr_user_id))
         rows = CURSOR.fetchall()
         CURSOR.close()
@@ -150,34 +154,7 @@ def view():
             accessible = query.get(item[0])
             genelists.append(accessible)
 
-        list_dict = {}          # dict with List objects and array of tags
-        key = 1
-        for genelist in genelists:
-            item_dict = {}
-            # add listGene object to dict 
-            item_dict['list_obj'] = genelist
-            # add list of Tag objects to dict 
-            list_tag = genelist.list_tag
-            tag_array = []
-            for ls_tag in list_tag:
-                tag = ls_tag.tag
-                tag_array.append(tag)
-            item_dict['tag_array'] = tag_array
-            # add string of concatentated gene symbols to dict
-            list_gene = genelist.list_gene
-            genesym_array = []
-            for ls_gene in list_gene:
-                gene = ls_gene.gene
-                genesym_array.append(gene.entrez_gene_symbol)
-            item_dict['genesym'] = ','.join(genesym_array)
-            # add username to dict
-            user_id = genelist.user_id
-            item_dict['user'] = model.db_session.query(model.User).get(user_id)
-            # add group (own, shared, public) to dict
-
-
-            list_dict[key] = item_dict
-            key += 1
+        list_dict = gen_list_dict_by_genelist(genelists, curr_user_id)
 
         return render_template("view.html", list_dict = list_dict)
 
@@ -196,6 +173,47 @@ def show_signup():
     # return render_template("http://bioinformatics.mdanderson.org/ideogramviewer/Ideogram.html")
     # local cache
     return render_template("Ideogram.html")
+
+def gen_list_dict_by_genelist(listobj_array, curr_user_id):
+
+    list_dict = {}          # dict with List objects and array of tags
+    key = 1
+    for genelist in listobj_array:
+        item_dict = {}
+        # add listGene object to dict 
+        item_dict['list_obj'] = genelist
+        # add list of Tag objects to dict 
+        list_tag = genelist.list_tag
+        tag_array = []
+        for ls_tag in list_tag:
+            tag = ls_tag.tag
+            tag_array.append(tag)
+        item_dict['tag_array'] = tag_array
+        # add string of concatentated gene symbols to dict
+        list_gene = genelist.list_gene
+        genesym_array = []
+        for ls_gene in list_gene:
+            gene = ls_gene.gene
+            genesym_array.append(gene.entrez_gene_symbol)
+        item_dict['genesym'] = ','.join(genesym_array)
+        # add username to dict
+        user_id = genelist.user_id
+        item_dict['user'] = model.db_session.query(model.User).get(user_id)
+        # add group (own, shared, public) to dict
+        shared = model.db_session.query(model.listAccess).filter_by(list_id=genelist.id).all()
+        if genelist.user_id == curr_user_id:
+            item_dict['group'] = "Your lists"
+        elif shared:
+            for shared_list in shared:
+                if shared_list.user_id == curr_user_id:               
+                    item_dict['group'] = "Shared lists"
+        elif genelist.public == 1:
+            item_dict['group'] = "Public lists"
+
+        list_dict[key] = item_dict
+        key += 1
+
+    return list_dict
 
 if __name__ == "__main__":
     app.run(debug = True, port = 5000)

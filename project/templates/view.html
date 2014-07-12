@@ -2,7 +2,7 @@
 {% block body %}
 <div class="table-responsive">
     <table class="table">
-        <tr><td>Select</td><td>Ideogram View</td><td>List</td><td>Tags</td><td>Date Created</td><td>List Owner ID</td></tr>
+        <tr><td>Select</td><td>Ideogram View</td><td>List</td><td>Tags</td><td>Date Created</td><td>List Owner ID</td><td>Group</td></tr>
         {% for key in list_dict %}
         <tr>
             <span id="list-data-row" data-list-id="list_dict[key]['list_obj'].id">
@@ -11,11 +11,12 @@
                 <td><button id="genelist-title" type="title-button" class="btn btn-default btn-xs" data-button-id="{{list_dict[key]['list_obj'].id}}" data-toggle="tooltip" data-placement="top" title="{{list_dict[key]['genesym']}}">{{list_dict[key]['list_obj'].title}}</button></td>
                 <td>| 
                 {% for tag in list_dict[key]['tag_array'] %}
-                    <a href="" id="tag.tag_id">{{tag.tag_text}}</a> | 
+                    <a href="" class="tags" data-tag-id="{{tag.id}}">{{tag.tag_text}}</a> | 
                 {% endfor %}
                 </td>
                 <td>{{list_dict[key]['list_obj'].date_created.strftime('%Y-%m-%d')}}</td>
-                <td>{{list_dict[key]['user_id']}}</td>
+                <td>{{list_dict[key]['user'].username}}</td>
+                <td>{{list_dict[key]['group']}}</td>
             </span>
         </tr>
         {% endfor %}
@@ -49,10 +50,18 @@
         return false;
     }
 
+    // function filterByTag() {
+    //     var tag_id = $(this).attr('data-tag-id');)
+    //     $.get("/filter_by_tag/" + tag_id);
+    // }
+
     function main() {
 
         var titleButton = $("button#genelist-title");
         titleButton.click(getListDetail);
+
+        var tagLink = $("a.tags");
+        tagLink.click(filterByTag);
 
         var closeListDetail = $("a#close-list-detail");
         closeListDetail.click(hideListDetail);
