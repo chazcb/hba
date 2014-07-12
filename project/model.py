@@ -43,7 +43,7 @@ class List(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable = False)
     title = Column(String(255), nullable = True)
     description = Column(String(255), nullable = True)
-    url = Column(String(255), nullable = True)
+    # url = Column(String(255), nullable = True)
     public = Column(Boolean, default = False, nullable = False)
     date_created = Column(DateTime, nullable = False)
     file_obj = Column(Text, nullable = True)
