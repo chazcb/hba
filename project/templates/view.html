@@ -2,7 +2,7 @@
 {% block body %}
 <div class="table-responsive">
     <table class="table">
-        <tr><td>Select</td><td>Ideogram View</td><td>List</td><td>Tags</td><td>Date Created</td><td>List Owner ID</td><td>Group</td></tr>
+        <tr><th>Select</th><th>Ideogram View</th><th>List</th><th>Tags</th><th>Date Created</th><th>List Owner</th><th>Group</th></tr>
         {% for key in list_dict %}
         <tr>
             <span id="list-data-row" data-list-id="list_dict[key]['list_obj'].id">

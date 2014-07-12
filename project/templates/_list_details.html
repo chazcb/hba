@@ -15,7 +15,7 @@
 		<div class="table">
     		<table class="table table-bordered">
 			    <h5>Genes:</h5>
-			    <span><tr><td>Entrez Gene Symbol</td><td>Entrez Gene ID</td></tr></span>
+			    <span><tr><th>Entrez Gene Symbol</th><th>Entrez Gene ID</th></tr></span>
 			    {% for ls_gene in list.list_gene %}
 			    <span><tr><td>{{ls_gene.gene.entrez_gene_symbol}}</td><td><a href="http://www.ncbi.nlm.nih.gov/gene/?term={{ls_gene.gene.entrez_gene_id}}">{{ls_gene.gene.entrez_gene_id}}</a></td></tr></span>
 			    {% endfor %}
