@@ -144,18 +144,9 @@ def view():
     curr_user_id = session['user_id']
 
     if curr_user_id:
-        genelists = []  # store array of List objects for the user
-        # use SQL to retrieve (i) lists owned by current user (ii) lists that are shared with current user
-        # and (iii) lists that are public and not owned by current user
-        # note: need to close SQL CURSOR connection to avoid concurrent db sessions
-        connect_to_db()     
-        sql = """   SELECT DISTINCT list_id 
-                    FROM v_user_lists_access 
-                    WHERE owner_uid = ? or shared_uid = ? or public = 1""" 
-        CURSOR.execute(sql, (curr_user_id, curr_user_id))
-        rows = CURSOR.fetchall()
-        CURSOR.close()
 
+        rows = get_accessible_lists_by_user_id(curr_user_id)
+        genelists = []  # store array of List objects for current user
         for item in rows:
             query = model.db_session.query(model.List)
             accessible = query.get(item[0])
@@ -182,7 +173,17 @@ def show_signup():
     return render_template("Ideogram.html")
 
 def get_accessible_lists_by_user_id(user_id):
-    pass
+    # use SQL to retrieve (i) lists owned by current user (ii) lists that are shared with current user
+    # and (iii) lists that are public and not owned by current user
+    # note: need to close SQL CURSOR connection to avoid concurrent db sessions
+    connect_to_db()     
+    sql = """   SELECT DISTINCT list_id 
+                FROM v_user_lists_access 
+                WHERE owner_uid = ? or shared_uid = ? or public = 1""" 
+    CURSOR.execute(sql, (user_id, user_id))
+    rows = CURSOR.fetchall()
+    CURSOR.close()
+    return rows
 
 def gen_list_dict_by_genelist(listobj_array, curr_user_id):
 

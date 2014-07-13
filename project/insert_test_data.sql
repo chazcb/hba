@@ -1,8 +1,9 @@
+/*
 rm repo.db
 python model.py
 python entrez_gene_update.py
-
-sqlite3 repo.db
+sqlite3 repo.db < insert_test_data.sql 
+*/
 
 /*
 INSERT INTO users (username, password, firstname, lastname, email, date_created )VALUES ('vivien', 'vivien', 'vivien', 'chan', 'vivienwchan@gmail.com', (SELECT datetime('now')) );
