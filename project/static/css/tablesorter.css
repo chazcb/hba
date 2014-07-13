@@ -1,39 +1,42 @@
+/* css style and images for table from http://github.com/jplaron/TableSorter */
+
 table.tablesorter {
   font-size: 18px;
-  background-color: #4D4D4D;
+  background-color: #fff;
   width: 400px;
-  border: 1px solid #000;
+  text-align: center;
+  border:     1px solid #dbdbdb;
+  border-collapse:  collapse;
+  color:      #333333;
 }
+
 table.tablesorter th {
-  text-align: left;
   padding: 5px;
-  background-color: #6E6E6E;
+  background-color:   #f3f3f3 url(../img/headerRowBG.gif) 0 0 repeat-x; 
+  padding:        0px 2px 2px 4px;
+  height:       22px;
+  border:       1px solid #dbdbdb;
 }
-table.tablesorter td {
-  color: #FFF;
-  padding: 5px;
-}
-table.tablesorter .even {
-  background-color: #3D3D3D;
-}
-table.tablesorter .odd {
-  background-color: #6E6E6E;
-}
-table.tablesorter .header {
-  background-image: url(bg.png);
-  background-repeat: no-repeat;
-  border-left: 1px solid #FFF;
-  border-right: 1px solid #000;
-  border-top: 1px solid #FFF;
-  padding-left: 30px;
-  padding-top: 8px;
-  height: auto;
-}
+
 table.tablesorter .headerSortUp {
-  background-image: url(asc.png);
-  background-repeat: no-repeat;
+  background:     #a8d4e3 url(../img/headerRowBGSortAsc.png) 100% 0 repeat-x;
+  color:        #fff;
 }
+
 table.tablesorter .headerSortDown {
-  background-image: url(desc.png);
-  background-repeat: no-repeat;
+  background:     #a8d4e3 url(../img/headerRowBGSortDesc.png) 100% 0 repeat-x;
+  color:        #fff;
+}
+
+table.data td {
+  padding:      3px 2px 5px 7px;
+  border:       1px solid #dbdbdb;
+}
+
+table.data tbody {
+  font-size:      14px;
+}
+
+table.data tr.even td, table.data tr:nth-child(2n) td  {
+  background:     #f5f5f5;
 }
