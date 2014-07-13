@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, request, session, flash
+from sqlalchemy.orm.exc import NoResultFound
 import jinja2
 import model
 import datetime
@@ -80,16 +81,21 @@ def process_login():
     password = request.form["password"]
 
     query = model.db_session.query(model.User)
-    user = query.filter_by(username = username).one()
 
-    if user.password != password:
-        flash ("Password incorrect, unable to login.  Please try again.")
+    try:    # if username exists
+        user = query.filter_by(username = username).one()
+
+        if user.password != password:
+            flash ("Password incorrect, unable to login.  Please try again.")
+            return render_template("login.html")
+        else:
+            session['user_id'] = user.id
+            session['username'] = user.username
+            return redirect("/view")
+
+    except NoResultFound:   # if username does not exist
+        flash ("%s is not a registered username.  Please try again." % username)
         return render_template("login.html")
-
-    else:
-        session['user_id'] = user.id
-        session['username'] = user.username
-        return redirect("/view")
 
 @app.route("/user")
 def get_user_info():
@@ -143,7 +149,7 @@ def view():
         # and (iii) lists that are public and not owned by current user
         # note: need to close SQL CURSOR connection to avoid concurrent db sessions
         connect_to_db()     
-        sql = """   SELECT list_id 
+        sql = """   SELECT DISTINCT list_id 
                     FROM v_user_lists_access 
                     WHERE owner_uid = ? or shared_uid = ? or public = 1""" 
         CURSOR.execute(sql, (curr_user_id, curr_user_id))
@@ -174,6 +180,9 @@ def show_signup():
     # return render_template("http://bioinformatics.mdanderson.org/ideogramviewer/Ideogram.html")
     # local cache
     return render_template("Ideogram.html")
+
+def get_accessible_lists_by_user_id(user_id):
+    pass
 
 def gen_list_dict_by_genelist(listobj_array, curr_user_id):
 
