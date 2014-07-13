@@ -36,6 +36,14 @@ INSERT INTO tags (id, tag_text) VALUES (1, 'breast cancer');
 INSERT INTO tags (id, tag_text) VALUES (2, 'HER2+ breast cancer');
 INSERT INTO tags (id, tag_text) VALUES (3, 'Triple negative breast cancer');
 INSERT INTO tags (id, tag_text) VALUES (4, 'ER+ breast cancer');
+INSERT INTO tags (id, tag_text) VALUES (5, 'colon cancer');
+INSERT INTO tags (id, tag_text) VALUES (6, 'colorectal cancer');
+INSERT INTO tags (id, tag_text) VALUES (7, 'lung cancer');
+INSERT INTO tags (id, tag_text) VALUES (8, 'lung adenocarcinoma');
+INSERT INTO tags (id, tag_text) VALUES (9, 'sarcoma');
+INSERT INTO tags (id, tag_text) VALUES (10, 'glioblastoma');
+INSERT INTO tags (id, tag_text) VALUES (11, 'acute lymphocytic leukemia');
+INSERT INTO tags (id, tag_text) VALUES (12, 'esophageal cancer');
 
 INSERT INTO user_tag (id, tag_id, user_id) VALUES (1, 1, 1);
 INSERT INTO user_tag (id, tag_id, user_id) VALUES (2, 1, 2);

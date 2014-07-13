@@ -51,8 +51,8 @@
     }
 
     function filterByTag() {
-        var tag_id = $(this).attr('data-tag-id');
-        window.location.hash = "tag_id=" + tag_id;
+        var tag_id_filter = $(this).attr('data-tag-id');
+        window.location.hash = "tag_id=" + tag_id_filter;
         return false;
     }
 
