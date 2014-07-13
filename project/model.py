@@ -43,7 +43,7 @@ class List(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable = False)
     title = Column(String(255), nullable = True)
     description = Column(String(255), nullable = True)
-    # url = Column(String(255), nullable = True)
+    url = Column(String(255), nullable = True)
     public = Column(Boolean, default = False, nullable = False)
     date_created = Column(DateTime, nullable = False)
     file_obj = Column(Text, nullable = True)
@@ -180,8 +180,8 @@ def get_attr_max(db_session, class_attr, default = 0):
 def main():
 
     # initialize database
-    # Base.metadata.create_all(ENGINE)
-    pass
+    Base.metadata.create_all(ENGINE)
+    # pass
 
 if __name__ == "__main__":
     main()
