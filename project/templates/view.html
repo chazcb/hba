@@ -52,8 +52,8 @@
 
     function filterByTag() {
         var tag_id = $(this).attr('data-tag-id');
-        alert(tag_id);
-        // $.get("/filter_by_tag/" + tag_id);
+        window.location.hash = "tag_id=" + tag_id;
+        return false;
     }
 
     function main() {
@@ -63,6 +63,9 @@
 
         var tagLink = $("a.tags");
         tagLink.click(filterByTag);
+
+        // var listChecked = $("");
+        // listChecked.click();
 
         var closeListDetail = $("a#close-list-detail");
         closeListDetail.click(hideListDetail);
