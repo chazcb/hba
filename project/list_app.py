@@ -10,12 +10,16 @@ import sqlite3
 CONN = None
 CURSOR = None
 
-UPLOAD_FOLDER = "/home/vivien/src/hba/project/userUploads/"
-ALLOWED_EXTENSIONS = set(['txt','csv'])
+# add line below to save file to file system
+# UPLOAD_FOLDER = "/home/vivien/src/hba/project/userUploads/"
+
+ALLOWED_EXTENSIONS = set(['txt','tsv','csv'])
 
 app = Flask(__name__)
 app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# add line below to save file to file system
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def connect_to_db():
     global CONN, CURSOR
@@ -126,14 +130,24 @@ def enter_new():
         title = request.form["title"]
         description = request.form["description"]
         url = request.form["url"]
-        public = request.form["public"]
+        public = request.form["public-list"]
+        print "PUBLIC", public
         uploaded_file = request.files['file']
         if uploaded_file and allowed_file(uploaded_file.filename):
-            fn = secure_filename(uploaded_file.filename)
-            # add line below to save file to file system
+            # add 2 lines below to save file to file system
+            # fn = secure_filename(uploaded_file.filename)
             # uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], fn))
-        header = uploaded_file.readline()
-        header_list = header.rstrip().split()
+
+            file_ext = uploaded_file.filename.rsplit('.', 1)[1]
+            if file_ext == 'csv':
+                sep = ','
+            elif file_ext == ('tsv' or 'txt'):
+                sep = '\t'
+
+            header = uploaded_file.readline()
+            header_list = header.rstrip().split(sep)
+            print '******************'
+            print header_list
 
         # append to table: list
         # append to table: list_user

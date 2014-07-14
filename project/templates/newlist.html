@@ -18,18 +18,18 @@
     <div class="form-group">
         <label for="InputFile">File input</label>
         <input type="file" name="file" id="InputFile" class="btn btn-danger" value="upload" required />
-        <p class="help-block"><font color="red">*</font> required (.txt or .csv)</p>
+        <p class="help-block"><font color="red">*</font> required ([tab-delimited].txt or .tsv or .csv)</p>
     </div>
     <div>
         <button id="add-tag" class="btn btn-warning">Add tags for this list</button>
     </div>
     <div class="radio">
-        <input type="radio" name="public" id="radio-public" class="left-float" value="0" checked>
+        <input type="radio" name="public-list" id="radio-public" class="left-float" value="1" checked>
         <label for="radio-public" class="left-float">This list is publicly visible</label>
         <span class="ui-icon ui-icon-unlocked" class="left-float"></span>
     </div>
     <div class="radio">
-        <input type="radio" name="public" id="radio-private" class="left-float" value="1">
+        <input type="radio" name="public-list" id="radio-private" class="left-float" value="0">
         <label for="radio-public" class="left-float">This list is private</label>
         <span class="ui-icon ui-icon-locked" class="left-float"></span>
     </div>
@@ -65,6 +65,18 @@
         return false;
     }
 
+    function get_radio_value() {
+        var radios = document.getElementsByName("public-list");
+        var rdValue = null;
+        for (var i=0; i<radios.length; i++) {
+            var aRadio = radios[i];
+            if (aRadio.checked) {
+                rdValue = aRadio.value;
+            }
+        }
+        document.getElementByID("radio").innerHTML = rdValue;        
+    }
+
     function main() {
 
         var titleButton = $("button#genelist-title");
@@ -72,6 +84,10 @@
 
         var closeListDetail = $("a#close-list-detail");
         closeListDetail.click(hideListDetail);
+
+        var radioClick = $("div#radio");
+        radioClick.click(get_radio_value);
+
     }
 
     $(main);
