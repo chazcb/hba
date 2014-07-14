@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, request, session, flash
+from werkzeug.utils import secure_filename
 from sqlalchemy.orm.exc import NoResultFound
+import os
 import jinja2
 import model
 import datetime
@@ -8,7 +10,7 @@ import sqlite3
 CONN = None
 CURSOR = None
 
-UPLOAD_FOLDER = "/userUploads"
+UPLOAD_FOLDER = "/home/vivien/src/hba/project/userUploads/"
 ALLOWED_EXTENSIONS = set(['txt','csv'])
 
 app = Flask(__name__)
@@ -123,20 +125,25 @@ def enter_new():
     elif request.method == "POST":
         title = request.form["title"]
         description = request.form["description"]
-        file = request.files['InputFile']
-        if file and allowed_file(file.filename):
-            file.save(os.path.join(app.config['UPLOAD_FOLDER']), filename)
-            first_rows = file.readline(5)
-            print first_rows
+        url = request.form["url"]
+        public = request.form["public"]
+        uploaded_file = request.files['file']
+        if uploaded_file and allowed_file(uploaded_file.filename):
+            fn = secure_filename(uploaded_file.filename)
+            # add line below to save file to file system
+            # uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], fn))
+        header = uploaded_file.readline()
+        header_list = header.rstrip().split()
 
         # append to table: list
         # append to table: list_user
         # append to table: list_tag
 
-        return redirect("/view")
+        # return redirect("/view")
+        return redirect("/")
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    return ('.' in filename) and (filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS)
 
 @app.route("/view", methods = ["GET", "POST"])
 def view():

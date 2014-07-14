@@ -46,6 +46,7 @@ class List(Base):
     url = Column(String(255), nullable = True)
     public = Column(Boolean, default = False, nullable = False)
     date_created = Column(DateTime, nullable = False)
+    filename = Column(String(255), nullable = True)
     file_obj = Column(Text, nullable = True)
 
     user = relationship("User",
