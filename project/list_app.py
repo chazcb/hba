@@ -131,23 +131,31 @@ def enter_new():
         description = request.form["description"]
         url = request.form["url"]
         public = request.form["public-list"]
-        print "PUBLIC", public
         uploaded_file = request.files['file']
+
         if uploaded_file and allowed_file(uploaded_file.filename):
+
             # add 2 lines below to save file to file system
             # fn = secure_filename(uploaded_file.filename)
             # uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], fn))
-
-            file_ext = uploaded_file.filename.rsplit('.', 1)[1]
+            
+            filename = uploaded_file.filename
+            file_ext = filename.rsplit('.', 1)[1]
             if file_ext == 'csv':
                 sep = ','
             elif file_ext == ('tsv' or 'txt'):
                 sep = '\t'
 
+            # read in first 5 rows of uploaded file for preview
+            preview_dict = {}
+
             header = uploaded_file.readline()
             header_list = header.rstrip().split(sep)
-            print '******************'
-            print header_list
+            preview_dict[1] = header_list
+
+            for i in range(1,5):
+                row = uploaded_file.readline().rstrip().split(sep)
+                preview_dict[i] = row
 
         # append to table: list
         # append to table: list_user
