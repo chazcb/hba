@@ -45,9 +45,9 @@ class List(Base):
     description = Column(String(255), nullable = True)
     url = Column(String(255), nullable = True)
     public = Column(Boolean, default = False, nullable = False)
-    date_created = Column(DateTime, nullable = False)
     filename = Column(String(255), nullable = True)
     file_obj = Column(Text, nullable = True)
+    date_created = Column(DateTime, nullable = False)    
 
     user = relationship("User",
             backref=backref("lists", order_by=id))
@@ -150,6 +150,15 @@ class geneVersion(Base):
 
     version = relationship("Version",
             backref=backref("gene_version", order_by=id))
+
+# table for storing temp data for validation
+
+class tempGene(Base):
+    __tablename__ = "tempgene"
+
+    id = Column(Integer, primary_key = True, autoincrement=True)
+    temp_list_id = Column(Integer, nullable = False)
+    temp_gene_id = Column(Integer, nullable = False)
 
 ### End class declarations
 
