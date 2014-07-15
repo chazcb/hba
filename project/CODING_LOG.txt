@@ -33,6 +33,7 @@ Week2 plan:
 	- advanced search features: by gene, by tag (use hash in url?)
 	- integrate mSigDB
 	- integrate geneid history
+	- modals: http://getbootstrap.com/javascript/#modals
 
 Stretch goals:
 	- set enrichment calculation (workflow)
