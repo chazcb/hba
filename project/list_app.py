@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session, flash
+from flask import Flask, render_template, redirect, request, session, flash, jsonify
 from werkzeug.utils import secure_filename
 from sqlalchemy.orm.exc import NoResultFound
 import os
@@ -6,6 +6,7 @@ import jinja2
 import model
 import datetime
 import sqlite3
+import json
 
 CONN = None
 CURSOR = None
@@ -164,8 +165,23 @@ def enter_new():
         # return redirect("/view")
         return redirect("/")
 
-def allowed_file(filename):
-    return ('.' in filename) and (filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS)
+@app.route("/tag_search")
+def tag_search():
+    connect_to_db() 
+    sql = "SELECT tag_text FROM tags" 
+    CURSOR.execute(sql, )
+    rows = CURSOR.fetchall()
+    CURSOR.close()
+
+    tag_list = []
+    lcase_tag_list = []
+    for row in rows:
+        tag_list.append(row[0])
+        lcase_tag_list.append(row[0].lower())
+        tag_dict = dict(zip(lcase_tag_list, tag_list))
+    # json_tag = json.dumps(tag_dict)
+
+    return render_template("_tag_search.html", tag_list=tag_list)
 
 @app.route("/view", methods = ["GET", "POST"])
 def view():
@@ -254,6 +270,9 @@ def gen_list_dict_by_genelist(listobj_array, curr_user_id):
         key += 1
 
     return list_dict
+
+def allowed_file(filename):
+    return ('.' in filename) and (filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS)
 
 if __name__ == "__main__":
     app.run(debug = True, port = 5000)

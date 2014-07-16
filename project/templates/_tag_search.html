@@ -1,0 +1,17 @@
+<head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var data = {{tag_list|tojson}};
+            $("#tag-input").autocomplete({source : data});
+        });
+    </script>
+
+</head>
+
+<body>
+    <h2> Passed from list_app.py </h2>
+    <input id="tag-input" type= "text">
+</body>
