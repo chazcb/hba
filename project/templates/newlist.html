@@ -1,56 +1,83 @@
 {% extends 'base.html' %}
 {% block body %}
 <form role="form" action="" method="POST" enctype="multipart/form-data">
-    <h2>Upload a new gene list</h2>
+  <h2>Upload a new gene list</h2>
+  <div id="form-new-list">
     <div class="form-group">
-        <label for="title">List Title</label>
-        <input id="title" name="title" class="form-control" placeholder="Enter title" required autofocus />
-        <span class="help-block"><font color="red">*</font> required</span>
+      <label for="title">List Title</label>
+      <input id="title" name="title" class="form-control" placeholder="Enter title" required autofocus />
+      <span class="help-block"><font color="red">*</font> required</span>
     </div>
     <div class="form-group">
-        <label for="description">List Description</label>
-        <input id="description" name="description" class="form-control" placeholder="Describe your list"/>
+      <label for="description">List Description</label>
+      <input id="description" name="description" class="form-control" placeholder="Describe your list"/>
     </div>
     <div class="form-group">
-        <label for="url">URL</label>
-        <input type="url" id="url" name="url" class="form-control" placeholder="Optional link to your data"/>
-    </div>
-    <div class="form-group">
-        <label for="InputFile">File input</label>
-        <input type="file" name="file" id="InputFile" class="btn btn-danger" value="upload" required />
-        <p class="help-block"><font color="red">*</font> required ([tab/comma-delimited].txt or .tsv or .csv)</p>
-    </div>
-    <div>
-        <button id="add-tag" class="btn btn-warning">Add tags for this list</button>
+      <label for="url">URL</label>
+      <input type="url" id="url" name="url" class="form-control" placeholder="Optional link to your data"/>
     </div>
     <div class="radio">
-        <input type="radio" name="public-list" id="radio-public" class="left-float" value="1" checked>
-        <label for="radio-public" class="left-float">This list is publicly visible</label>
-        <span class="ui-icon ui-icon-unlocked" class="left-float"></span>
+      <input type="radio" name="public-list" id="radio-public" class="left-float" value="1" checked>
+      <label for="radio-public" class="left-float">This list is publicly visible</label>
+      <span class="ui-icon ui-icon-unlocked" class="left-float"></span>
     </div>
     <div class="radio">
-        <input type="radio" name="public-list" id="radio-private" class="left-float" value="0">
-        <label for="radio-public" class="left-float">This list is private</label>
-        <span class="ui-icon ui-icon-locked" class="left-float"></span>
+      <input type="radio" name="public-list" id="radio-private" class="left-float" value="0">
+      <label for="radio-public" class="left-float">This list is private</label>
+      <span class="ui-icon ui-icon-locked" class="left-float"></span>
+    </div>
+    <div class="form-group">
+      <label for="InputFile">File input</label>
+      <input type="file" name="file" id="InputFile" class="btn btn-danger" value="upload" required />
+      <p class="help-block"><font color="red">*</font> required ([tab/comma-delimited].txt or .tsv or .csv)</p>
     </div>
     <div>
-        <button type="validate-list" id="validate-list" class="btn btn-success" data-toggle="modal" data-target="#geneValModal">Validate your list</button>
+      <button type="validate-list" id="validate-list" class="btn btn-warning" data-toggle="modal" data-target="#geneValModal">Validate your list</button>
     </div>
-      <p>
-      <p>
+    <p>
+    <div id="confirm-list-valid">
+     
+    </div>
+    <p>
     <div>
-        <button type="submit" id="submit" class="btn btn-success" disabled="disabled">Submit</button>
+     <button id="add-tag" class="btn btn-success" data-toggle="modal" data-target="#addTagModal">Add tags for this list</button>
     </div>
+    <p>
+    <p>
+    <div>
+     <button type="submit" id="submit" class="btn btn-success" disabled="disabled">Submit</button>
+    </div>
+  </div>
 </form>
 
 <!-- Add Tags Modal -->
-<div id="blackout-screen" class="blackout-screen">
-    <div id="tag-container" class="tag-container">
-        <div id="add-tags">
-        </div>
-        <a id="submit-tag" class="btn btn-default btn-xs" href="">Add Tags</a>
-        <a id="cancel-add-tag" class="btn btn-default btn-xs" href="">Cancel</a>
+<div class="modal fade" id="addTagModal" tabindex="-1" role="dialog" aria-labelledby="addTagModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Categorize you list by adding tags</h4>
+      </div>
+      <div class="modal-body">
+        <!-- display data from "_tag_search.html" -->
+        Hello
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- Non Bootstrap Add Tags Modal -->
+<div id="blackout-screen" class="blackout-screen">
+  <div id="tag-container" class="tag-container">
+    <div id="add-tags">
+    </div>
+    <a id="submit-tag" class="btn btn-default btn-xs" href="">Add Tags</a>
+    <a id="cancel-add-tag" class="btn btn-default btn-xs" href="">Cancel</a>
+  </div>
 </div>
 
 <!-- Validate Modal -->
@@ -74,61 +101,61 @@
 
 <script language="javascript" type="text/javascript">
 
-    function showListDetail(data) {
-        var content = $("div#list-detail");
-        content.html(data);
-        var showDetail = $("div#blackout-screen");
-        showDetail.show();
+  function showListDetail(data) {
+    var content = $("div#list-detail");
+    content.html(data);
+    var showDetail = $("div#blackout-screen");
+    showDetail.show();
+  }
+
+  function getListDetail() {
+    var list_id = $(this).attr('data-button-id');
+    $.get("/list_details/" + list_id, showListDetail);
+  }
+
+  function hideListDetail() {
+    var hideDetail = $("div#blackout-screen");
+    hideDetail.hide();
+    return false;
+  }
+
+  // # pseudo code for submit button
+  function geneIdValidated(valid) {
+    if valid {
+      $('#submit').removeAttr('disabled')
+    } else {
+      $('#submit').attr('disabled', 'disabled')
     }
+  }
 
-    function getListDetail() {
-        var list_id = $(this).attr('data-button-id');
-        $.get("/list_details/" + list_id, showListDetail);
+  function get_radio_value() {
+    var radios = document.getElementsByName("public-list");
+    var rdValue = null;
+    for (var i=0; i<radios.length; i++) {
+      var aRadio = radios[i];
+      if (aRadio.checked) {
+        rdValue = aRadio.value;
+      }
     }
+    document.getElementByID("radio").innerHTML = rdValue;    
+  }
 
-    function hideListDetail() {
-        var hideDetail = $("div#blackout-screen");
-        hideDetail.hide();
-        return false;
-    }
+  function main() {
 
-    // # pseudo code for submit button
-    function geneIdValidated(valid) {
-        if valid {
-            $('#submit').removeAttr('disabled')
-        } else {
-            $('#submit').attr('disabled', 'disabled')
-        }
-    }
+    var geneListValidated = 0;
 
-    function get_radio_value() {
-        var radios = document.getElementsByName("public-list");
-        var rdValue = null;
-        for (var i=0; i<radios.length; i++) {
-            var aRadio = radios[i];
-            if (aRadio.checked) {
-                rdValue = aRadio.value;
-            }
-        }
-        document.getElementByID("radio").innerHTML = rdValue;        
-    }
+    var titleButton = $("button#genelist-title");
+    titleButton.click(getListDetail);
 
-    function main() {
+    var clickAddTag = $("a#close-list-detail");
+    clickAddTag.click(hideListDetail);
 
-        var geneListValidated = 0;
+    var radioClick = $("div.radio");
+    radioClick.click(get_radio_value);
 
-        var titleButton = $("button#genelist-title");
-        titleButton.click(getListDetail);
+  }
 
-        var closeListDetail = $("a#close-list-detail");
-        closeListDetail.click(hideListDetail);
-
-        var radioClick = $("div.radio");
-        radioClick.click(get_radio_value);
-
-    }
-
-    $(main);
+  $(main);
 
 </script>
 

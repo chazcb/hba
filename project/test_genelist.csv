@@ -1,0 +1,5 @@
+id,entrez_gene_id,entrez_gene_symbol,entrez_gene_synonym,entrez_gene_desc
+1,1,A1BG,A1B|ABG|GAB|HYST2477,alpha-1-B,
+2,2,A2M,A2MD|CPAMD5|FWP007|S,alpha-2-macroglo
+3,3,A2MP1,A2MP, alpha-2-macroglo
+4,9,NAT1,AAC1|MNAT|NAT-1|NATI,N-acetyltransfer
