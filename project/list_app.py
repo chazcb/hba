@@ -76,7 +76,7 @@ def signup():
 
 @app.route("/login", methods = ["GET"])
 def show_login():
-    if session['user_id']:
+    if 'user_id' in session:
         flash ("You are currently logged in as: %s" % session['username'])
         return redirect ("/view")
     else:
@@ -246,7 +246,8 @@ def gen_list_dict_by_genelist(listobj_array, curr_user_id):
         genesym_array = []
         for ls_gene in list_gene:
             gene = ls_gene.gene
-            genesym_array.append(gene.entrez_gene_symbol)
+            if gene:
+                genesym_array.append(gene.entrez_gene_symbol)
         item_dict['genesym'] = ','.join(genesym_array)
         # add username to dict
         user_id = genelist.user_id
