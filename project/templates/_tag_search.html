@@ -1,96 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add tags for your list</title>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Bootstrap --> 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="/static/js/typeahead.bundle.js"></script>
-    <style> .tag-input {margin-left: 10px; display:inline-block; position: absolute;} 
-            .display-tags {margin-left: 400px; display: inline-block;}
-    </style>
-  </head>
-  <body>
+<div data-role="content">
+<div class="tag-input">
+  <h2>Add Tags</h2>
+  <input id="tag-field" class="form-control" class="typeahead" type="text" placeholder="Describe your list">
+  <button type="button" id="add-tag-button" class="btn btn-default btn-sm">Add Tag</button>
+</div>
 
-    <div class="tag-input">
-      <h2>Add Tags</h2>
-      <input id="tag-field" class="form-control" class="typeahead" type="text" placeholder="Describe your list">
-      <button type="button" id="add-tag-button" class="btn btn-default btn-sm">Add Tag</button>
-    </div>
+<div class="display-tags">
+  <h2>Tags you added:</h2>
+  <a id="display-tag-list" href=""></a>
+</div>
 
-    <div class="display-tags">
-      <h2>Tags you added:</h2>
-      <a id="display-tag-list" href=""></a>
-    </div>
+<script>
 
-    <script>
+function main() {
 
-    function main() {
+  var tagList = [];
 
-      var tagList = []
-
-      var substringMatcher = function(strs) {
-          return function findMatches(q, cb) {
-              var matches, substrRegex;
-              // an array that will be populated with substring matches
-              matches = [];
-              // regex used to determine if a string contains the substring `q`
-              substrRegex = new RegExp(q, 'i');
-              // iterate through the pool of strings and for any string that
-              // contains the substring `q`, add it to the `matches` array
-              $.each(strs, function(i, str) {
-                if (substrRegex.test(str)) {
-                  // the typeahead jQuery plugin expects suggestions to a
-                  // JavaScript object, refer to typeahead docs for more info
-                  matches.push({ value: str });
-                }
-              });
-              cb(matches);
-          };
+  var substringMatcher = function(strs) {
+      return function findMatches(q, cb) {
+          var matches, substrRegex;
+          // an array that will be populated with substring matches
+          matches = [];
+          // regex used to determine if a string contains the substring `q`
+          substrRegex = new RegExp(q, 'i');
+          // iterate through the pool of strings and for any string that
+          // contains the substring `q`, add it to the `matches` array
+          $.each(strs, function(i, str) {
+            if (substrRegex.test(str)) {
+              // the typeahead jQuery plugin expects suggestions to a
+              // JavaScript object, refer to typeahead docs for more info
+              matches.push({ value: str });
+            }
+          });
+          cb(matches);
       };
-   
-      var data = {{db_tag_list|tojson}}
-   
-      $('#tag-field').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-      },
-      {
-        name: 'data',
-        displayKey: 'value',
-        source: substringMatcher(data)
-      });
+  };
 
-      var selectTag = $("button#add-tag-button");
-      selectTag.click(function(){
-        var inputVal = document.getElementById("tag-field").value;
-        if (inputVal.length > 0) {
-          tagList.push(inputVal);
-          console.log(tagList);          
-        }
-        if (tagList.length > 0) {
-          document.getElementById("display-tag-list").innerHTML=tagList;
-        }
-      });
+  var data = {{db_tag_list|tojson}};
 
+  $('#tag-field').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 1
+  },
+  {
+    name: 'data',
+    displayKey: 'value',
+    source: substringMatcher(data)
+  });
 
+  var selectTag = $("button#add-tag-button");
+  selectTag.click(function(e){
 
+    e.preventDefault();
+    e.stopPropagation();
+
+    var inputVal = document.getElementById("tag-field").value;
+    if (inputVal.length > 0) {
+      tagList.push(inputVal);
+      console.log(tagList);
     }
+    if (tagList.length > 0) {
+      document.getElementById("display-tag-list").innerHTML=tagList;
+    }
+  });
 
-    $(main);
 
 
-    </script>
-  </body>
-</html>
+}
+
+$(main);
+
+
+</script>
+</div>

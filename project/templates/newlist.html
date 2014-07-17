@@ -36,11 +36,11 @@
     </div>
     <p>
     <div id="confirm-list-valid">
-     
+
     </div>
     <p>
     <div>
-     <button id="add-tag" class="btn btn-success" data-toggle="modal" data-target="#addTagModal">Add tags for this list</button>
+     <button id="open-tag-modal" class="btn btn-success" data-toggle="modal">Add tags for this list</button>
     </div>
     <p>
     <p>
@@ -102,13 +102,24 @@
 
 <script language="javascript" type="text/javascript">
 
-  function displayAddTagModal(data) {
-    alert("click success");
+  function displayAddTagModal(tagSearchFormHtml) {
     var content = $("div#addTagModal-body");
-    content.html(data);
+    content.html(tagSearchFormHtml);
+
+    // Step 1) move javascript from _tag_search into here
+    // Step 2) on click of the cancel button, close modal with js
+    // Step 3) on click of the save button, close modal with js and
+    //      then capture the `tagList` values and insert them back
+    //      into the form in a hidden list (maybe?)
+
   }
 
-  function getAddTagContent() {
+  function openNewTagModal(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    $('#addTagModal').modal();
+
     $.get("/tag_search", displayAddTagModal);
   }
 
@@ -130,15 +141,15 @@
         rdValue = aRadio.value;
       }
     }
-    document.getElementByID("radio").innerHTML = rdValue;    
+    document.getElementByID("radio").innerHTML = rdValue;
   }
 
   function main() {
 
     var geneListValidated = 0;
 
-    var clickAddTag = $("button#add-tag");
-    clickAddTag.click(getAddTagContent);
+    var clickAddTag = $("button#open-tag-modal");
+    clickAddTag.click(openNewTagModal);
 
     var radioClick = $("div.radio");
     radioClick.click(get_radio_value);
