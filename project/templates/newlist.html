@@ -56,14 +56,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Categorize you list by adding tags</h4>
+        <h4 class="modal-title" id="myModalLabel">Categorize your list by adding tags</h4>
       </div>
       <div class="modal-body">
-        <!-- display data from "_tag_search.html" -->
-        Hello
+        <div id="addTagModal-body">
+        <!-- inject data from _tag_search.html -->
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
@@ -101,32 +102,24 @@
 
 <script language="javascript" type="text/javascript">
 
-  function showListDetail(data) {
-    var content = $("div#list-detail");
+  function displayAddTagModal(data) {
+    alert("click success");
+    var content = $("div#addTagModal-body");
     content.html(data);
-    var showDetail = $("div#blackout-screen");
-    showDetail.show();
   }
 
-  function getListDetail() {
-    var list_id = $(this).attr('data-button-id');
-    $.get("/list_details/" + list_id, showListDetail);
-  }
-
-  function hideListDetail() {
-    var hideDetail = $("div#blackout-screen");
-    hideDetail.hide();
-    return false;
+  function getAddTagContent() {
+    $.get("/tag_search", displayAddTagModal);
   }
 
   // # pseudo code for submit button
-  function geneIdValidated(valid) {
-    if valid {
-      $('#submit').removeAttr('disabled')
-    } else {
-      $('#submit').attr('disabled', 'disabled')
-    }
-  }
+  // function geneIdValidated(valid) {
+  //   if valid {
+  //     $('#submit').removeAttr('disabled')
+  //   } else {
+  //     $('#submit').attr('disabled', 'disabled')
+  //   }
+  // }
 
   function get_radio_value() {
     var radios = document.getElementsByName("public-list");
@@ -144,11 +137,8 @@
 
     var geneListValidated = 0;
 
-    var titleButton = $("button#genelist-title");
-    titleButton.click(getListDetail);
-
-    var clickAddTag = $("a#close-list-detail");
-    clickAddTag.click(hideListDetail);
+    var clickAddTag = $("button#add-tag");
+    clickAddTag.click(getAddTagContent);
 
     var radioClick = $("div.radio");
     radioClick.click(get_radio_value);
