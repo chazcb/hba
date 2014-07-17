@@ -174,12 +174,8 @@ def tag_search():
     CURSOR.close()
 
     tag_list = []
-    lcase_tag_list = []
     for row in rows:
         tag_list.append(row[0])
-        lcase_tag_list.append(row[0].lower())
-        tag_dict = dict(zip(lcase_tag_list, tag_list))
-    # json_tag = json.dumps(tag_dict)
 
     return render_template("_tag_search.html", tag_list=tag_list)
 

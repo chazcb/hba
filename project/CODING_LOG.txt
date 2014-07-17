@@ -46,3 +46,5 @@ Nice to haves:
 	- D3 viz of list connections
 	- heatmap.js on genomic view
 	- lucene/solr/elasticsearch based search
+
+Javascript Fiddle: http://jsfiddle.net/
