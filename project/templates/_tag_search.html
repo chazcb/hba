@@ -16,22 +16,29 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/js/typeahead.bundle.js"></script>
-    <style>.input-group {width: 50%; padding-left: 10px;}</style>
+    <style> .tag-input {margin-left: 10px; display:inline-block; position: absolute;} 
+            .display-tags {margin-left: 400px; display: inline-block;}
+    </style>
   </head>
   <body>
-    <h2>Add Tags</h2>
- 
-    <div class="input-group" id="input-tags">
-      <input class="typeahead" class="form-control" type="text" placeholder="Add tags that describe your list">
 
-    <div class="input-group">
-      <input type="text" class="form-control" class="typeahead">
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default">Add Tag</button>
-      </div>
+    <div class="tag-input">
+      <h2>Add Tags</h2>
+      <input id="tag-field" class="form-control" class="typeahead" type="text" placeholder="Describe your list">
+      <button type="button" id="add-tag-button" class="btn btn-default btn-sm">Add Tag</button>
+    </div>
+
+    <div class="display-tags">
+      <h2>Tags you added:</h2>
+      <a id="display-tag-list" href=""></a>
     </div>
 
     <script>
+
+    function main() {
+
+      var tagList = []
+
       var substringMatcher = function(strs) {
           return function findMatches(q, cb) {
               var matches, substrRegex;
@@ -52,9 +59,9 @@
           };
       };
    
-      var data = {{tag_list|tojson}}
+      var data = {{db_tag_list|tojson}}
    
-      $('#input-tags .typeahead').typeahead({
+      $('#tag-field').typeahead({
         hint: true,
         highlight: true,
         minLength: 1
@@ -64,6 +71,25 @@
         displayKey: 'value',
         source: substringMatcher(data)
       });
+
+      var selectTag = $("button#add-tag-button");
+      selectTag.click(function(){
+        var inputVal = document.getElementById("tag-field").value;
+        if (inputVal.length > 0) {
+          tagList.push(inputVal);
+          console.log(tagList);          
+        }
+        if (tagList.length > 0) {
+          document.getElementById("display-tag-list").innerHTML=tagList;
+        }
+      });
+
+
+
+    }
+
+    $(main);
+
 
     </script>
   </body>

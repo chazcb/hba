@@ -177,7 +177,7 @@ def tag_search():
     for row in rows:
         tag_list.append(row[0])
 
-    return render_template("_tag_search.html", tag_list=tag_list)
+    return render_template("_tag_search.html", db_tag_list=tag_list)
 
 @app.route("/view", methods = ["GET", "POST"])
 def view():
