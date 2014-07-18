@@ -55,3 +55,12 @@ http://microjs.com/
 http://nakupanda.github.io/bootstrap3-dialog/
 http://www.tutorials2learn.com/tutorials/scripts/javascript/showmodaldialog-send-and-return-values.html
 http://stackoverflow.com/questions/20723111/passing-data-to-bootstrap-3-modal
+http://blueimp.github.io/jQuery-File-Upload/
+
+http://stackoverflow.com/questions/8995989/get-uploaded-file-content-with-javascript
+Upload the file using post to a url for ex. http://a.b/c
+Read the file at the server side. Lets suppose you have another URL such as http://a.b/getcontent which reads that file at server side & replies with the content.
+You send an AJAX request to /getcontent URL and receive the reply.
+Change the HTML using javascript accordingly.
+
+http://stackoverflow.com/questions/3034845/accessing-contents-of-a-file-in-a-web-application-without-uploading

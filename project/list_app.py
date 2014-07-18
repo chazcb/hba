@@ -142,7 +142,7 @@ def enter_new():
         description = request.form["description"]
         url = request.form["url"]
         public = request.form["public-list"]
-        uploaded_file = request.files['file']
+        uploaded_file = request.files["file"]
 
         if uploaded_file and allowed_file(uploaded_file.filename):
 
@@ -175,19 +175,9 @@ def enter_new():
         # return redirect("/view")
         return redirect("/")
 
-@app.route("/tag_search")
-def tag_search():
-    connect_to_db() 
-    sql = "SELECT tag_text FROM tags" 
-    CURSOR.execute(sql, )
-    rows = CURSOR.fetchall()
-    CURSOR.close()
-
-    db_tag_list = []
-    for row in rows:
-        db_tag_list.append(row[0])
-
-    return render_template("_tag_search.html", db_tag_list=db_tag_list)
+@app.route("/first_rows/", methods = ["GET"])
+def first_rows():
+    return render_template("_first_rows.html")
 
 @app.route("/view", methods = ["GET", "POST"])
 def view():
