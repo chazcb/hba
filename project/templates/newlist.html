@@ -3,6 +3,7 @@
 <style> .tag-input {margin-left: 10px; display:inline-block; position: absolute;} 
         .display-tags {margin-left: 400px; display: inline-block;}
         .spacer {height: 200px;}
+        #display-tag-list {color: #000000;}
 </style>
 <form role="form" action="" method="POST" enctype="multipart/form-data">
   <h2>Upload a new gene list</h2>
@@ -139,6 +140,28 @@
     alert("onChange called");
   }
 
+  // typeahead box
+  function substringMatcher(strs) {
+    return function findMatches(q, cb) {
+      var matches, substrRegex;
+      // an array that will be populated with substring matches
+      matches = [];
+      // regex used to determine if a string contains the substring `q`
+      substrRegex = new RegExp(q, 'i');
+      // iterate through the pool of strings and for any string that
+      // contains the substring `q`, add it to the `matches` array
+      $.each(strs, function(i, str) {
+        if (substrRegex.test(str)) {
+          // the typeahead jQuery plugin expects suggestions to a
+          // JavaScript object, refer to typeahead docs for more info
+          matches.push({ value: str });
+        }
+      });
+      cb(matches);
+    };
+  };
+
+
   function main() {
 
     var geneListValidated = 0;
@@ -161,27 +184,6 @@
 
     // * begin: code for Add Tag Modal
 
-    // typeahead box
-    var substringMatcher = function(strs) {
-      return function findMatches(q, cb) {
-        var matches, substrRegex;
-        // an array that will be populated with substring matches
-        matches = [];
-        // regex used to determine if a string contains the substring `q`
-        substrRegex = new RegExp(q, 'i');
-        // iterate through the pool of strings and for any string that
-        // contains the substring `q`, add it to the `matches` array
-        $.each(strs, function(i, str) {
-          if (substrRegex.test(str)) {
-            // the typeahead jQuery plugin expects suggestions to a
-            // JavaScript object, refer to typeahead docs for more info
-            matches.push({ value: str });
-          }
-        });
-        cb(matches);
-      };
-    };
- 
     var data = {{db_tag_list|tojson}}
  
     $('#tag-field').typeahead({
@@ -203,10 +205,7 @@
         tmpTagList.push(inputVal);   
       }
       if (tmpTagList.length > 0) {
-        console.log("newTagList", newTagList);
-        console.log("tmpTagList", tmpTagList);
         var forDisplay = newTagList.concat(tmpTagList);
-        console.log("forDisplay", forDisplay);
         document.getElementById("display-tag-list").innerHTML=forDisplay;
       }
       else {document.getElementById("display-tag-list").innerHTML="";}
@@ -232,7 +231,7 @@
     saveAddedTags.click(function() {
       newTagList = newTagList.concat(tmpTagList);
       tmpTagList = [];
-      document.getElementById("inserted-tags").innerHTML=newTagList;
+      document.getElementById("inserted-tags").innerHTML='<i>Tags you have added:  </i>'+ newTagList;
     });
 
     // * end: code for Add Tag Modal

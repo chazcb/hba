@@ -124,6 +124,7 @@ def show_logout():
 def enter_new():
 
     if request.method == "GET":
+        # TODO switch to SQLAlchemy
         connect_to_db() 
         sql = "SELECT tag_text FROM tags" 
         CURSOR.execute(sql, )
