@@ -124,7 +124,17 @@ def show_logout():
 def enter_new():
 
     if request.method == "GET":
-        return render_template("newlist.html")
+        connect_to_db() 
+        sql = "SELECT tag_text FROM tags" 
+        CURSOR.execute(sql, )
+        rows = CURSOR.fetchall()
+        CURSOR.close()
+
+        db_tag_list = []
+        for row in rows:
+            db_tag_list.append(row[0])
+
+        return render_template("newlist.html", db_tag_list=db_tag_list)
 
     elif request.method == "POST":
         title = request.form["title"]

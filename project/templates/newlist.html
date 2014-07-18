@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% block body %}
+<style> .tag-input {margin-left: 10px; display:inline-block; position: absolute;} 
+        .display-tags {margin-left: 400px; display: inline-block;}
+        .spacer {height: 200px;}
+</style>
 <form role="form" action="" method="POST" enctype="multipart/form-data">
   <h2>Upload a new gene list</h2>
   <div id="form-new-list">
@@ -60,12 +64,21 @@
       </div>
       <div class="modal-body">
         <div id="addTagModal-body">
-        <!-- inject data from _tag_search.html -->
+          <div class="tag-input">
+            <input id="tag-field" class="form-control" class="typeahead" type="text" placeholder="Keywords for your list">
+            <button type="button" id="add-tag-button" class="btn btn-default btn-sm">Add Tag</button>
+          </div>
+          <div class="display-tags">
+            <h4>Tags you added:</h4>
+            <a id="display-tag-list" href=""></a>
+          </div>
+          <div class="spacer"></div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-danger">Clear all tags</button>
+        <button type="button" class="btn btn-success">Save</button>
       </div>
     </div>
   </div>
@@ -92,18 +105,11 @@
 
 <script language="javascript" type="text/javascript">
 
-  function displayNewTagModal(data) {
-    var content = $("div#addTagModal-body");
-    content.html(data);
-  }
-
   function openNewTagModal(e) {
     e.preventDefault();
     e.stopPropagation();
 
     var _self = $(this);
-    $.get("/tag_search", displayNewTagModal);
-    
     $(_self.attr('data-target')).modal('show');
   }
 
@@ -137,9 +143,8 @@
     var geneListValidated = 0;
 
     var newTagList;
-
     if (typeof newTagList === 'undefined') {
-      newTagList = [1,2,3]
+      newTagList = [];
     }
 
     var clickAddTag = $("button#open-tag-modal");
@@ -147,6 +152,53 @@
 
     var radioClick = $("div.radio");
     radioClick.click(get_radio_value);
+
+    // * begin: code for Add Tag Modal
+    var substringMatcher = function(strs) {
+      return function findMatches(q, cb) {
+        var matches, substrRegex;
+        // an array that will be populated with substring matches
+        matches = [];
+        // regex used to determine if a string contains the substring `q`
+        substrRegex = new RegExp(q, 'i');
+        // iterate through the pool of strings and for any string that
+        // contains the substring `q`, add it to the `matches` array
+        $.each(strs, function(i, str) {
+          if (substrRegex.test(str)) {
+            // the typeahead jQuery plugin expects suggestions to a
+            // JavaScript object, refer to typeahead docs for more info
+            matches.push({ value: str });
+          }
+        });
+        cb(matches);
+      };
+    };
+ 
+    var data = {{db_tag_list|tojson}}
+ 
+    $('#tag-field').typeahead({
+      hint: true,
+      highlight: true,
+      minLength: 1
+    },
+    {
+      name: 'data',
+      displayKey: 'value',
+      source: substringMatcher(data)
+    });
+
+    var selectTag = $("button#add-tag-button");
+    selectTag.click(function(){
+      var inputVal = document.getElementById("tag-field").value;
+      if (inputVal.length > 0) {
+        newTagList.push(inputVal);   
+      }
+      if (newTagList.length > 0) {
+        document.getElementById("display-tag-list").innerHTML=newTagList;
+      }
+    });
+
+    // * end: code for Add Tag Modal
 
   }
 
