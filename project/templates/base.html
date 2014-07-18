@@ -1,45 +1,47 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="/static/css/style.css" />
-        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
-        <!-- need this for jQuery to work -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.js"></script>
-    </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/">Gene List Repository</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if session['user_id'] %}
-                            <li><a href="/user">Hi, {{session['username']}}</a></li>
-                            <li><a href="/logout">Log out</a></li>
-                        {% else %}
-                            <li><a href="/login">Log In</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
+  <head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+    <!-- need this for jQuery to work -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.js"></script>
+    <script src="/static/js/typeahead.bundle.js"></script>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Gene List Repository</a>
         </div>
-        <div class="container">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            {% for message in messages %}
-            <ul class="flashes">
-                <li>{{message}}</li>
-            </ul>
-            {% endfor %}
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            {% if session['user_id'] %}
+              <li><a href="/user">Hi, {{session['username']}}</a></li>
+              <li><a href="/logout">Log out</a></li>
+            {% else %}
+              <li><a href="/login">Log In</a></li>
             {% endif %}
-            {% endwith %}
-            {% block body %}{% endblock %}
+          </ul>
         </div>
+      </div>
+    </div>
+    <div class="container">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <ul class="flashes">
+        <li>{{message}}</li>
+      </ul>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      {% block body %}{% endblock %}
+    </div>
 
-        <script language="javascript" type="text/javascript">
+    <script language="javascript" type="text/javascript">
 
-        </script>
-    </body>
+    </script>
+  </body>
 </html>

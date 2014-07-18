@@ -28,7 +28,7 @@
     </div>
     <div class="form-group">
       <label for="InputFile">File input</label>
-      <input type="file" name="file" id="InputFile" class="btn btn-danger" value="upload" required />
+      <input type="file" name="file" id="InputFile" class="btn btn-danger" value="upload" onChange=validateFile() required />
       <p class="help-block"><font color="red">*</font> required ([tab/comma-delimited].txt or .tsv or .csv)</p>
     </div>
     <div>
@@ -71,16 +71,6 @@
   </div>
 </div>
 
-<!-- Non Bootstrap Add Tags Modal -->
-<div id="blackout-screen" class="blackout-screen">
-  <div id="tag-container" class="tag-container">
-    <div id="add-tags">
-    </div>
-    <a id="submit-tag" class="btn btn-default btn-xs" href="">Add Tags</a>
-    <a id="cancel-add-tag" class="btn btn-default btn-xs" href="">Cancel</a>
-  </div>
-</div>
-
 <!-- Validate Modal -->
 <div class="modal fade" id="geneValModal" tabindex="-1" role="dialog" aria-labelledby="geneValModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -108,9 +98,13 @@
   }
 
   function openNewTagModal(e) {
-    // e.preventDefault();
-    // e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
+
+    var _self = $(this);
     $.get("/tag_search", displayNewTagModal);
+    
+    $(_self.attr('data-target')).modal('show');
   }
 
   // # pseudo code for submit button
@@ -134,9 +128,19 @@
     document.getElementByID("radio").innerHTML = rdValue;    
   }
 
+  function validateFile() {
+    alert("onChange called");
+  }
+
   function main() {
 
     var geneListValidated = 0;
+
+    var newTagList;
+
+    if (typeof newTagList === 'undefined') {
+      newTagList = [1,2,3]
+    }
 
     var clickAddTag = $("button#open-tag-modal");
     clickAddTag.click(openNewTagModal);
@@ -151,3 +155,5 @@
 </script>
 
 {% endblock %}
+
+

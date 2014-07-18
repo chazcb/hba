@@ -22,18 +22,20 @@ Completed UI features:
 
 Week2:
 Completed backend:
+	- parsing uploaded file
 Completed UI features:
 	- newlist page: file upload
+	- add user tags: https://twitter.github.io/typeahead.js/examples/
+	- implemented modals: http://getbootstrap.com/javascript/#modals
+	- file input onChange
 
 Week2 plan:
 	- newlist page: file upload, new tags, modify schema to add column attributes in uploaded files, gene ID/name verification
-	- add user tags: https://twitter.github.io/typeahead.js/examples/
 	- generate list collection
 	- give list access to collaborators
 	- advanced search features: by gene, by tag (use hash in url?)
 	- integrate mSigDB
 	- integrate geneid history
-	- modals: http://getbootstrap.com/javascript/#modals
 
 Stretch goals:
 	- set enrichment calculation (workflow)
@@ -47,4 +49,9 @@ Nice to haves:
 	- heatmap.js on genomic view
 	- lucene/solr/elasticsearch based search
 
+References
 Javascript Fiddle: http://jsfiddle.net/
+http://microjs.com/
+http://nakupanda.github.io/bootstrap3-dialog/
+http://www.tutorials2learn.com/tutorials/scripts/javascript/showmodaldialog-send-and-return-values.html
+http://stackoverflow.com/questions/20723111/passing-data-to-bootstrap-3-modal
