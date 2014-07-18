@@ -40,11 +40,13 @@
     </div>
     <p>
     <div id="confirm-list-valid">
-     
     </div>
     <p>
     <div>
      <button id="open-tag-modal" class="btn btn-success" data-toggle="modal" data-target="#addTagModal">Add tags for this list</button>
+     <div id="inserted-tags">
+       <!-- display tags added from modal -->
+     </div>
     </div>
     <p>
     <p>
@@ -230,6 +232,7 @@
     saveAddedTags.click(function() {
       newTagList = newTagList.concat(tmpTagList);
       tmpTagList = [];
+      document.getElementById("inserted-tags").innerHTML=newTagList;
     });
 
     // * end: code for Add Tag Modal
