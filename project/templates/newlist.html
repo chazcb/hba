@@ -108,7 +108,6 @@
   function openNewTagModal(e) {
     e.preventDefault();
     e.stopPropagation();
-
     var _self = $(this);
     $(_self.attr('data-target')).modal('show');
   }
@@ -142,13 +141,15 @@
 
     var geneListValidated = 0;
 
-    var newTagList, tmpTagList;
+    var newTagList;   //list of saved tags captured from Add Tags Modal
+    var tmpTagList;   //list to hold tags in Add Tags Modal - append to newTagList if save is clicked
+    
     if (typeof newTagList === 'undefined') {
       newTagList = [];
     }
 
     var clickAddTags = $("button#open-tag-modal");
-    clickAddTags.click(function (e) {
+    clickAddTags.click(function() {
       tmpTagList = [];
       openNewTagModal;
     });
