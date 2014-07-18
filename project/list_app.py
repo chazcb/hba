@@ -29,8 +29,7 @@ def connect_to_db():
 
 @app.before_request
 def setup_session():
-
-    if session.get('user_id', None):
+    if session.get('user_id'):
         query = model.db_session.query(model.User)
         user = query.filter_by(id = session['user_id']).one()
 
@@ -76,7 +75,7 @@ def signup():
 
 @app.route("/login", methods = ["GET"])
 def show_login():
-    if session['user_id']:
+    if session.get('user_id'):
         flash ("You are currently logged in as: %s" % session['username'])
         return redirect ("/view")
     else:
