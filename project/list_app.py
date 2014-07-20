@@ -177,7 +177,30 @@ def enter_new():
 
 @app.route("/first_rows/", methods = ["GET"])
 def first_rows():
-    return render_template("_first_rows.html")
+
+    uploaded_file = request.files["file"]
+
+    if uploaded_file and allowed_file(uploaded_file.filename):
+        
+        filename = uploaded_file.filename
+        file_ext = filename.rsplit('.', 1)[1]
+        if file_ext == 'csv':
+            sep = ','
+        elif file_ext == ('tsv' or 'txt'):
+            sep = '\t'
+
+        # read in first 5 rows of uploaded file for preview
+        preview_dict = {}
+
+        header = uploaded_file.readline()
+        header_list = header.rstrip().split(sep)
+        preview_dict[0] = header_list
+
+        for i in range(1,5):
+            row = uploaded_file.readline().rstrip().split(sep)
+            preview_dict[i] = row
+
+    return render_template("_first_rows.html", preview_dict = preview_dict)
 
 @app.route("/view", methods = ["GET", "POST"])
 def view():

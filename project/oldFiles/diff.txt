@@ -1,0 +1,79 @@
+17c17
+<         user = query.filter_by(id = session['user_id']).one()
+---
+>         user = query.get(session['user_id'])
+126a127
+>     genelists = []
+131c132
+<         genelists = user.lists      # array of List objects for the user
+---
+>         genelists.append(user.lists)      # array of List objects for the user
+139,140c140
+<             genelists.append(ls_acc.lists)
+<             print len(genelists)    
+---
+>             genelists.append(ls_acc.lists)  
+145d144
+<     print public_lists
+149d147
+<             print genelists
+151,173c149,171
+<         list_dict = {}          # dict with List objects and array of tags
+<         key = 1
+<         for genelist in genelists:
+<             item_dict = {}
+<             # add listGene object to dict 
+<             item_dict['list_obj'] = genelist
+<             # add list of Tag objects to dict 
+<             list_tag = genelist.list_tag
+<             tag_array = []
+<             for ls_tag in list_tag:
+<                 tag = ls_tag.tag
+<                 tag_array.append(tag)
+<             item_dict['tag_array'] = tag_array
+<             # add string of concatentated gene symbols to dict
+<             list_gene = genelist.list_gene
+<             genesym_array = []
+<             for ls_gene in list_gene:
+<                 gene = ls_gene.gene
+<                 genesym_array.append(gene.entrez_gene_symbol)
+<             item_dict['genesym'] = ','.join(genesym_array)
+<             # add username to dict
+<             user_id = genelist.user_id
+<             item_dict['user_id'] = user_id
+---
+>     list_dict = {}          # dict with List objects and array of tags
+>     key = 1
+>     for genelist in genelists:
+>         item_dict = {}
+>         # add listGene object to dict 
+>         item_dict['list_obj'] = genelist
+>         # add list of Tag objects to dict 
+>         list_tag = genelist.list_tag
+>         tag_array = []
+>         for ls_tag in list_tag:
+>             tag = ls_tag.tag
+>             tag_array.append(tag)
+>         item_dict['tag_array'] = tag_array
+>         # add string of concatentated gene symbols to dict
+>         list_gene = genelist.list_gene
+>         genesym_array = []
+>         for ls_gene in list_gene:
+>             gene = ls_gene.gene
+>             genesym_array.append(gene.entrez_gene_symbol)
+>         item_dict['genesym'] = ','.join(genesym_array)
+>         # add username to dict
+>         user_id = genelist.user_id
+>         item_dict['user_id'] = user_id
+175,176c173,174
+<             list_dict[key] = item_dict
+<             key += 1
+---
+>         list_dict[key] = item_dict
+>         key += 1
+184,185c182,183
+< @app.route("/list_details/<int:list_id>")
+< def list_details():
+---
+> @app.route("/list_details/<int:list_id>") #list_id is passed from ajax call
+> def list_details(list_id):
