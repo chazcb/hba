@@ -37,7 +37,7 @@
       <p class="help-block"><font color="red">*</font> required ([tab/comma-delimited].txt or .tsv or .csv)</p>
     </div>
     <div>
-      <button type="validate-list" id="validate-list" class="btn btn-warning" data-toggle="modal" data-target="#geneValModal">Validate your list</button>
+      <button type="validate-list" id="validate-list" class="btn btn-warning" data-toggle="modal" data-target="#geneValModal" onclick="showFirstRowsInFile()">Validate your list</button>
     </div>
     <p>
     <div id="confirm-list-valid">
@@ -166,15 +166,11 @@
   };
 
   function showFirstRowsInFile() {
-    document.getElementById("display-first-rows").innerHTML
-    
+    alert("clicked");
+    var data = $.post("/first_rows/");  //this is not yet working
+    var content = $("div#display-first-rows");
+    content.html(data);
   }
-
-      function getListDetail() {
-        var list_id = $(this).attr('data-button-id');
-        $.get("/list_details/" + list_id, showListDetail);
-    }
-
 
   function main() {
 
@@ -199,10 +195,7 @@
     // * begin: code for Validate list Modal
 
     // clicked validate button
-    var clickedValidate = $('button#validate-list')
-    clickedValidate.click(function() {
-      $.get("/first_rows/", showFirstRowsInFile);
-    });
+
 
     // * end: code for Validate list Modal
 

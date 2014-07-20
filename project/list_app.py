@@ -175,7 +175,7 @@ def enter_new():
         # return redirect("/view")
         return redirect("/")
 
-@app.route("/first_rows/", methods = ["GET"])
+@app.route("/first_rows/", methods = ["POST"])
 def first_rows():
 
     uploaded_file = request.files["file"]
