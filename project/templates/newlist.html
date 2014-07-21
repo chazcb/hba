@@ -39,6 +39,9 @@
     </div>
     <div>
       <button type="validate-list" id="validate-list" class="btn btn-warning" data-toggle="modal" data-target="#geneValModal">Validate your list</button>
+      <div id="selected-column-index" value="-1">
+        <!-- empty field to store the selected column index from modal, initialize as -1 on page load -->
+      </div>
     </div>
     <p>
     <div id="confirm-list-valid">
@@ -127,8 +130,9 @@
   }
 
   function getSelectedColumn(){
-    // value retrieved from form is text, use Number() to convert to int
-    selectedColumnIndex = Number($("#header-dropdown-menu").val());
+    // store value retrieved from form to empty field
+    var selectedColumnIndex = $("#header-dropdown-menu").val();
+    $("#selected-column-index").val(selectedColumnIndex);
   }
 
   // # pseudo code for submit button
