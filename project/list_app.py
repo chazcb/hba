@@ -124,16 +124,11 @@ def show_logout():
 def enter_new():
 
     if request.method == "GET":
-        # TODO switch to SQLAlchemy
-        connect_to_db() 
-        sql = "SELECT tag_text FROM tags" 
-        CURSOR.execute(sql, )
-        rows = CURSOR.fetchall()
-        CURSOR.close()
-
+        
+        all_tags = model.db_session.query(model.Tag).all()
         db_tag_list = []
-        for row in rows:
-            db_tag_list.append(row[0])
+        for each_tag in all_tags:
+            db_tag_list.append(each_tag.tag_text)
 
         return render_template("newlist.html", db_tag_list=db_tag_list)
 
@@ -175,19 +170,22 @@ def enter_new():
         # return redirect("/view")
         return redirect("/")
 
-@app.route("/first_rows/", methods = ["POST"])
+@app.route("/first_rows/")
 def first_rows():
 
-    uploaded_file = request.files["file"]
+    # uploaded_file = request.files["file"]
+    uploaded_file = open("test_genelist.csv")
 
-    if uploaded_file and allowed_file(uploaded_file.filename):
+    if uploaded_file:
+        sep = ','
+    # if uploaded_file and allowed_file(uploaded_file.filename):
         
-        filename = uploaded_file.filename
-        file_ext = filename.rsplit('.', 1)[1]
-        if file_ext == 'csv':
-            sep = ','
-        elif file_ext == ('tsv' or 'txt'):
-            sep = '\t'
+    #     filename = uploaded_file.filename
+    #     file_ext = filename.rsplit('.', 1)[1]
+    #     if file_ext == 'csv':
+    #         sep = ','
+    #     elif file_ext == ('tsv' or 'txt'):
+    #         sep = '\t'
 
         # read in first 5 rows of uploaded file for preview
         preview_dict = {}
@@ -196,9 +194,12 @@ def first_rows():
         header_list = header.rstrip().split(sep)
         preview_dict[0] = header_list
 
-        for i in range(1,5):
+        for i in range(1,6):
             row = uploaded_file.readline().rstrip().split(sep)
-            preview_dict[i] = row
+            if row:
+                preview_dict[i] = row
+            else:
+                break
 
     return render_template("_first_rows.html", preview_dict = preview_dict)
 

@@ -1,46 +1,46 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="/static/css/style.css" />
-        <link rel="stylesheet" href="/static/css/tablesorter.css" />
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="/static/css/tablesorter.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<!-- see http://tablesorter.com/docs/ for documentation-->
-        <script type="text/javascript" src="/static/js/jquery-latest.js"></script> 
-		<script type="text/javascript" src="/static/js/jquery.tablesorter.js"></script>
-		<script type="text/javascript" id="js">				
-			$(document).ready(function() { 
-		        $("table#basic-gene-table").tablesorter(); 
-		    }); 
-		</script>
-    </head>
+    <script type="text/javascript" src="/static/js/jquery-latest.js"></script> 
+	<script type="text/javascript" src="/static/js/jquery.tablesorter.js"></script>
+	<script type="text/javascript" id="js">				
+		$(document).ready(function() { 
+	        $("table#basic-gene-table").tablesorter(); 
+	    }); 
+	</script>
+  </head>
 
-	<body>
-		<div>
-		    <h5>Title:</h5>
-		    <h4>{{list.title}}</h4>
-		</div>
-		<div >
-		    <h5>Description:</h5>
-		    <h4>{{list.description}}</h4>
-		</div>
-		<div><h5>Genes:</h5></div>
-		<div>
-    		<table id="basic-gene-table" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
-			    <thead>
-			    <tr>
-			    	<th class="header headerSortDown" title="Sort by Entrez Gene Symbol">Entrez Gene Symbol</th>
-			    	<th class="header" title="Sort by Entrez GeneID">Entrez Gene ID</th>
-			    </tr>
-			    </thead>
-			    <tbody>
-			    {% for ls_gene in list.list_gene %}
-			    <tr>
-			    	<td>{{ls_gene.gene.entrez_gene_symbol}}</td>
-			    	<td><a href="http://www.ncbi.nlm.nih.gov/gene/?term={{ls_gene.gene.entrez_gene_id}}">{{ls_gene.gene.entrez_gene_id}}</a></td>
-			    </tr>
-			    {% endfor %}
-			    </tbody>
-			</table>
-		</div>
-  	</body>
+<body>
+	<div>
+    <h5>Title:</h5>
+    <h4>{{list.title}}</h4>
+	</div>
+	<div >
+    <h5>Description:</h5>
+    <h4>{{list.description}}</h4>
+	</div>
+	<div><h5>Genes:</h5></div>
+	<div>
+		<table id="basic-gene-table" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
+	    <thead>
+	    <tr>
+	    	<th class="header headerSortDown" title="Sort by Entrez Gene Symbol">Entrez Gene Symbol</th>
+	    	<th class="header" title="Sort by Entrez GeneID">Entrez Gene ID</th>
+	    </tr>
+	    </thead>
+	    <tbody>
+	    {% for ls_gene in list.list_gene %}
+	    <tr>
+	    	<td>{{ls_gene.gene.entrez_gene_symbol}}</td>
+	    	<td><a href="http://www.ncbi.nlm.nih.gov/gene/?term={{ls_gene.gene.entrez_gene_id}}">{{ls_gene.gene.entrez_gene_id}}</a></td>
+	    </tr>
+	    {% endfor %}
+	    </tbody>
+		</table>
+	</div>
+	</body>
 </html>

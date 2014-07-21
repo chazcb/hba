@@ -1,14 +1,9 @@
 <html>
   <head>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/static/css/style.css" />
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   </head>
-
   <body>
-    <h2>header</h2>
     <div class="table-responsive">
-      <table class="table">
+      <table class="table table-condensed" id="content-first-rows">
         <thead>
           <tr>
             {% for column_header in preview_dict[0] %}
@@ -19,7 +14,8 @@
           </tr>
         </thead>
         <tbody>
-          {% for i in range(1,5) %}
+          {% set num_of_keys = preview_dict.keys()|length %}
+          {% for i in range(1,num_of_keys) %}
           <tr>
             {% for item in preview_dict[i] %}
             <td>
@@ -31,7 +27,6 @@
         </tbody>
       </table>
     </div>
-
   </body>
 </html>
 

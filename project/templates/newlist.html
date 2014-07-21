@@ -4,6 +4,7 @@
         .display-tags {margin-left: 400px; display: inline-block;}
         .spacer {height: 200px;}
         #display-tag-list {color: #000000;}
+        #content-first-rows {font-size: 10;}
 </style>
 <form role="form" action="" method="POST" enctype="multipart/form-data">
   <h2>Upload a new gene list</h2>
@@ -37,7 +38,7 @@
       <p class="help-block"><font color="red">*</font> required ([tab/comma-delimited].txt or .tsv or .csv)</p>
     </div>
     <div>
-      <button type="validate-list" id="validate-list" class="btn btn-warning" data-toggle="modal" data-target="#geneValModal" onclick="showFirstRowsInFile()">Validate your list</button>
+      <button type="validate-list" id="validate-list" class="btn btn-warning" data-toggle="modal" data-target="#geneValModal">Validate your list</button>
     </div>
     <p>
     <div id="confirm-list-valid">
@@ -74,6 +75,7 @@
           <div class="display-tags">
             <h4>Tags you added:</h4>
             <a id="display-tag-list" href=""></a>
+            <!-- added tags injected here -->
           </div>
           <div class="spacer"></div>
         </div>
@@ -98,6 +100,7 @@
       <div class="modal-body">
         Showing the first 5 rows of your file.  Please select the column that corresponds to Entrez Gene ID.
         <div id="display-first-rows">
+        <!-- first 5 rows from uploaded file injected here -->
         </div>
         <div id="display-errors">
         </div>
@@ -117,6 +120,10 @@
     e.stopPropagation();
     var _self = $(this);
     $(_self.attr('data-target')).modal('show');
+  }
+
+  function showFirstRowsInFile(data) {
+    document.getElementById("display-first-rows").innerHTML=data;
   }
 
   // # pseudo code for submit button
@@ -165,16 +172,25 @@
     };
   };
 
-  function showFirstRowsInFile() {
-    alert("clicked");
-    var data = $.post("/first_rows/");  //this is not yet working
-    var content = $("div#display-first-rows");
-    content.html(data);
-  }
 
   function main() {
 
     var geneListValidated = 0;
+
+    var radioClick = $("div.radio");
+    radioClick.click(get_radio_value);
+
+    // * begin: code for Validate list Modal
+
+    // clicked validate button
+    var clickValidateList = $("button#validate-list");
+    clickValidateList.click(function(e) {
+      $.get("/first_rows/", showFirstRowsInFile);
+    });
+
+    // * end: code for Validate list Modal
+
+    // * begin: code for Add Tag Modal
 
     var newTagList;   //list of saved tags captured from Add Tags Modal
     var tmpTagList;   //list to hold tags in Add Tags Modal - append to newTagList if save is clicked
@@ -188,18 +204,6 @@
       tmpTagList = [];
       openNewTagModal;
     });
-
-    var radioClick = $("div.radio");
-    radioClick.click(get_radio_value);
-
-    // * begin: code for Validate list Modal
-
-    // clicked validate button
-
-
-    // * end: code for Validate list Modal
-
-    // * begin: code for Add Tag Modal
 
     var data = {{db_tag_list|tojson}}
  
