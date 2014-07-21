@@ -29,13 +29,18 @@
     </div>
     <div>
       <h5>Please select the column that corresponds to Entrez Gene ID</h5>
-      <select id="select-header"> 
-      <!-- onchange="JavaScript:changeColor()"> -->
+      <select id="select-header" onchange="JavaScript:getSelectedColumn()" value="-1">
         {% for i in range(preview_dict[0]|length) %}
           <option value="{i}">{{preview_dict[0][i]}}</option>
         {% endfor %}
       </select>
     </div>
+    <script type="text/javascript">
+      function getSelectedColumn(e){
+        alert("clicked")
+        $(#select-header).value = document.getElementById('colorPicker').value;
+      }
+    </script>
   </body>
 </html>
 
