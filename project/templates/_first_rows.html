@@ -27,6 +27,19 @@
         </tbody>
       </table>
     </div>
+    <div class="btn-group">
+      <h5>Please select the column that corresponds to Entrez Gene ID</h5>
+      <button type="button" class="btn btn-default dropdown-toggle" id="select-header-btn" data-toggle="dropdown">
+        Select <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        {% for i in range(preview_dict[0]|length) %}
+          <th>
+            <li><a href="" class="column-header-selection" name="column-header" value="{i}">{{preview_dict[0][i]}}</a></li>
+          </th>
+        {% endfor %}
+      </ul>
+    </div>
   </body>
 </html>
 
