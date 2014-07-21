@@ -98,7 +98,7 @@
         <h4 class="modal-title" id="myModalLabel">Confirm Entrez Gene ID column</h4>
       </div>
       <div class="modal-body">
-        Showing the first 5 rows of your file.  Please select the column that corresponds to Entrez Gene ID.
+        Showing the first 5 rows of your file.
         <div id="display-first-rows">
         <!-- first 5 rows from uploaded file injected here -->
         </div>
@@ -124,6 +124,11 @@
 
   function showFirstRowsInFile(data) {
     document.getElementById("display-first-rows").innerHTML=data;
+  }
+
+  function getSelectedColumn(){
+    // value retrieved from form is text, use Number() to convert to int
+    selectedColumnIndex = Number($("#header-dropdown-menu").val());
   }
 
   // # pseudo code for submit button
@@ -172,7 +177,6 @@
     };
   };
 
-
   function main() {
 
     var geneListValidated = 0;
@@ -183,6 +187,9 @@
     // * begin: code for Validate list Modal
 
     // clicked validate button
+
+    var selectedColumnIndex = -1;  // initialize value, toggle to index selected within validate modal
+
     var clickValidateList = $("button#validate-list");
     clickValidateList.click(function(e) {
       $.get("/first_rows/", showFirstRowsInFile);
