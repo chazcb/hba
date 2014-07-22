@@ -39,7 +39,7 @@ Week3 plan:
 	- generate list collection
 	- give list access to collaborators
 	- advanced search features: by gene, by tag (use hash in url?)
-	- integrate mSigDB
+	- integrate mSigDB: http://www.broadinstitute.org/gsea/msigdb/collections.jsp
 	- integrate geneid history
 
 Stretch goals:
@@ -54,6 +54,10 @@ Nice to haves:
 	- D3 viz of list connections
 	- heatmap.js on genomic view
 	- lucene/solr/elasticsearch based search
+	- czf suggestion on SQL refactoring - avoid load to temp table
+		- set(id_list)
+		- set(select id from g where id in id_list)
+		- http://stackoverflow.com/questions/17972020/how-to-execute-raw-sql-in-sqlalchemy-flask-app
 
 References
 Javascript Fiddle: http://jsfiddle.net/
@@ -70,3 +74,4 @@ You send an AJAX request to /getcontent URL and receive the reply.
 Change the HTML using javascript accordingly.
 
 http://stackoverflow.com/questions/3034845/accessing-contents-of-a-file-in-a-web-application-without-uploading
+
