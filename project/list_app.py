@@ -204,7 +204,7 @@ def first_rows():
     return render_template("_first_rows.html", preview_dict = preview_dict)
 
 @app.route("/check_list/<int:column_index>")
-def check_list():
+def check_list(column_index):
 
     # create dictionary of valid entrez_gene_id for latest version in db
     db_entrez_gene_id_dict = {}

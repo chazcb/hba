@@ -5,7 +5,7 @@ from sqlalchemy import func, or_, and_
 from sqlalchemy.orm import sessionmaker, relationship, backref, scoped_session
 # import sqlite3
 
-ENGINE = create_engine("sqlite:///repo.db", echo=True)
+ENGINE = create_engine("sqlite:///repo.db", echo=False)
 db_session = scoped_session(sessionmaker(bind=ENGINE,
                                        autocommit = False,
                                        autoflush = False))
