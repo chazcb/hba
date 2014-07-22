@@ -39,9 +39,9 @@
     </div>
     <div>
       <button type="validate-list" id="validate-list" class="btn btn-warning" data-toggle="modal" data-target="#geneValModal">Validate your list</button>
-      <div id="selected-column-index" value="-1">
+      <input type="hidden" id="selected-column-index" value="-1">
         <!-- empty field to store the selected column index from modal, initialize as -1 on page load -->
-      </div>
+      </input>
     </div>
     <p>
     <div id="confirm-list-valid">
@@ -127,12 +127,20 @@
 
   function showFirstRowsInFile(data) {
     document.getElementById("display-first-rows").innerHTML=data;
+    // set default selected dropdown to previously selected value, if exists
+    var selectedColumnIndex = $("#selected-column-index").val();
+    $("#header-dropdown-menu").val(selectedColumnIndex);    
+  }
+
+  function showGeneIdValidation(data) {
+    document.getElementById("display-errors").innerHTML=data;
   }
 
   function getSelectedColumn(){
-    // store value retrieved from form to empty field
+    // store value retrieved from form to empty input field
     var selectedColumnIndex = $("#header-dropdown-menu").val();
     $("#selected-column-index").val(selectedColumnIndex);
+    $.get("/check_list/" + selectedColumnIndex, showGeneIdValidation)
   }
 
   // # pseudo code for submit button
@@ -191,8 +199,6 @@
     // * begin: code for Validate list Modal
 
     // clicked validate button
-
-    var selectedColumnIndex = -1;  // initialize value, toggle to index selected within validate modal
 
     var clickValidateList = $("button#validate-list");
     clickValidateList.click(function(e) {

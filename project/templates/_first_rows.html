@@ -31,18 +31,10 @@
       <h5>Please select the column that corresponds to Entrez Gene ID:</h5>
       <select id="header-dropdown-menu" onchange="JavaScript:getSelectedColumn()" >
         {% for i in range(preview_dict[0]|length) %}
-          {% if i == selectedColumnIndex %}
-            <option value="{{i}}" selected="selected">{{preview_dict[0][i]}}</option>
-          {% else %}
-            <option value="{{i}}">{{preview_dict[0][i]}}</option>
-          {% endif %}
+          <option value="{{i}}">{{preview_dict[0][i]}}</option>
         {% endfor %}
       </select>
     </div>
-    
-    <script type="text/javascript">
-
-    </script>
   </body>
 </html>
 

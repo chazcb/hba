@@ -1,0 +1,61 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <div class="table-responsive">
+      <table class="table table-condensed" id="non_int_values">
+        <h5>non-integer values</h5>
+        <thead>
+          <tr>
+            <th>row</th><th>value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for rownum, value in egeneid_dict['non_int'] %}
+          <tr>
+            <td>{{rownum}}</td><td>{{value}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-condensed" id="non_valid_values">
+        <h5>please fix these non-valid values</h5>
+        <thead>
+          <tr>
+            <th>row</th><th>value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for rownum, value in egeneid_dict['not_valid'] %}
+          <tr>
+            <td>{{rownum}}</td><td>{{value}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-condensed" id="non_valid_values">
+        <h5>alert: duplicate entrez gene ids</h5>
+        <thead>
+          <tr>
+            <th>entrez_gene_id</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in egeneid_dict['dupls'] %}
+          <tr>
+            <td>{{value}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </body>
+</html>
+

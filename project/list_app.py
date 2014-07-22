@@ -203,6 +203,49 @@ def first_rows():
 
     return render_template("_first_rows.html", preview_dict = preview_dict)
 
+@app.route("/check_list/<int:column_index>")
+def check_list():
+
+    # create dictionary of valid entrez_gene_id for latest version in db
+    db_entrez_gene_id_dict = {}
+    max_version_id = model.get_attr_max(model.db_session, model.Version.id, 0)
+    all_genes = model.db_session.query(model.geneVersion).filter_by(version_id=max_version_id).all()
+    for each_gene in all_genes:
+        db_entrez_gene_id_dict[each_gene.gene.entrez_gene_id] = 1
+
+    uploaded_file = open("test_genelist.csv")
+
+    header = uploaded_file.readline()
+
+    egeneid_dict = {}
+    egeneid_dict['pass'] = {}
+    egeneid_dict['not_valid'] = []   # to store (row num, value) that are not valid gene id
+    egeneid_dict['non_int'] = []     # to store (row num, value) that are not integers
+    egeneid_dict['dups'] = []
+
+    row_num = 0
+    for row in uploaded_file:
+        row_num += 1
+        egeneid = row.rstrip().split(',')[column_index]   
+        if egeneid:
+            try:
+                convert_to_int = int(egeneid)
+                if convert_to_int in db_entrez_gene_id_dict:
+                    egeneid_dict['pass'][convert_to_int] = egeneid_dict['pass'].get(convert_to_int, 0) + 1
+                    print (row_num, egeneid, 'tryif')
+                else:
+                    egeneid_dict['not_valid'].append( (row_num, egeneid) )
+                    print (row_num, egeneid, 'tryelse')
+            except ValueError:
+                egeneid_dict['non_int'].append( (row_num, egeneid) )
+                print (row_num, egeneid, 'except')
+
+    for key, value in egeneid_dict['pass'].iteritems():
+        if value > 1:
+            egeneid_dict['dups'].append(key)
+
+    return render_template("_check_list.html", egeneid_dict = egeneid_dict)
+
 @app.route("/view", methods = ["GET", "POST"])
 def view():
 

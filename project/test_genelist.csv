@@ -9,3 +9,7 @@ id,entrez_gene_id,entrez_gene_symbol,entrez_gene_synonym,entrez_gene_desc
 8,13,AADAC,CES5A1|DAC,arylacetamide
 9,14,AAMP,-,angio-associated
 10,15,AANAT,DSPS|SNAT,aralkylamine
+11,-1,TEST,,
+12,99999,TEST2,,
+13,AB,TEST3,,
+14,12,TEST4,,
