@@ -2,38 +2,40 @@
   <head>
   </head>
   <body>
-    <div class="table-responsive">
-      <table class="table table-condensed" id="content-first-rows">
-        <thead>
-          <tr>
-            {% for column_header in preview_dict[0] %}
-            <th>
-              {{column_header}}
-            </th>
+    <div class="container-responsive"></div>
+      <div class="table-responsive">
+        <table class="table table-condensed" id="content-first-rows">
+          <thead>
+            <tr>
+              {% for column_header in preview_dict[0] %}
+              <th>
+                {{column_header}}
+              </th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% set num_of_keys = preview_dict.keys()|length %}
+            {% for i in range(1,num_of_keys) %}
+            <tr>
+              {% for item in preview_dict[i] %}
+              <td>
+                {{item}}
+              </td>
+              {% endfor %}
+            </tr>
             {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% set num_of_keys = preview_dict.keys()|length %}
-          {% for i in range(1,num_of_keys) %}
-          <tr>
-            {% for item in preview_dict[i] %}
-            <td>
-              {{item}}
-            </td>
-            {% endfor %}
-          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h5>Please select the column that corresponds to Entrez Gene ID:</h5>
+        <select id="header-dropdown-menu" onchange="JavaScript:getSelectedColumn()" >
+          {% for i in range(preview_dict[0]|length) %}
+            <option value="{{i}}">{{preview_dict[0][i]}}</option>
           {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    <div>
-      <h5>Please select the column that corresponds to Entrez Gene ID:</h5>
-      <select id="header-dropdown-menu" onchange="JavaScript:getSelectedColumn()" >
-        {% for i in range(preview_dict[0]|length) %}
-          <option value="{{i}}">{{preview_dict[0][i]}}</option>
-        {% endfor %}
-      </select>
+        </select>
+      </div>
     </div>
   </body>
 </html>

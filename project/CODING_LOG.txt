@@ -29,8 +29,13 @@ Completed UI features:
 	- implemented modals: http://getbootstrap.com/javascript/#modals
 	- file input onChange
 
-Week2 plan:
-	- newlist page: modify schema to add column attributes in uploaded files, gene ID/name verification
+Week3:
+Completed backend:
+	- new list file validation logic, used SQLAlchemy - then switched to SQL for >100x speed gain (26s -> 0.2s)
+Completed UI feature:
+	- newlist page: gene ID/name verification
+
+Week3 plan:
 	- generate list collection
 	- give list access to collaborators
 	- advanced search features: by gene, by tag (use hash in url?)
@@ -42,6 +47,7 @@ Stretch goals:
 	- set enrichment data access (UI)
 	- new results alerts (notifications)
 	- scrape papers (PDF/spreadsheets)
+	- newlist page: modify schema to add column attributes in uploaded files
 
 Nice to haves:
 	- tag cloud viz
