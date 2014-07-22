@@ -246,6 +246,70 @@ def check_list(column_index):
 
     return render_template("_check_list.html", egeneid_dict = egeneid_dict)
 
+@app.route("/check_list_sql/<int:column_index>")
+def check_list_sql(column_index):
+
+    stamp = session['username'] + str(datetime.datetime.utcnow().strftime("%s"))
+
+    uploaded_file = open("test_genelist.csv")
+
+    header = uploaded_file.readline()
+
+    row_num = 0
+    for row in uploaded_file:
+        row_num += 1
+        egeneid = row.rstrip().split(',')[column_index]
+        tempgene = model.tempGene(row_num = row_num,
+                            temp_gene_id = egeneid,
+                            stamp = stamp )
+        model.db_session.add(tempgene)
+    model.db_session.commit()
+
+    connect_to_db() 
+
+    dup_sql = """   SELECT temp_gene_id FROM (
+                        SELECT temp_gene_id, count(temp_gene_id) AS ct
+                        FROM tempgenes
+                        WHERE stamp = ?
+                        GROUP BY temp_gene_id
+                    ) WHERE ct > 1
+                    """ 
+    CURSOR.execute(dup_sql, (stamp,))
+    dups = CURSOR.fetchall()
+
+    val_sql = """   SELECT row_num, temp_gene_id
+                    FROM tempgenes tg
+                    LEFT OUTER JOIN (
+                        SELECT entrez_gene_id 
+                        FROM genes g
+                        INNER JOIN gene_version gv 
+                            ON (g.id = gv.gene_id)
+                        INNER JOIN versions v 
+                            ON (v.id = gv.version_id)
+                        WHERE v.id IN (
+                        SELECT max(id) 
+                        FROM versions)
+                        ) g
+                        ON (tg.temp_gene_id = g.entrez_gene_id)
+                    WHERE g.entrez_gene_id IS NULL
+                    AND stamp = ? """
+    CURSOR.execute(val_sql, (stamp,))
+    invalid = CURSOR.fetchall()
+
+    CURSOR.close()
+
+    egeneid_dict = {}
+    egeneid_dict['not_valid'] = []   # to store (row num, value) that are not valid gene id
+    egeneid_dict['dups'] = []
+
+    for item in dups:
+        egeneid_dict['dups'].append(item[0])
+
+    for item in invalid:
+        egeneid_dict['not_valid'].append((item[0], item[1]))
+
+    return render_template("_check_list.html", egeneid_dict = egeneid_dict)
+
 @app.route("/view", methods = ["GET", "POST"])
 def view():
 

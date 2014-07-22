@@ -154,11 +154,12 @@ class geneVersion(Base):
 # table for storing temp data for validation
 
 class tempGene(Base):
-    __tablename__ = "tempgene"
+    __tablename__ = "tempgenes"
 
     id = Column(Integer, primary_key = True, autoincrement=True)
-    temp_list_id = Column(Integer, nullable = False)
+    row_num = Column(Integer, nullable = False)
     temp_gene_id = Column(Integer, nullable = False)
+    stamp = Column(String(50), nullable = False)
 
 ### End class declarations
 

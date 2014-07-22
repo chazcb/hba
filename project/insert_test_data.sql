@@ -71,6 +71,22 @@ INSERT INTO list_collection (id, collection_id, list_id) VALUES (3, 1, 3);
 INSERT INTO list_access (id, list_id, user_id) VALUES (1, 2, 2);
 INSERT INTO list_access (id, list_id, user_id) VALUES (2, 4, 1);
 
+
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (1,1,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (2,2,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (3,3,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (4,9,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (5,10,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (6,11,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (7,12,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (8,13,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (9,14,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (10,15,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (11,-1,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (12,99999,'chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (13,'AB','chanvi11'); 
+INSERT INTO tempgenes (row_num, temp_gene_id, stamp) VALUES (14,12,'chanvi11'); 
+
 CREATE VIEW V_USER_LISTS_GENES AS
 SELECT 	
 	u.username, 

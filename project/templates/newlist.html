@@ -145,7 +145,7 @@
     var selectedColumnIndex = $("#header-dropdown-menu").val();
     $("#selected-column-index").val(selectedColumnIndex);
     $("#spinner-container").show();
-    $.get("/check_list/" + selectedColumnIndex, showGeneIdValidation)
+    $.get("/check_list_sql/" + selectedColumnIndex, showGeneIdValidation)
   }
 
   // # pseudo code for submit button
