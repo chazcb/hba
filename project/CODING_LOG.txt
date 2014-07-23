@@ -75,3 +75,5 @@ Change the HTML using javascript accordingly.
 
 http://stackoverflow.com/questions/3034845/accessing-contents-of-a-file-in-a-web-application-without-uploading
 
+TCGA 2014 symposium
+https://www.youtube.com/watch?v=jVdyAb0jVo0
