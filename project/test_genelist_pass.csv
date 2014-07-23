@@ -1,0 +1,11 @@
+id,entrez_gene_id,entrez_gene_symbol,entrez_gene_synonym,entrez_gene_desc
+1,1,A1BG,A1B|ABG|GAB|HYST2477,alpha-1-B
+2,2,A2M,A2MD|CPAMD5|FWP007|S,alpha-2-macroglo
+3,3,A2MP1,A2MP,alpha-2-macroglo
+4,9,NAT1,AAC1|MNAT|NAT-1|NATI,N-acetyltransfer
+5,10,NAT2,AAC2|NAT-2|PNAT,N-acetyltransfer
+6,11,NATP,AACP|NATP1,N-acetyltransfer
+7,12,SERPINA3,AACT|ACT|GIG25,serpin
+8,13,AADAC,CES5A1|DAC,arylacetamide
+9,14,AAMP,-,angio-associated
+10,15,AANAT,DSPS|SNAT,aralkylamine
