@@ -4,6 +4,8 @@
   <body>
 
     <div id="flagged-rows-for-modal" class="container-fluid">
+
+      {% if egeneid_dict['non_int']|length > 0 %}
       <div class="table-responsive">
         <table class="table table-condensed" id="non_int_values">
           <h5>please fix non-integer values</h5>
@@ -21,7 +23,9 @@
           </tbody>
         </table>
       </div>
+      {% endif %}
 
+      {% if egeneid_dict['not_valid']|length > 0 %}
       <div class="table-responsive">
         <table class="table table-condensed" id="non_valid_values">
           <h5>please fix these non-valid values</h5>
@@ -39,7 +43,9 @@
           </tbody>
         </table>
       </div>
+      {% endif %}
 
+      {% if egeneid_dict['dups']|length > 0 %}
       <div class="table-responsive">
         <table class="table table-condensed" id="duplicate_values">
           <h5>alert: duplicate entrez gene ids</h5>
@@ -57,8 +63,10 @@
           </tbody>
         </table>
       </div>
+      {% endif %}
 
     </div>
+
   </body>
 </html>
 
