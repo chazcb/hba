@@ -267,13 +267,12 @@ def check_list_sql(column_index):
 
     connect_to_db() 
 
-    dup_sql = """   SELECT temp_gene_id FROM (
-                        SELECT temp_gene_id, count(temp_gene_id) AS ct
-                        FROM tempgenes
-                        WHERE stamp = ?
-                        GROUP BY temp_gene_id
-                    ) WHERE ct > 1
-                    """ 
+    dup_sql = """   SELECT temp_gene_id
+                    FROM tempgenes
+                    WHERE stamp = ?
+                    GROUP BY temp_gene_id
+                    HAVING count(*) > 1 """ 
+
     CURSOR.execute(dup_sql, (stamp,))
     dups = CURSOR.fetchall()
 
@@ -352,6 +351,20 @@ def get_accessible_lists_by_user_id(user_id):
     sql = """   SELECT DISTINCT list_id 
                 FROM v_user_lists_access 
                 WHERE owner_uid = ? or shared_uid = ? or public = 1""" 
+    CURSOR.execute(sql, (user_id, user_id))
+    rows = CURSOR.fetchall()
+    CURSOR.close()
+    return rows
+
+def get_accessible_search_terms_by_user_id(user_id):
+    sql = """   SELECT * FROM V_SEARCH_INDEX vsi 
+                INNER JOIN (
+                    SELECT DISTINCT list_id 
+                    FROM v_user_lists_access 
+                    WHERE owner_uid = ? or shared_uid = ? or public = 1
+                    ) l
+                    ON vsi.list_id = l.list_id                
+                """ 
     CURSOR.execute(sql, (user_id, user_id))
     rows = CURSOR.fetchall()
     CURSOR.close()

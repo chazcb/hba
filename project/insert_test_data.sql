@@ -117,3 +117,48 @@ FROM users u
 		ON (l.id = c.list_id)
 	LEFT OUTER JOIN list_access a on (l.id = a.list_id);
 
+CREATE VIEW V_SEARCH_INDEX AS
+SELECT
+	'List Title' AS CATEGORY,
+	l.title AS VALUE,
+	l.id AS LIST_ID
+FROM lists l
+UNION
+SELECT
+	'List Description' AS CATEGORY,
+	l.description AS VALUE,
+	l.id AS LIST_ID
+FROM lists l
+UNION
+SELECT
+	'List Tags' AS CATEGORY,
+	t.tag_text AS VALUE,
+	lt.list_id as LIST_ID
+FROM tags t
+INNER JOIN list_tag lt ON (lt.tag_id = t.id)
+UNION
+SELECT
+	'Entrez Gene Symbol' AS CATEGORY,
+	g.entrez_gene_symbol AS VALUE,
+	lg.list_id AS LIST_ID
+FROM genes g
+INNER JOIN list_gene lg ON (lg.gene_id = g.id)
+UNION
+SELECT
+	'Entrez Gene Synonym' AS CATEGORY,
+	g.entrez_gene_synonym AS VALUE,
+	lg.list_id AS LIST_ID
+FROM genes g
+INNER JOIN list_gene lg ON (lg.gene_id = g.id)
+WHERE g.entrez_gene_synonym <> '-'
+UNION
+SELECT
+	'Entrez Gene ID' AS CATEGORY,
+	g.entrez_gene_id AS VALUE,
+	lg.list_id AS LIST_ID
+FROM genes g
+INNER JOIN list_gene lg ON (lg.gene_id = g.id)
+;
+
+
+
