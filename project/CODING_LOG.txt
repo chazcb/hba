@@ -37,6 +37,7 @@ Completed UI feature:
 	- advanced search features: by gene, by tag (use hash in url?)
 		- created db view with union of all search terms
 		- use typeahead for single search: https://github.com/twitter/typeahead.js/blob/master/doc/jquery_typeahead.md
+		- json format - https://twitter.github.io/typeahead.js/data/films/post_1960.json
 
 Week3 plan:
 	- generate list collection
@@ -79,3 +80,6 @@ http://stackoverflow.com/questions/3034845/accessing-contents-of-a-file-in-a-web
 
 TCGA 2014 symposium
 https://www.youtube.com/watch?v=jVdyAb0jVo0
+
+Dynamically generating javascript:
+http://www.bitnative.com/2013/10/06/javascript-configuration-object-pattern/

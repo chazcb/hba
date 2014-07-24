@@ -37,6 +37,10 @@ def setup_session():
 def test():
     return render_template("test.html")
 
+@app.route("/test_json")
+def test_json():
+    return render_template("countries.json")
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -350,6 +354,20 @@ def search():
 
     return render_template("search.html", search_index=search_index)
 
+@app.route("/search_index/", methods = ["GET"])
+def search_index():
+
+    allowed_terms = get_accessible_search_terms_by_user_id(session['user_id'])
+
+    search_index = []
+    for term in allowed_terms:
+        term_dict = {}
+        term_dict['category'] = term[0]
+        term_dict['value'] = term[1]
+        search_index.append(term_dict)
+
+    return render_template("search_index.json", search_index=search_index)
+
 @app.route("/ideogram", methods = ["GET"])
 def show_signup():
     # original source:
@@ -379,7 +397,8 @@ def get_accessible_search_terms_by_user_id(user_id):
                     FROM v_user_lists_access 
                     WHERE owner_uid = ? or shared_uid = ? or public = 1
                     ) l
-                    ON vsi.list_id = l.list_id  """ 
+                    ON vsi.list_id = l.list_id
+                ORDER BY vsi.category, vsi.value    """ 
     CURSOR.execute(sql, (user_id, user_id))
     rows = CURSOR.fetchall()
     CURSOR.close()
