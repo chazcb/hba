@@ -46,11 +46,11 @@
     </div>
     <div class="form-group">
       <label for="InputFile">File input</label>
-      <input type="file" name="file" id="InputFile" class="btn btn-danger" value="upload" onChange=validateFile() required />
+      <input type="file" name="file" id="InputFile" class="btn btn-danger" value="upload" required />
       <p class="help-block"><font color="red">*</font> required ([tab/comma-delimited].txt or .tsv or .csv)</p>
     </div>
     <div>
-      <button type="validate-list" id="validate-list" class="btn btn-warning" data-toggle="modal" data-target="#geneValModal">Validate your list</button>
+      <!-- <button type="validate-list" id="validate-list" class="btn btn-warning" data-toggle="modal" data-target="#geneValModal">Validate your list</button> -->
       <input type="hidden" id="selected-column-index" value="-1">
         <!-- empty field to store the selected column index from modal, initialize as -1 on page load -->
       </input>
@@ -129,6 +129,44 @@
   </div>
 </div>
 
+<script id='listPreviewTemplate' type='application/template'>
+    <div class="container-responsive"></div>
+      <div class="table-responsive">
+        <table class="table table-condensed" id="content-first-rows">
+          <thead>
+            <tr>
+              <% _.each(preview_list[0], function (value, key) { %>
+              <th>
+                <%= key %>
+              </th>
+              <% }); %>
+            </tr>
+          </thead>
+          <tbody>
+
+            <% _.each(_.first(preview_list, 5), function (row) { %>
+            <tr>
+              <% _.each(row, function (value, key) { %>
+              <td>
+                <%=value%>
+              </td>
+              <% }); %>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h5>Please select the column that corresponds to Entrez Gene ID:</h5>
+        <select id="header-dropdown-menu" onchange="JavaScript:getSelectedColumn()" >
+          <% _.each(preview_list[0], function (value, key) { %>
+            <option value="<%=key%>"><%= key %></option>
+          <% }); %>
+        </select>
+      </div>
+    </div>
+</script>
+
 <script language="javascript" type="text/javascript">
 
   function openNewTagModal(e) {
@@ -180,9 +218,26 @@
     document.getElementByID("radio").innerHTML = rdValue;    
   }
 
-  function validateFile() {
-    alert("onChange called");
-  }
+  var previewListTempate = _.template($("#listPreviewTemplate").html().trim());
+  $("#InputFile").on('change', function (e) {
+
+    var files = e.target.files;
+
+    $.each(files, function (idx, file) {
+        var reader = new FileReader();
+        reader.onload = function (fileEvent) {
+            var modal = $("#geneValModal").modal('show');
+            console.log(d3.csv.parse(fileEvent.target.result));
+            modal.find('#display-first-rows').html(previewListTempate({
+                preview_list: d3.csv.parse(fileEvent.target.result)
+            }));
+        };
+        reader.readAsText(file);
+    });
+
+    return false;
+  });
+
 
   // For typeahead box
   function substringMatcher(strs) {
@@ -216,17 +271,21 @@
 
     // clicked validate button
 
-    var clickValidateList = $("button#validate-list");
-    clickValidateList.click(function(e) {
-      $.get("/first_rows/", showFirstRowsInFile);
-    });
+    // var clickValidateList = $("button#validate-list");
+    // clickValidateList.click(function(e) {
+
+    //   document.getElementById("display-first-rows").innerHTML='hello world';
+
+    //   // $.get("/first_rows/", showFirstRowsInFile);
+    //   // return false;
+    // });
 
     // clicked cancel button in modal
 
-    var cancelValidList = $("#cancel-valid-list");
-    clickValidateList.click(function() {
-      document.getElementById("display-errors").innerHTML="";
-    });
+    // var cancelValidList = $("#cancel-valid-list");
+    // clickValidateList.click(function() {
+    //   document.getElementById("display-errors").innerHTML="";
+    // });
 
     // * end: code for Validate list Modal
 
