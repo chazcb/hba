@@ -2,12 +2,21 @@
 {% block body %}
 <!-- this page displays an Add Tags and Validate List modals, the latter of which have 2 ajax calls -->
 <!-- with two partials: _first_rows.html _check_html.html -->
-<style> .tag-input {margin-left: 10px; display:inline-block; position: absolute;} 
+<style> #tag-input-box {margin-left: 10px; display:inline-block; position: absolute;} 
+        #tag-input-box .tt-dropdown-menu {
+          margin: 0 20px 5px 20px;
+          padding: 3px 0;
+          border-bottom: 1px solid #ccc;
+          /* to make dropdown scrollable add: */
+          max-height: 200px; 
+          overflow-y: auto; 
+        }
         .display-tags {margin-left: 400px; display: inline-block;}
         .spacer {height: 200px;}
         #display-tag-list {color: #000000;}
         #content-first-rows {font-size: 10;}
         #flagged-rows-for-modal {font-size: 10; width:40%;}
+
 </style>
 <form role="form" action="" method="POST" enctype="multipart/form-data">
   <h2>Upload a new gene list</h2>
@@ -74,7 +83,7 @@
       </div>
       <div class="modal-body">
         <div id="addTagModal-body">
-          <div class="tag-input">
+          <div class="tag-input" id="tag-input-box">
             <input id="tag-field" class="form-control" class="typeahead" type="text" placeholder="Keywords for your list">
             <button type="button" id="add-tag-button" class="btn btn-default btn-sm">Add Tag</button>
           </div>

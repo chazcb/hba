@@ -1,42 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block body %}
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Search page</title>
- 
-    <!-- Bootstrap -->
- 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="../static/js/jquery.js"></script>
+    <script src="/static/js/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../static/js/typeahead.bundle.js"></script>
+    <script src="/static/js/typeahead.bundle.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.js"></script>
     <link rel="stylesheet" href="/static/css/typeahead_examples.css" />
     <style type="text/css">
-      #search_box .tt-dropdown-menu {
-        margin: 0 20px 5px 20px;
+      #prefetch .tt-dropdown-menu {
+        /*margin: 0 20px 5px 20px;*/
         padding: 3px 0;
         border-bottom: 1px solid #ccc;
         /* to make dropdown scrollable add: */
-        max-height: 150px; 
+        max-height: 200px; 
         overflow-y: auto; 
       }
     </style>
   </head>
+
   <body>
-    <h1>Hello, world!</h1>
- 
-  <div id="search_box">
-    <input class="typeahead" type="text" placeholder="States of USA">
-  </div>
- 
+
+    <div id="prefetch">
+      <input class="typeahead" type="text" placeholder="Enter search term">
+    </div>
+
     <script>
 
       var search_terms = new Bloodhound({
@@ -44,15 +32,7 @@
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         limit: 10,
         prefetch: {
-          // url points to a json file that contains an array of country names, see
-          // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
           url: '../search_index/',
-          // the json file contains an array of strings, but the Bloodhound
-          // suggestion engine expects JavaScript objects so this converts all of
-          // those strings
-          // filter: function(list) {
-          //   return $.map(list, function(country) { return { name: country }; });
-          // }
         }
       });
        
@@ -70,13 +50,15 @@
         templates: {
           empty: [
             '<div class="empty-message">',
-            'unable to find any Best Picture winners that match the current query',
+            'Unable to find any terms that match the current query',
             '</div>'
           ].join('\n')
+          // per custom-templates example on https://twitter.github.io/typeahead.js/examples/
+          // ,
+          // suggestion: Handlebars.compile("<p>{{category}}: {{value}}</p>")
         }
       });
 
-
     </script>
   </body>
-</html>
+{% endblock %}
