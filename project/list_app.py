@@ -336,6 +336,20 @@ def list_details(list_id):
     genelist = model.db_session.query(model.List).filter_by(id=list_id).one()
     return render_template("_list_details.html", list = genelist)
 
+@app.route("/search/", methods = ["GET"])
+def search():
+
+    allowed_terms = get_accessible_search_terms_by_user_id(session['user_id'])
+
+    search_index = []
+    for term in allowed_terms:
+        term_dict = {}
+        term_dict['category'] = term[0]
+        term_dict['value'] = term[1]
+        search_index.append(term_dict)
+
+    return render_template("search.html", search_index=search_index)
+
 @app.route("/ideogram", methods = ["GET"])
 def show_signup():
     # original source:
@@ -357,14 +371,15 @@ def get_accessible_lists_by_user_id(user_id):
     return rows
 
 def get_accessible_search_terms_by_user_id(user_id):
-    sql = """   SELECT * FROM V_SEARCH_INDEX vsi 
+    # limit search index displayed to subset that are in lists that user is authorized to access
+    connect_to_db()
+    sql = """   SELECT DISTINCT vsi.category, vsi.value FROM V_SEARCH_INDEX vsi 
                 INNER JOIN (
                     SELECT DISTINCT list_id 
                     FROM v_user_lists_access 
                     WHERE owner_uid = ? or shared_uid = ? or public = 1
                     ) l
-                    ON vsi.list_id = l.list_id                
-                """ 
+                    ON vsi.list_id = l.list_id  """ 
     CURSOR.execute(sql, (user_id, user_id))
     rows = CURSOR.fetchall()
     CURSOR.close()

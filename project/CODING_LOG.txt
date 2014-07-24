@@ -31,14 +31,16 @@ Completed UI features:
 
 Week3:
 Completed backend:
-	- new list file validation logic, used SQLAlchemy - then switched to SQL for >100x speed gain (26s -> 0.2s)
+	- new_list file validation logic, used SQLAlchemy - then switched to SQL for >100x speed gain (26s -> 0.2s)
 Completed UI feature:
 	- newlist page: gene ID/name verification
+	- advanced search features: by gene, by tag (use hash in url?)
+		- created db view with union of all search terms
+		- use typeahead for single search: https://github.com/twitter/typeahead.js/blob/master/doc/jquery_typeahead.md
 
 Week3 plan:
 	- generate list collection
 	- give list access to collaborators
-	- advanced search features: by gene, by tag (use hash in url?)
 	- integrate mSigDB: http://www.broadinstitute.org/gsea/msigdb/collections.jsp
 	- integrate geneid history
 
